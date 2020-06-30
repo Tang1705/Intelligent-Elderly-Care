@@ -4,13 +4,17 @@ import os
 import dlib
 from skimage import io
 import csv
+import cv2
 import numpy as np
 
 # 要读取人脸图像文件的路径
 path_images_from_camera = "data/data_faces_from_camera/"
 
 # 1. Dlib 正向人脸检测器
-detector = dlib.get_frontal_face_detector()
+# detector = dlib.get_frontal_face_detector()
+# OpenCV DNN face detector
+detector = cv2.dnn.readNetFromCaffe("data/data_opencv/deploy.prototxt.txt",
+                                    "data/data_opencv/res10_300x300_ssd_iter_140000.caffemodel")
 
 # 2. Dlib 人脸 landmark 特征点检测器
 predictor = dlib.shape_predictor('data/data_dlib/shape_predictor_68_face_landmarks.dat')
@@ -22,14 +26,21 @@ face_reco_model = dlib.face_recognition_model_v1("data/data_dlib/dlib_face_recog
 # 返回单张图像的 128D 特征
 def return_128d_features(path_img):
     img_rd = io.imread(path_img)
-    faces = detector(img_rd, 1)
+    (h, w) = img_rd.shape[:2]
+    blob = cv2.dnn.blobFromImage(cv2.resize(img_rd, (300, 300)), 1.0,
+                                 (300, 300), (104.0, 177.0, 123.0))
+    detector.setInput(blob)
+    faces = detector.forward()
 
     print("%-40s %-20s" % ("检测到人脸的图像 / Image with faces detected:", path_img), '\n')
 
     # 因为有可能截下来的人脸再去检测，检测不出来人脸了
     # 所以要确保是 检测到人脸的人脸图像 拿去算特征
-    if len(faces) != 0:
-        shape = predictor(img_rd, faces[0])
+    if faces.shape[2] != 0:
+        box = faces[0, 0, 0, 3:7] * np.array([w, h, w, h])
+        (startX, startY, endX, endY) = box.astype("int")
+        rect = dlib.rectangle(startX, startY, endX, endY)
+        shape = predictor(img_rd, rect)
         face_descriptor = face_reco_model.compute_face_descriptor(img_rd, shape)
     else:
         face_descriptor = 0

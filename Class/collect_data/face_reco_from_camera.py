@@ -9,7 +9,11 @@ import time
 from PIL import Image, ImageDraw, ImageFont
 
 # 1. Dlib 正向人脸检测器
-detector = dlib.get_frontal_face_detector()
+# detector = dlib.get_frontal_face_detector()
+
+# OpenCV DNN face detector
+detector = cv2.dnn.readNetFromCaffe("data/data_opencv/deploy.prototxt.txt",
+                                    "data/data_opencv/res10_300x300_ssd_iter_140000.caffemodel")
 
 # 2. Dlib 人脸 landmark 特征点检测器
 predictor = dlib.shape_predictor('data/data_dlib/shape_predictor_68_face_landmarks.dat')
@@ -53,7 +57,7 @@ class Face_Recognizer:
                     else:
                         features_someone_arr.append(csv_rd.iloc[i][j])
                 self.features_known_list.append(features_someone_arr)
-                self.name_known_list.append("Person_"+str(i+1))
+                self.name_known_list.append("Person_" + str(i + 1))
             self.name_known_cnt = len(self.name_known_list)
             print("Faces in Database：", len(self.features_known_list))
             return 1
@@ -74,6 +78,8 @@ class Face_Recognizer:
         dist = np.sqrt(np.sum(np.square(feature_1 - feature_2)))
         return dist
 
+    # TODO th
+
     # 更新 FPS
     def update_fps(self):
         now = time.time()
@@ -91,7 +97,7 @@ class Face_Recognizer:
 
     def draw_name(self, img_rd):
         # 在人脸框下面写人脸名字
-        font = ImageFont.truetype("simsun.ttc", 30)
+        font = ImageFont.truetype("simsun.ttc", 30, index=1)
         img = Image.fromarray(cv2.cvtColor(img_rd, cv2.COLOR_BGR2RGB))
         draw = ImageDraw.Draw(img)
         for i in range(self.faces_cnt):
@@ -104,7 +110,7 @@ class Face_Recognizer:
     def modify_name_camera_list(self):
         # TODO 数据库 ID
         # Default known name: person_1, person_2, person_3
-        self.name_known_list[0] ='唐麒'.encode('utf-8').decode()
+        self.name_known_list[0] = '唐麒'.encode('utf-8').decode()
         # self.name_known_list[1] ='李四'.encode('utf-8').decode()
         # self.name_known_list[2] ='xx'.encode('utf-8').decode()
         # self.name_known_list[3] ='xx'.encode('utf-8').decode()
@@ -116,7 +122,6 @@ class Face_Recognizer:
         if self.get_face_database():
             while stream.isOpened():
                 flag, img_rd = stream.read()
-                faces = detector(img_rd, 0)
                 kk = cv2.waitKey(1)
                 # 按下 q 键退出
                 if kk == ord('q'):
@@ -128,25 +133,49 @@ class Face_Recognizer:
                     self.pos_camera_list = []
                     self.name_camera_list = []
 
+                    (h, w) = img_rd.shape[:2]
+                    blob = cv2.dnn.blobFromImage(cv2.resize(img_rd, (300, 300)), 1.0,
+                                                 (300, 300), (104.0, 177.0, 123.0))
+                    detector.setInput(blob)
+                    faces = detector.forward()
+
                     # 2. 检测到人脸
-                    if len(faces) != 0:
+                    if faces.shape[2] != 0:
                         # 3. 获取当前捕获到的图像的所有人脸的特征，存储到 self.features_camera_list
-                        for i in range(len(faces)):
-                            shape = predictor(img_rd, faces[i])
+                        for i in range(0, faces.shape[2]):
+                            confidence = faces[0, 0, i, 2]
+
+                            # filter out weak detections by ensuring the `confidence` is
+                            # greater than the minimum confidence
+                            if confidence < 0.5:
+                                continue
+                            box = faces[0, 0, i, 3:7] * np.array([w, h, w, h])
+                            (startX, startY, endX, endY) = box.astype("int")
+                            rect = dlib.rectangle(startX, startY, endX, endY)
+                            shape = predictor(img_rd, rect)
                             self.features_camera_list.append(face_reco_model.compute_face_descriptor(img_rd, shape))
 
                         # 4. 遍历捕获到的图像中所有的人脸
-                        for k in range(len(faces)):
+                        for k in range(0, faces.shape[2]):
+                            # 计算矩形框大小
+                            confidence = faces[0, 0, k, 2]
+
+                            # filter out weak detections by ensuring the `confidence` is
+                            # greater than the minimum confidence
+                            if confidence < 0.5:
+                                continue
                             print("##### camera person", k + 1, "#####")
-                            # 让人名跟随在矩形框的下方
+                            # 让人名跟随在矩形框的上方
                             # 确定人名的位置坐标
                             # 先默认所有人不认识，是 unknown
                             # Set the default names of faces with "unknown"
                             self.name_camera_list.append("unknown")
 
                             # 每个捕获人脸的名字坐标
+                            box = faces[0, 0, k, 3:7] * np.array([w, h, w, h])
+                            (startX, startY, endX, endY) = box.astype("int")
                             self.pos_camera_list.append(tuple(
-                                [faces[k].left(), int(faces[k].bottom() + (faces[k].bottom() - faces[k].top()) / 4)]))
+                                [int(startX+5), int(startY - 30)]))
 
                             # 5. 对于某张人脸，遍历所有存储的人脸特征
                             e_distance_list = []
@@ -174,8 +203,10 @@ class Face_Recognizer:
                             # 矩形框
                             for kk, d in enumerate(faces):
                                 # 绘制矩形框
-                                cv2.rectangle(img_rd, tuple([d.left(), d.top()]), tuple([d.right(), d.bottom()]),
-                                              (0, 255, 255), 2)
+                                cv2.rectangle(img_rd, tuple([startX, startY]), tuple([endX, endY]),
+                                              (0, 255, 0), 2)
+                                cv2.rectangle(img_rd, tuple([startX, startY - 35]), tuple([endX, startY]),
+                                              (0, 255, 0), cv2.FILLED)
                             print('\n')
 
                         self.faces_cnt = len(faces)
