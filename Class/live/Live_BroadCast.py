@@ -1,3 +1,5 @@
+# 进行摄像头直播推流 / live_broadcast
+
 import cv2 as cv
 import time
 import subprocess as sp
@@ -35,6 +37,7 @@ class stream_pusher(object):
     # 对获取的帧做一些画面处理的方法，返回完成处理的帧。
     def __frame_handle__(self, raw_frame, text, shape1, shape2):
         # 帧用cv2进行一些处理，比如写上文本，画矩形等
+        cv.putText(raw_frame, text.split('.')[0], (20, 40), cv.FONT_ITALIC, 0.8, (0, 0, 255), 1, cv.LINE_AA)
         return (raw_frame)
 
     # 向服务器推送
@@ -47,7 +50,7 @@ class stream_pusher(object):
 
         while True:
             # if not self.raw_frame_q.empty():  # 如果输入管道不为空
-                # 把帧和相关信息从输入队列中取出
+            # 把帧和相关信息从输入队列中取出
             raw_frame, text, shape1, shape2 = self.raw_frame_q.get()
             # 对获取的帧进行画面处理
             frame = self.__frame_handle__(raw_frame, text, shape1, shape2)
@@ -85,14 +88,13 @@ if __name__ == '__main__':
 
     rtmpUrl = "rtmp://39.97.124.237:1984/wodelive"  # 用vcl等直播软件播放时，也用这个地址
     raw_q = multiprocessing.Queue()  # 定义一个向推流对象传入帧及其他信息的队列
-    time_q=multiprocessing.Queue()
 
     my_pusher = stream_pusher(rtmp_url=rtmpUrl, raw_frame_q=raw_q)  # 实例化一个对象
     my_pusher.run()  # 让这个对象在后台推送视频流
 
     while True:
         _, raw_frame = cap.read()
-        info = (raw_frame, '2', '3', '4')  # 把需要送入队列的内容进行封装
+        info = (raw_frame, str(datetime.datetime.now()), '3', '4')  # 把需要送入队列的内容进行封装
         # if not raw_q.full():  # 如果队列没满
         raw_q.put(info)  # 送入队列
         cv.waitKey(1)
