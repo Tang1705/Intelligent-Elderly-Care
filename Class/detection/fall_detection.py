@@ -9,6 +9,13 @@ from sys import platform
 import argparse
 import numpy as np
 
+from imutils.video import VideoStream
+import datetime
+import imutils
+import queue
+import frame_process
+import algorithm_fall
+
 try:
     # Import Openpose (Windows/Ubuntu/OSX)
     # dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -30,10 +37,9 @@ try:
         print(
             'Error: OpenPose library could not be found. Did you enable `BUILD_PYTHON` in CMake and have this Python script in the right folder?')
         raise e
-    
 
     # cap = cv2.VideoCapture(0)
-    cap = cv2.VideoCapture("demo.mp4")
+    cap = cv2.VideoCapture("demo1.mp4")
 
     _, frame = cap.read()
     cv2.imwrite('fall_detection.jpg', frame)
@@ -78,9 +84,14 @@ try:
     couter = 0
     error = 0
 
-    # tolerance
-    lastFrame1 = None
-    lastFrame2 = None
+    xList = queue.Queue(maxsize=10)
+    yList = queue.Queue(maxsize=10)
+    prevX = 0.0
+    prevY = 0.0
+    centerV = 0
+    centerSpeed = 0
+    alert = 0
+    firstFrame = None
 
     # Construct it from system arguments
     # op.init_argv(args[1])
@@ -156,56 +167,28 @@ try:
                     height0 = height.copy()
                 # if width > height:
                 #     print("alarm")
+                firstFrame = None
             except:
-                # 如果第一二帧是None，对其进行初始化,计算第一二帧的不同
-                if lastFrame2 is None:
-                    if lastFrame1 is None:
-                        lastFrame1 = frame
-                    else:
-                        lastFrame2 = frame
-                        global frameDelta1  # 全局变量
-                        frameDelta1 = cv2.absdiff(lastFrame1, lastFrame2)  # 帧差一
+
+                text = ""
+
+                gray = frame_process.preprocess_frame(frame)
+
+                if firstFrame is None:
+                    firstFrame = gray
                     continue
 
-                # 计算当前帧和前帧的不同,计算三帧差分
-                frameDelta2 = cv2.absdiff(lastFrame2, frame)  # 帧差二
-                thresh = cv2.bitwise_and(frameDelta1, frameDelta2)  # 图像与运算
-                thresh2 = thresh.copy()
+                frameDelta = cv2.absdiff(firstFrame, gray)
 
-                # 当前帧设为下一帧的前帧,前帧设为下一帧的前前帧,帧差二设为帧差一
-                lastFrame1 = lastFrame2
-                lastFrame2 = frame.copy()
-                frameDelta1 = frameDelta2
+                cnts = frame_process.get_contours(firstFrame, gray)
 
-                # 结果转为灰度图
-                thresh = cv2.cvtColor(thresh, cv2.COLOR_BGR2GRAY)
+                defined_min_area = 3000
+                alert = algorithm_fall.fall_detect(cnts, defined_min_area, frame, prevX, prevY, xList, yList,
+                                                   centerV, alert)
 
-                # 图像二值化
-                thresh = cv2.threshold(thresh, 25, 255, cv2.THRESH_BINARY)[1]
-
-                # 去除图像噪声,先腐蚀再膨胀(形态学开运算)
-                thresh = cv2.dilate(thresh, None, iterations=3)
-                thresh = cv2.erode(thresh, None, iterations=1)
-
-                # 阀值图像上的轮廓位置
-                major = cv2.__version__.split('.')[0]
-                if major == '3':
-                    binary, cnts, hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
-                                                               cv2.CHAIN_APPROX_SIMPLE)
-                else:
-                    cnts, hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-                # 遍历轮廓
-                for c in cnts:
-                    # 忽略小轮廓，排除误差
-                    if cv2.contourArea(c) < 300:
-                        continue
-
-                    # 计算轮廓的边界框，在当前帧中画出该框
-                    (x, y, w, h) = cv2.boundingRect(c)
-                    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-                # 显示当前帧
+                # cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
+                #             (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 255, 255), 1)
+                # cv2.imshow("Frame Delta", frameDelta)
                 cv2.imshow("OpenPose 1.6.0 - Tutorial Python API", frame)
                 continue
 
