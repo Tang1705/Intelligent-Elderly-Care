@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{122B98FA-1CE8-3F5C-941A-0FCB757B1C38}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\BJTU\Python\openpose-master\include;D:\BJTU\Python\openpose-master\3rdparty\windows\opencv\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include2;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe3rdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\BJTU\Python\openpose-master\include;D:\BJTU\Python\openpose-master\3rdparty\windows\opencv\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include2;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe3rdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\01_body_from_image_default.vcxproj">
+      <Project>{5D8E9189-05C6-34F3-A4E2-8713A3C8537E}</Project>
+      <Name>01_body_from_image_default</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\02_whole_body_from_image_default.vcxproj">
+      <Project>{D2A5968D-8CCF-3C4E-B587-F2ACC3B96F38}</Project>
+      <Name>02_whole_body_from_image_default</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\03_keypoints_from_image.vcxproj">
+      <Project>{75584824-2A5F-3172-AD57-F19C98E43ACA}</Project>
+      <Name>03_keypoints_from_image</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\04_keypoints_from_images.vcxproj">
+      <Project>{271951E6-1C8C-33C1-981D-783A3B02BA07}</Project>
+      <Name>04_keypoints_from_images</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\05_keypoints_from_images_multi_gpu.vcxproj">
+      <Project>{EEC9366B-9078-3EEA-905D-9E1019445962}</Project>
+      <Name>05_keypoints_from_images_multi_gpu</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\06_face_from_image.vcxproj">
+      <Project>{9AF1546D-FB88-3A08-A407-45A482BE8EAB}</Project>
+      <Name>06_face_from_image</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\07_hand_from_image.vcxproj">
+      <Project>{28B7E283-11CE-38B1-AE1A-EF9FD2FF6F39}</Project>
+      <Name>07_hand_from_image</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\08_heatmaps_from_image.vcxproj">
+      <Project>{55E3E58F-DC57-3F14-A3D1-C04D57B6A289}</Project>
+      <Name>08_heatmaps_from_image</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\09_keypoints_from_heatmaps.vcxproj">
+      <Project>{5509C517-EB61-3755-89BD-6684706E6832}</Project>
+      <Name>09_keypoints_from_heatmaps</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\10_asynchronous_custom_input.vcxproj">
+      <Project>{4EF89EB0-9A1D-3DD1-A3D3-155C4ACC09C8}</Project>
+      <Name>10_asynchronous_custom_input</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\11_asynchronous_custom_input_multi_camera.vcxproj">
+      <Project>{D4E53486-C21F-323C-9980-92CA1222E699}</Project>
+      <Name>11_asynchronous_custom_input_multi_camera</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\12_asynchronous_custom_output.vcxproj">
+      <Project>{287F3580-8C0A-3432-918D-ADB876C6170C}</Project>
+      <Name>12_asynchronous_custom_output</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\13_asynchronous_custom_input_output_and_datum.vcxproj">
+      <Project>{DEAAFF83-74BD-3F98-8755-2D79948C0D9A}</Project>
+      <Name>13_asynchronous_custom_input_output_and_datum</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\14_synchronous_custom_input.vcxproj">
+      <Project>{D0D9F45D-0B50-3DA0-8CFE-0DC66AFD5A5F}</Project>
+      <Name>14_synchronous_custom_input</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\15_synchronous_custom_preprocessing.vcxproj">
+      <Project>{F20445FF-B3B9-3A04-8E64-7092DC57175C}</Project>
+      <Name>15_synchronous_custom_preprocessing</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\16_synchronous_custom_postprocessing.vcxproj">
+      <Project>{53982123-D444-3CB9-BF2F-A99748470C69}</Project>
+      <Name>16_synchronous_custom_postprocessing</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\17_synchronous_custom_output.vcxproj">
+      <Project>{AD608E28-4AD5-36A5-B5E6-DF4269F667B5}</Project>
+      <Name>17_synchronous_custom_output</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_cpp\18_synchronous_custom_all_and_datum.vcxproj">
+      <Project>{4085AC6D-929C-3517-AF9F-A3CCDB89F06E}</Project>
+      <Name>18_synchronous_custom_all_and_datum</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_add_module\1_custom_post_processing.vcxproj">
+      <Project>{CFFE770E-D009-366A-B038-326CECEDF428}</Project>
+      <Name>1_custom_post_processing</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_thread\1_thread_user_processing_function.vcxproj">
+      <Project>{FEEDE782-93EF-3C19-88B1-617151419F17}</Project>
+      <Name>1_thread_user_processing_function</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\tutorial_api_thread\2_thread_user_input_processing_output_and_datum.vcxproj">
+      <Project>{BB4492F8-A7D7-376F-8C12-F133D7E99857}</Project>
+      <Name>2_thread_user_input_processing_output_and_datum</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\calibration\Calibration.vcxproj">
+      <Project>{60BAFCDB-1183-3191-B3E5-57DD3F2D30C8}</Project>
+      <Name>Calibration</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\examples\openpose\OpenPoseDemo.vcxproj">
+      <Project>{FD3A762F-668D-3B2B-BE06-1AB934A7FE7E}</Project>
+      <Name>OpenPoseDemo</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\src\openpose\openpose.vcxproj">
+      <Project>{A7EA9470-80A6-34D2-A73F-40B5F620B75B}</Project>
+      <Name>openpose</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\BJTU\Python\openpose-master\build-2017\python\openpose\pyopenpose.vcxproj">
+      <Project>{876F53EC-E55B-362B-BA39-361F314C6FBE}</Project>
+      <Name>pyopenpose</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

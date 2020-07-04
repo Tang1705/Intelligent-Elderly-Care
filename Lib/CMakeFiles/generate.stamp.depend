@@ -1,0 +1,29 @@
+# CMake generation dependency list for this directory.
+D:/BJTU/Python/openpose-master/CMakeLists.txt
+D:/BJTU/Python/openpose-master/build-2017/CMakeFiles/3.18.0-rc3/CMakeCCompiler.cmake
+D:/BJTU/Python/openpose-master/build-2017/CMakeFiles/3.18.0-rc3/CMakeCXXCompiler.cmake
+D:/BJTU/Python/openpose-master/build-2017/CMakeFiles/3.18.0-rc3/CMakeRCCompiler.cmake
+D:/BJTU/Python/openpose-master/build-2017/CMakeFiles/3.18.0-rc3/CMakeSystem.cmake
+D:/BJTU/Python/openpose-master/cmake/Utils.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakeCInformation.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakeCXXInformation.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakeCommonLanguageInclude.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakeDependentOption.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakeGenericSystem.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakeInitializeConfigs.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakeLanguageInformation.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakeRCInformation.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakeSystemSpecificInformation.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakeSystemSpecificInitialize.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/Compiler/MSVC-C.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/Compiler/MSVC-CXX.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/FindCUDA.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/FindCUDA/select_compute_arch.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/FindPackageMessage.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/Platform/Windows-MSVC-C.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/Platform/Windows-MSVC-CXX.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/Platform/Windows-MSVC.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/Platform/Windows.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/Platform/WindowsPaths.cmake

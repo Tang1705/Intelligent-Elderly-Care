@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\BJTU\Python\openpose-master\build-2017\CMakeFiles\92bded8849f148072396df2f7ae121aa\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{2A6BD6AB-A4E7-3ACA-87BE-867A2111B0F0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

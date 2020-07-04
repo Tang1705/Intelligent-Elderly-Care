@@ -1,0 +1,4 @@
+# CMake generation dependency list for this directory.
+D:/BJTU/Python/openpose-master/cmake/OpenPose.vcxproj.user
+D:/BJTU/Python/openpose-master/cmake/Utils.cmake
+D:/BJTU/Python/openpose-master/examples/tutorial_add_module/CMakeLists.txt

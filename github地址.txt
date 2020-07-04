@@ -1,0 +1,3 @@
+计算机视觉部分：https://github.com/Tang1705/CVofSSE
+前端仓库：https://github.com/Shzhuoyu/cv_frontend
+后端仓库：https://github.com/Shzhuoyu/cv_backend

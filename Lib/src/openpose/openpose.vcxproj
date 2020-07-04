@@ -1,0 +1,683 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A7EA9470-80A6-34D2-A73F-40B5F620B75B}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>openpose</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">openpose.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">openpose</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">openpose.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">openposed</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\BJTU\Python\openpose-master\include;D:\BJTU\Python\openpose-master\3rdparty\windows\opencv\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include2;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe3rdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;OP_EXPORTS;BOOST_ALL_NO_LIB;USE_CAFFE;USE_CUDA;CMAKE_INTDIR="Release";openpose_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;OP_EXPORTS;BOOST_ALL_NO_LIB;USE_CAFFE;USE_CUDA;CMAKE_INTDIR=\"Release\";openpose_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\BJTU\Python\openpose-master\include;D:\BJTU\Python\openpose-master\3rdparty\windows\opencv\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include2;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe3rdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\BJTU\Python\openpose-master\include;D:\BJTU\Python\openpose-master\3rdparty\windows\opencv\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include2;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe3rdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\cudart_static.lib;..\..\..\3rdparty\windows\opencv\x64\vc15\lib\opencv_world420.lib;..\..\..\3rdparty\windows\caffe3rdparty\lib\gflags.lib;..\..\..\3rdparty\windows\caffe3rdparty\lib\glog.lib;..\..\..\3rdparty\windows\caffe\lib\caffeproto-d.lib;..\..\..\3rdparty\windows\caffe\lib\caffe.lib;..\..\..\3rdparty\windows\caffe\lib\caffeproto.lib;..\..\..\3rdparty\windows\caffe3rdparty\lib\boost_system-vc141-mt-x64-1_69.lib;..\..\..\3rdparty\windows\caffe3rdparty\lib\boost_filesystem-vc141-mt-x64-1_69.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/BJTU/Python/openpose-master/build-2017/src/openpose/Release/openpose.lib</ImportLibrary>
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ProgramDataBaseFile>D:/BJTU/Python/openpose-master/build-2017/$(Platform)/$(Configuration)/openpose.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\BJTU\Python\openpose-master\include;D:\BJTU\Python\openpose-master\3rdparty\windows\opencv\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include2;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe3rdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>OP_EXPORTS;BOOST_ALL_NO_LIB;USE_CAFFE;USE_CUDA;CMAKE_INTDIR="Debug";openpose_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;OP_EXPORTS;BOOST_ALL_NO_LIB;USE_CAFFE;USE_CUDA;CMAKE_INTDIR=\"Debug\";openpose_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\BJTU\Python\openpose-master\include;D:\BJTU\Python\openpose-master\3rdparty\windows\opencv\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include2;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe3rdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\BJTU\Python\openpose-master\include;D:\BJTU\Python\openpose-master\3rdparty\windows\opencv\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe\include2;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;D:\BJTU\Python\openpose-master\3rdparty\windows\caffe3rdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\cudart_static.lib;..\..\..\3rdparty\windows\opencv\x64\vc15\lib\opencv_world420d.lib;..\..\..\3rdparty\windows\caffe3rdparty\lib\gflagsd.lib;..\..\..\3rdparty\windows\caffe3rdparty\lib\glogd.lib;..\..\..\3rdparty\windows\caffe\lib\caffe-d.lib;..\..\..\3rdparty\windows\caffe\lib\caffeproto-d.lib;..\..\..\3rdparty\windows\caffe\lib\caffeproto.lib;..\..\..\3rdparty\windows\caffe3rdparty\lib\boost_system-vc141-mt-x64-1_69.lib;..\..\..\3rdparty\windows\caffe3rdparty\lib\boost_filesystem-vc141-mt-x64-1_69.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/BJTU/Python/openpose-master/build-2017/src/openpose/Debug/openposed.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/BJTU/Python/openpose-master/build-2017/$(Platform)/$(Configuration)/openposed.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\BJTU\Python\openpose-master\src\openpose\face\renderFace.cu">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/face/$(Configuration)/openpose_generated_renderFace.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\face
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/face/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/face/$(Configuration)/openpose_generated_renderFace.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/face/$(Configuration)/openpose_generated_renderFace.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/face/openpose_generated_renderFace.cu.obj.Release.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\face\openpose_generated_renderFace.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\face\openpose_generated_renderFace.cu.obj.Release.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\face\$(Configuration)\openpose_generated_renderFace.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/face/$(Configuration)/openpose_generated_renderFace.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\face
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/face/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/face/$(Configuration)/openpose_generated_renderFace.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/face/$(Configuration)/openpose_generated_renderFace.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/face/openpose_generated_renderFace.cu.obj.Debug.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\face\openpose_generated_renderFace.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\face\openpose_generated_renderFace.cu.obj.Debug.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\face\$(Configuration)\openpose_generated_renderFace.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\BJTU\Python\openpose-master\src\openpose\gpu\cuda.cu">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/gpu/$(Configuration)/openpose_generated_cuda.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\gpu
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/gpu/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/gpu/$(Configuration)/openpose_generated_cuda.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/gpu/$(Configuration)/openpose_generated_cuda.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/gpu/openpose_generated_cuda.cu.obj.Release.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\gpu\openpose_generated_cuda.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\gpu\openpose_generated_cuda.cu.obj.Release.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\gpu\$(Configuration)\openpose_generated_cuda.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/gpu/$(Configuration)/openpose_generated_cuda.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\gpu
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/gpu/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/gpu/$(Configuration)/openpose_generated_cuda.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/gpu/$(Configuration)/openpose_generated_cuda.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/gpu/openpose_generated_cuda.cu.obj.Debug.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\gpu\openpose_generated_cuda.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\gpu\openpose_generated_cuda.cu.obj.Debug.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\gpu\$(Configuration)\openpose_generated_cuda.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\BJTU\Python\openpose-master\src\openpose\hand\renderHand.cu">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/hand/$(Configuration)/openpose_generated_renderHand.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\hand
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/hand/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/hand/$(Configuration)/openpose_generated_renderHand.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/hand/$(Configuration)/openpose_generated_renderHand.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/hand/openpose_generated_renderHand.cu.obj.Release.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\hand\openpose_generated_renderHand.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\hand\openpose_generated_renderHand.cu.obj.Release.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\hand\$(Configuration)\openpose_generated_renderHand.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/hand/$(Configuration)/openpose_generated_renderHand.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\hand
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/hand/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/hand/$(Configuration)/openpose_generated_renderHand.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/hand/$(Configuration)/openpose_generated_renderHand.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/hand/openpose_generated_renderHand.cu.obj.Debug.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\hand\openpose_generated_renderHand.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\hand\openpose_generated_renderHand.cu.obj.Debug.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\hand\$(Configuration)\openpose_generated_renderHand.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\BJTU\Python\openpose-master\src\openpose\net\bodyPartConnectorBase.cu">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_bodyPartConnectorBase.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_bodyPartConnectorBase.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_bodyPartConnectorBase.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_bodyPartConnectorBase.cu.obj.Release.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_bodyPartConnectorBase.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_bodyPartConnectorBase.cu.obj.Release.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\$(Configuration)\openpose_generated_bodyPartConnectorBase.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_bodyPartConnectorBase.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_bodyPartConnectorBase.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_bodyPartConnectorBase.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_bodyPartConnectorBase.cu.obj.Debug.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_bodyPartConnectorBase.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_bodyPartConnectorBase.cu.obj.Debug.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\$(Configuration)\openpose_generated_bodyPartConnectorBase.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\BJTU\Python\openpose-master\src\openpose\net\maximumBase.cu">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_maximumBase.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_maximumBase.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_maximumBase.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_maximumBase.cu.obj.Release.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_maximumBase.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_maximumBase.cu.obj.Release.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\$(Configuration)\openpose_generated_maximumBase.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_maximumBase.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_maximumBase.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_maximumBase.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_maximumBase.cu.obj.Debug.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_maximumBase.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_maximumBase.cu.obj.Debug.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\$(Configuration)\openpose_generated_maximumBase.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\BJTU\Python\openpose-master\src\openpose\net\nmsBase.cu">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_nmsBase.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_nmsBase.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_nmsBase.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_nmsBase.cu.obj.Release.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_nmsBase.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_nmsBase.cu.obj.Release.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\$(Configuration)\openpose_generated_nmsBase.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_nmsBase.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_nmsBase.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_nmsBase.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_nmsBase.cu.obj.Debug.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_nmsBase.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_nmsBase.cu.obj.Debug.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\$(Configuration)\openpose_generated_nmsBase.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\BJTU\Python\openpose-master\src\openpose\net\resizeAndMergeBase.cu">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_resizeAndMergeBase.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_resizeAndMergeBase.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_resizeAndMergeBase.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_resizeAndMergeBase.cu.obj.Release.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_resizeAndMergeBase.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_resizeAndMergeBase.cu.obj.Release.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\$(Configuration)\openpose_generated_resizeAndMergeBase.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_resizeAndMergeBase.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_resizeAndMergeBase.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/$(Configuration)/openpose_generated_resizeAndMergeBase.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_resizeAndMergeBase.cu.obj.Debug.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_resizeAndMergeBase.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\openpose_generated_resizeAndMergeBase.cu.obj.Debug.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\$(Configuration)\openpose_generated_resizeAndMergeBase.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\BJTU\Python\openpose-master\src\openpose\pose\renderPose.cu">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/pose/$(Configuration)/openpose_generated_renderPose.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\pose
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/pose/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/pose/$(Configuration)/openpose_generated_renderPose.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/pose/$(Configuration)/openpose_generated_renderPose.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/pose/openpose_generated_renderPose.cu.obj.Release.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\pose\openpose_generated_renderPose.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\pose\openpose_generated_renderPose.cu.obj.Release.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\pose\$(Configuration)\openpose_generated_renderPose.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/pose/$(Configuration)/openpose_generated_renderPose.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\pose
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/pose/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/pose/$(Configuration)/openpose_generated_renderPose.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/pose/$(Configuration)/openpose_generated_renderPose.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/pose/openpose_generated_renderPose.cu.obj.Debug.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\pose\openpose_generated_renderPose.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\pose\openpose_generated_renderPose.cu.obj.Debug.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\pose\$(Configuration)\openpose_generated_renderPose.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\BJTU\Python\openpose-master\src\openpose\tracking\pyramidalLK.cu">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/tracking/$(Configuration)/openpose_generated_pyramidalLK.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\tracking
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/tracking/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/tracking/$(Configuration)/openpose_generated_pyramidalLK.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/tracking/$(Configuration)/openpose_generated_pyramidalLK.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/tracking/openpose_generated_pyramidalLK.cu.obj.Release.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\tracking\openpose_generated_pyramidalLK.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\tracking\openpose_generated_pyramidalLK.cu.obj.Release.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\tracking\$(Configuration)\openpose_generated_pyramidalLK.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building NVCC (Device) object src/openpose/CMakeFiles/openpose.dir/tracking/$(Configuration)/openpose_generated_pyramidalLK.cu.obj</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\tracking
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -E make_directory D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/tracking/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+"D:\Program Files\cmake-3.18.0-rc3-win64-x64\bin\cmake.exe" -D verbose:BOOL=OFF -D "CCBIN:PATH=$(VCInstallDir)Tools/MSVC/$(VCToolsVersion)/bin/Host$(Platform)/$(PlatformTarget)" -D build_configuration:STRING=$(ConfigurationName) -D generated_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/tracking/$(Configuration)/openpose_generated_pyramidalLK.cu.obj -D generated_cubin_file:STRING=D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/tracking/$(Configuration)/openpose_generated_pyramidalLK.cu.obj.cubin.txt -P D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/tracking/openpose_generated_pyramidalLK.cu.obj.Debug.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\tracking\openpose_generated_pyramidalLK.cu.obj.depend;D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\tracking\openpose_generated_pyramidalLK.cu.obj.Debug.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\tracking\$(Configuration)\openpose_generated_pyramidalLK.cu.obj</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\face\$(Configuration)\openpose_generated_renderFace.cu.obj" />
+    <Object Include="D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\gpu\$(Configuration)\openpose_generated_cuda.cu.obj" />
+    <Object Include="D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\hand\$(Configuration)\openpose_generated_renderHand.cu.obj" />
+    <Object Include="D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\$(Configuration)\openpose_generated_bodyPartConnectorBase.cu.obj" />
+    <Object Include="D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\$(Configuration)\openpose_generated_maximumBase.cu.obj" />
+    <Object Include="D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\$(Configuration)\openpose_generated_nmsBase.cu.obj" />
+    <Object Include="D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\net\$(Configuration)\openpose_generated_resizeAndMergeBase.cu.obj" />
+    <Object Include="D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\pose\$(Configuration)\openpose_generated_renderPose.cu.obj" />
+    <Object Include="D:\BJTU\Python\openpose-master\build-2017\src\openpose\CMakeFiles\openpose.dir\tracking\$(Configuration)\openpose_generated_pyramidalLK.cu.obj" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\3d\cameraParameterReader.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\3d\defineTemplates.cpp">
+      <ObjectFileName>$(IntDir)/3d/defineTemplates.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\3d\jointAngleEstimation.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\3d\poseTriangulation.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\3d\poseTriangulationPrivate.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\calibration\cameraParameterEstimation.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\calibration\gridPatternFunctions.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\array.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\arrayCpuGpu.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\cvMatToOpInput.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\cvMatToOpOutput.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\datum.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\defineTemplates.cpp">
+      <ObjectFileName>$(IntDir)/core/defineTemplates.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\gpuRenderer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\keepTopNPeople.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\keypointScaler.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\matrix.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\opOutputToCvMat.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\point.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\rectangle.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\renderer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\scaleAndSizeExtractor.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\string.cpp">
+      <ObjectFileName>$(IntDir)/core/string.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\core\verbosePrinter.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\face\defineTemplates.cpp">
+      <ObjectFileName>$(IntDir)/face/defineTemplates.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\face\faceDetector.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\face\faceDetectorOpenCV.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\face\faceExtractorCaffe.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\face\faceExtractorNet.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\face\faceCpuRenderer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\face\faceGpuRenderer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\face\faceRenderer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\face\renderFace.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\filestream\bvhSaver.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\filestream\cocoJsonSaver.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\filestream\defineTemplates.cpp">
+      <ObjectFileName>$(IntDir)/filestream/defineTemplates.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\filestream\fileSaver.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\filestream\fileStream.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\filestream\heatMapSaver.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\filestream\imageSaver.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\filestream\jsonOfstream.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\filestream\keypointSaver.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\filestream\peopleJsonSaver.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\filestream\udpSender.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\filestream\videoSaver.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\gpu\cuda.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\gpu\gpu.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\gpu\opencl.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\gui\defineTemplates.cpp">
+      <ObjectFileName>$(IntDir)/gui/defineTemplates.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\gui\frameDisplayer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\gui\gui.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\gui\guiAdam.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\gui\gui3D.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\gui\guiInfoAdder.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\hand\defineTemplates.cpp">
+      <ObjectFileName>$(IntDir)/hand/defineTemplates.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\hand\handDetector.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\hand\handDetectorFromTxt.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\hand\handExtractorCaffe.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\hand\handExtractorNet.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\hand\handCpuRenderer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\hand\handGpuRenderer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\hand\handRenderer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\hand\renderHand.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\bodyPartConnectorBase.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\bodyPartConnectorBaseCL.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\bodyPartConnectorCaffe.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\maximumBase.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\maximumCaffe.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\netCaffe.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\netOpenCv.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\nmsBase.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\nmsBaseCL.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\nmsCaffe.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\resizeAndMergeBase.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\resizeAndMergeBaseCL.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\net\resizeAndMergeCaffe.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\pose\defineTemplates.cpp">
+      <ObjectFileName>$(IntDir)/pose/defineTemplates.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\pose\poseCpuRenderer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\pose\poseExtractor.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\pose\poseExtractorCaffe.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\pose\poseExtractorNet.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\pose\poseGpuRenderer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\pose\poseParameters.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\pose\poseParametersRender.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\pose\poseRenderer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\pose\renderPose.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\producer\datumProducer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\producer\defineTemplates.cpp">
+      <ObjectFileName>$(IntDir)/producer/defineTemplates.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\producer\flirReader.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\producer\imageDirectoryReader.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\producer\ipCameraReader.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\producer\producer.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\producer\spinnakerWrapper.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\producer\videoCaptureReader.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\producer\videoReader.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\producer\webcamReader.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\thread\defineTemplates.cpp">
+      <ObjectFileName>$(IntDir)/thread/defineTemplates.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\tracking\defineTemplates.cpp">
+      <ObjectFileName>$(IntDir)/tracking/defineTemplates.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\tracking\personIdExtractor.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\tracking\personTracker.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\tracking\pyramidalLK.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\unity\unityBinding.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\utilities\errorAndLog.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\utilities\fileSystem.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\utilities\flagsToOpenPose.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\utilities\keypoint.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\utilities\openCv.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\utilities\openCvPrivate.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\utilities\profiler.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\utilities\string.cpp">
+      <ObjectFileName>$(IntDir)/utilities/string.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\wrapper\defineTemplates.cpp">
+      <ObjectFileName>$(IntDir)/wrapper/defineTemplates.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\wrapper\wrapperAuxiliary.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\wrapper\wrapperStructExtra.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\wrapper\wrapperStructFace.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\wrapper\wrapperStructGui.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\wrapper\wrapperStructHand.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\wrapper\wrapperStructInput.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\wrapper\wrapperStructOutput.cpp" />
+    <ClCompile Include="D:\BJTU\Python\openpose-master\src\openpose\wrapper\wrapperStructPose.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

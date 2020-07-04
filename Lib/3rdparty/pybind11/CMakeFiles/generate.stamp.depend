@@ -1,0 +1,14 @@
+# CMake generation dependency list for this directory.
+D:/BJTU/Python/openpose-master/3rdparty/pybind11/CMakeLists.txt
+D:/BJTU/Python/openpose-master/3rdparty/pybind11/tools/FindPythonLibsNew.cmake
+D:/BJTU/Python/openpose-master/3rdparty/pybind11/tools/pybind11Tools.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakePackageConfigHelpers.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CMakeParseArguments.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CheckCXXCompilerFlag.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/CheckCXXSourceCompiles.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/FindPackageMessage.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/FindPythonInterp.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/GNUInstallDirs.cmake
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/WriteBasicConfigVersionFile.cmake

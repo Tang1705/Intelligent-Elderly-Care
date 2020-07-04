@@ -1,0 +1,22 @@
+# CMake generation dependency list for this directory.
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/face/openpose_generated_renderFace.cu.obj.cmake.pre-gen
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/face/openpose_generated_renderFace.cu.obj.depend
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/gpu/openpose_generated_cuda.cu.obj.cmake.pre-gen
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/gpu/openpose_generated_cuda.cu.obj.depend
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/hand/openpose_generated_renderHand.cu.obj.cmake.pre-gen
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/hand/openpose_generated_renderHand.cu.obj.depend
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_bodyPartConnectorBase.cu.obj.cmake.pre-gen
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_bodyPartConnectorBase.cu.obj.depend
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_maximumBase.cu.obj.cmake.pre-gen
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_maximumBase.cu.obj.depend
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_nmsBase.cu.obj.cmake.pre-gen
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_nmsBase.cu.obj.depend
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_resizeAndMergeBase.cu.obj.cmake.pre-gen
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/net/openpose_generated_resizeAndMergeBase.cu.obj.depend
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/pose/openpose_generated_renderPose.cu.obj.cmake.pre-gen
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/pose/openpose_generated_renderPose.cu.obj.depend
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/tracking/openpose_generated_pyramidalLK.cu.obj.cmake.pre-gen
+D:/BJTU/Python/openpose-master/build-2017/src/openpose/CMakeFiles/openpose.dir/tracking/openpose_generated_pyramidalLK.cu.obj.depend
+D:/BJTU/Python/openpose-master/cmake/Utils.cmake
+D:/BJTU/Python/openpose-master/src/openpose/CMakeLists.txt
+D:/Program Files/cmake-3.18.0-rc3-win64-x64/share/cmake-3.18/Modules/FindCUDA/run_nvcc.cmake

@@ -1,0 +1,102 @@
+﻿  openpose_python.cpp
+D:\BJTU\Python\openpose-master\include\openpose/flags.hpp(49): warning C4245: “初始化”: 从“int”转换到“google::uint64”，有符号/无符号不匹配
+D:\Program Files\VS\2017\VC\Tools\MSVC\14.16.27023\include\xmemory0(881): warning C4244: “初始化”: 从“_Ty”转换到“_Objty”，可能丢失数据
+          with
+          [
+              _Ty=Py_ssize_t
+          ]
+          and
+          [
+              _Objty=int
+          ]
+  D:\Program Files\VS\2017\VC\Tools\MSVC\14.16.27023\include\xmemory(164): note: 参见对正在编译的函数 模板 实例化“void std::_Default_allocator_traits<_Alloc>::construct<_Ty,__int64&>(_Alloc &,_Objty *const ,__int64 &)”的引用
+          with
+          [
+              _Alloc=std::allocator<int>,
+              _Ty=int,
+              _Objty=int
+          ]
+  D:\Program Files\VS\2017\VC\Tools\MSVC\14.16.27023\include\xmemory(164): note: 参见对正在编译的函数 模板 实例化“void std::_Default_allocator_traits<_Alloc>::construct<_Ty,__int64&>(_Alloc &,_Objty *const ,__int64 &)”的引用
+          with
+          [
+              _Alloc=std::allocator<int>,
+              _Ty=int,
+              _Objty=int
+          ]
+  D:\Program Files\VS\2017\VC\Tools\MSVC\14.16.27023\include\xmemory(190): note: 参见对正在编译的函数 模板 实例化“void std::_Uninitialized_backout_al<_FwdIt,_Alloc>::_Emplace_back<_Ty&>(_Ty &)”的引用
+          with
+          [
+              _FwdIt=int *,
+              _Alloc=std::allocator<int>,
+              _Ty=Py_ssize_t
+          ]
+  D:\Program Files\VS\2017\VC\Tools\MSVC\14.16.27023\include\xmemory(190): note: 参见对正在编译的函数 模板 实例化“void std::_Uninitialized_backout_al<_FwdIt,_Alloc>::_Emplace_back<_Ty&>(_Ty &)”的引用
+          with
+          [
+              _FwdIt=int *,
+              _Alloc=std::allocator<int>,
+              _Ty=Py_ssize_t
+          ]
+  D:\Program Files\VS\2017\VC\Tools\MSVC\14.16.27023\include\xmemory(217): note: 参见对正在编译的函数 模板 实例化“_FwdIt std::_Uninitialized_copy_al_unchecked<_Ty*,int*,_Alloc>(_InIt,const _InIt,const _FwdIt,_Alloc &,std::_General_ptr_iterator_tag,std::_Any_tag)”的引用
+          with
+          [
+              _FwdIt=int *,
+              _Ty=Py_ssize_t,
+              _Alloc=std::allocator<int>,
+              _InIt=Py_ssize_t *
+          ]
+  D:\Program Files\VS\2017\VC\Tools\MSVC\14.16.27023\include\vector(1823): note: 参见对正在编译的函数 模板 实例化“_FwdIt *std::_Uninitialized_copy<_Iter,int*,std::allocator<_Ty>>(const _InIt,const _InIt,_FwdIt,_Alloc &)”的引用
+          with
+          [
+              _FwdIt=int *,
+              _Iter=__int64 *,
+              _Ty=int,
+              _InIt=__int64 *,
+              _Alloc=std::allocator<int>
+          ]
+  D:\Program Files\VS\2017\VC\Tools\MSVC\14.16.27023\include\vector(708): note: 参见对正在编译的函数 模板 实例化“int *std::vector<int,std::allocator<_Ty>>::_Ucopy<_Iter>(_Iter,_Iter,int *)”的引用
+          with
+          [
+              _Ty=int,
+              _Iter=__int64 *
+          ]
+  D:\Program Files\VS\2017\VC\Tools\MSVC\14.16.27023\include\vector(708): note: 参见对正在编译的函数 模板 实例化“int *std::vector<int,std::allocator<_Ty>>::_Ucopy<_Iter>(_Iter,_Iter,int *)”的引用
+          with
+          [
+              _Ty=int,
+              _Iter=__int64 *
+          ]
+  D:\Program Files\VS\2017\VC\Tools\MSVC\14.16.27023\include\vector(723): note: 参见对正在编译的函数 模板 实例化“void std::vector<int,std::allocator<_Ty>>::_Range_construct_or_tidy<__int64*>(_Iter,_Iter,std::forward_iterator_tag)”的引用
+          with
+          [
+              _Ty=int,
+              _Iter=__int64 *
+          ]
+  D:\Program Files\VS\2017\VC\Tools\MSVC\14.16.27023\include\vector(723): note: 参见对正在编译的函数 模板 实例化“void std::vector<int,std::allocator<_Ty>>::_Range_construct_or_tidy<__int64*>(_Iter,_Iter,std::forward_iterator_tag)”的引用
+          with
+          [
+              _Ty=int,
+              _Iter=__int64 *
+          ]
+  D:\BJTU\Python\openpose-master\python\openpose\openpose_python.cpp(413): note: 参见对正在编译的函数 模板 实例化“std::vector<int,std::allocator<_Ty>>::vector<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<__int64>>>,void>(_Iter,_Iter,const _Alloc &)”的引用
+          with
+          [
+              _Ty=int,
+              _Iter=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<pybind11::ssize_t>>>,
+              _Alloc=std::allocator<int>
+          ]
+  D:\BJTU\Python\openpose-master\python\openpose\openpose_python.cpp(413): note: 参见对正在编译的函数 模板 实例化“std::vector<int,std::allocator<_Ty>>::vector<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<__int64>>>,void>(_Iter,_Iter,const _Alloc &)”的引用
+          with
+          [
+              _Ty=int,
+              _Iter=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<pybind11::ssize_t>>>,
+              _Alloc=std::allocator<int>
+          ]
+  D:\BJTU\Python\openpose-master\python\openpose\openpose_python.cpp(397): note: 参见对正在编译的 类 模板 实例化 "pybind11::detail::descr<13>" 的引用
+  d:\bjtu\python\openpose-master\3rdparty\pybind11\include\pybind11\cast.h(1556): note: 参见对正在编译的 类 模板 实例化 "pybind11::detail::descr<8>" 的引用
+  d:\bjtu\python\openpose-master\3rdparty\pybind11\include\pybind11\cast.h(1554): note: 参见对正在编译的 类 模板 实例化 "pybind11::detail::descr<5>" 的引用
+  d:\bjtu\python\openpose-master\3rdparty\pybind11\include\pybind11\cast.h(1109): note: 参见对正在编译的 类 模板 实例化 "pybind11::detail::descr<7>" 的引用
+    正在创建库 D:/BJTU/Python/openpose-master/build-2017/python/openpose/Release/pyopenpose.lib 和对象 D:/BJTU/Python/openpose-master/build-2017/python/openpose/Release/pyopenpose.exp
+  正在生成代码
+  已完成代码的生成
+  pyopenpose.vcxproj -> D:\BJTU\Python\openpose-master\build-2017\python\openpose\Release\pyopenpose.cp37-win_amd64.pyd

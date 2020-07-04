@@ -1,0 +1,4 @@
+﻿  1_thread_user_processing_function.cpp
+D:\BJTU\Python\openpose-master\include\openpose/flags.hpp(49): warning C4245: “初始化”: 从“int”转换到“google::uint64”，有符号/无符号不匹配
+    正在创建库 D:/BJTU/Python/openpose-master/build-2017/examples/tutorial_api_thread/Release/1_thread_user_processing_function.lib 和对象 D:/BJTU/Python/openpose-master/build-2017/examples/tutorial_api_thread/Release/1_thread_user_processing_function.exp
+  1_thread_user_processing_function.vcxproj -> D:\BJTU\Python\openpose-master\build-2017\x64\Release\1_thread_user_processing_function.exe

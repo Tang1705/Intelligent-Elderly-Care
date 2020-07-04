@@ -1,0 +1,4 @@
+﻿  12_asynchronous_custom_output.cpp
+D:\BJTU\Python\openpose-master\include\openpose/flags.hpp(49): warning C4245: “初始化”: 从“int”转换到“google::uint64”，有符号/无符号不匹配
+    正在创建库 D:/BJTU/Python/openpose-master/build-2017/examples/tutorial_api_cpp/Release/12_asynchronous_custom_output.lib 和对象 D:/BJTU/Python/openpose-master/build-2017/examples/tutorial_api_cpp/Release/12_asynchronous_custom_output.exp
+  12_asynchronous_custom_output.vcxproj -> D:\BJTU\Python\openpose-master\build-2017\x64\Release\12_asynchronous_custom_output.exe
