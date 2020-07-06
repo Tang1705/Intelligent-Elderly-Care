@@ -7,7 +7,15 @@ import cv2
 import os
 import shutil  # 读写文件
 import time
-import face_recognition
+
+from PIL import ImageDraw, ImageFont
+from PIL import Image
+
+action_list = ['look_ahead', 'look_left', 'look_right', 'rise_head', 'bow_head', 'blink', 'open_mouth', 'smile', 'over']
+action_map = {'look_ahead': '请看前方', 'blink': '请眨眼', 'open_mouth': '请张嘴',
+              'smile': '请笑一笑', 'rise_head': '请抬头',
+              'bow_head': '请低头', 'look_left': '请看左边',
+              'look_right': '请看右边', 'over': '录入完成'}
 
 # Dlib 正向人脸检测器
 # detector = dlib.get_frontal_face_detector()
@@ -30,6 +38,8 @@ class Face_Register:
         self.save_flag = 1
         # 之后用来检查是否先按 'n' 再按 's'，即先新建文件夹再保存
         self.press_n_flag = 0
+        # 之后用来提示动作的计数器
+        self.index = 0
 
         self.frame_time = 0
         self.frame_start_time = 0
@@ -76,6 +86,8 @@ class Face_Register:
     # 生成的 cv2 window 上面添加说明文字
     def draw_note(self, img_rd):
         # 添加说明
+        # cv2.putText(img_rd, action_map[action_list[index]].encode('utf-8').decode(), (20, 250), self.font, 1,
+        #             (0, 255, 0), 1, cv2.LINE_AA)
         cv2.putText(img_rd, "Face Register", (20, 40), self.font, 1, (255, 255, 255), 1, cv2.LINE_AA)
         cv2.putText(img_rd, "FPS:   " + str(self.fps.__round__(2)), (20, 100), self.font, 0.8, (0, 255, 0), 1,
                     cv2.LINE_AA)
@@ -83,6 +95,18 @@ class Face_Register:
         cv2.putText(img_rd, "N: Create face folder", (20, 350), self.font, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
         cv2.putText(img_rd, "S: Save current face", (20, 400), self.font, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
         cv2.putText(img_rd, "Q: Quit", (20, 450), self.font, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
+
+        font = ImageFont.truetype("simsun.ttc", 30, index=1)
+        img_rd = Image.fromarray(cv2.cvtColor(img_rd, cv2.COLOR_BGR2RGB))
+        draw = ImageDraw.Draw(img_rd)
+        if self.index <= 7:
+            draw.text((20, 230), text=action_map[action_list[self.index]].encode('utf-8').decode(), font=font,
+                      fill=(0, 255, 0))
+        else:
+            draw.text((20, 230), text=action_map[action_list[8]].encode('utf-8').decode(), font=font,
+                      fill=(0, 255, 0))
+        img_rd = cv2.cvtColor(np.array(img_rd), cv2.COLOR_RGB2BGR)
+        return img_rd
 
     # 获取人脸
     def process(self, stream):
@@ -96,6 +120,7 @@ class Face_Register:
         self.check_existing_faces_cnt()
 
         while stream.isOpened():
+            self.faces_cnt = 0
             flag, img_rd = stream.read()  # Get camera video stream
 
             kk = cv2.waitKey(1)
@@ -115,6 +140,7 @@ class Face_Register:
                 print("新建的人脸文件夹 / Create folders: ", current_face_dir)
 
                 self.ss_cnt = 0  # 将人脸计数器清零
+                self.index = 0
                 self.press_n_flag = 1  # 已经按下 'n'
 
             # 5. 检测到人脸
@@ -128,6 +154,8 @@ class Face_Register:
                     # greater than the minimum confidence
                     if confidence < 0.5:
                         continue
+
+                    self.faces_cnt += 1
 
                     # compute the (x, y)-coordinates of the bounding box for the
                     # object
@@ -165,18 +193,20 @@ class Face_Register:
                             # 检查有没有先按'n'新建文件夹
                             if self.press_n_flag:
                                 self.ss_cnt += 1
-                                for ii in range(height * 2):
-                                    for jj in range(width * 2):
-                                        img_blank[ii][jj] = img_rd[startY - hh + ii][startX - ww + jj]
-                                cv2.imwrite(current_face_dir + "/img_face_" + str(self.ss_cnt) + ".jpg", img_blank)
-                                print("写入本地 / Save into：",
-                                      str(current_face_dir) + "/img_face_" + str(self.ss_cnt) + ".jpg")
+                                if self.index<=7:
+                                    for ii in range(height * 2):
+                                        for jj in range(width * 2):
+                                            img_blank[ii][jj] = img_rd[startY - hh + ii][startX - ww + jj]
+                                    cv2.imwrite(current_face_dir + "/img_face_" + str(self.ss_cnt) + ".jpg", img_blank)
+                                    print("写入本地 / Save into：",
+                                          str(current_face_dir) + "/img_face_" + str(self.ss_cnt) + ".jpg")
+                                self.index += 1
                             else:
                                 print("请先按 'N' 来建文件夹, 按 'S' / Please press 'N' and press 'S'")
-                self.faces_cnt = len(faces)
+                # self.faces_cnt = len(faces)
 
             # 9. 生成的窗口添加说明文字
-            self.draw_note(img_rd)
+            img_rd = self.draw_note(img_rd)
 
             # 10. 按下 'q' 键退出
             if kk == ord('q'):

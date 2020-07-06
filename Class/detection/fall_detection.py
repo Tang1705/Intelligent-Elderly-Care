@@ -9,6 +9,9 @@ from sys import platform
 import argparse
 import numpy as np
 
+from PIL import ImageDraw, ImageFont
+from PIL import Image
+
 from imutils.video import VideoStream
 import datetime
 import imutils
@@ -39,7 +42,7 @@ try:
         raise e
 
     # cap = cv2.VideoCapture(0)
-    cap = cv2.VideoCapture("demo1.mp4")
+    cap = cv2.VideoCapture("test4.mp4")
 
     _, frame = cap.read()
     cv2.imwrite('fall_detection.jpg', frame)
@@ -113,6 +116,7 @@ try:
             imageToProcess = cv2.imread(args[0].image_path)
             datum.cvInputData = imageToProcess
             opWrapper.emplaceAndPop([datum])
+            img_rd = datum.cvOutputData
 
             # Display Image
             # print("Body keypoints: \n" + str(datum.poseKeypoints))
@@ -147,7 +151,7 @@ try:
                                                                                           np.array(height0))):
                         couter += 1
                         # print("alarm by v and a")
-                    elif (width > height and (x[8] != 0 or x[9] != 0 or x[12] != 0)):
+                    elif (width > height and (x[8] != 0 or x[9] != 0 or x[12] != 0) and v < 0.41):
                         couter += 1
                         # print("alarm by w and h")
                     else:
@@ -157,8 +161,15 @@ try:
                             couter = 0
                             error = 0
 
-                    if couter > 2:
-                        print("alarm")
+                    if couter > 3:
+                        font = ImageFont.truetype("simsun.ttc", 30, index=1)
+                        img_rd = Image.fromarray(cv2.cvtColor(datum.cvOutputData, cv2.COLOR_BGR2RGB))
+                        draw = ImageDraw.Draw(img_rd)
+                        draw.text((10, 10), text="Fall Detected", font=font,
+                                  fill=(255, 0, 0))
+                        img_rd = cv2.cvtColor(np.array(img_rd), cv2.COLOR_RGB2BGR)
+
+                        # print("fall")
 
                     # update variables
                     frame_start_time = now
@@ -183,8 +194,8 @@ try:
                 cnts = frame_process.get_contours(firstFrame, gray)
 
                 defined_min_area = 3000
-                alert = algorithm_fall.fall_detect(cnts, defined_min_area, frame, prevX, prevY, xList, yList,
-                                                   centerV, alert)
+                frame, alert = algorithm_fall.fall_detect(cnts, defined_min_area, frame, prevX, prevY, xList, yList,
+                                                          centerV, alert)
 
                 # cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
                 #             (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 255, 255), 1)
@@ -192,9 +203,8 @@ try:
                 cv2.imshow("OpenPose 1.6.0 - Tutorial Python API", frame)
                 continue
 
-            cv2.imshow("OpenPose 1.6.0 - Tutorial Python API", datum.cvOutputData)
+            cv2.imshow("OpenPose 1.6.0 - Tutorial Python API", img_rd)
     cap.release()
     cv2.destroyAllWindows()
 except Exception as e:
     print(e)
-    sys.exit(-1)

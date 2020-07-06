@@ -8,6 +8,7 @@ import os
 import time
 from PIL import Image, ImageDraw, ImageFont
 
+start_time = 0
 # 1. Dlib 正向人脸检测器
 # detector = dlib.get_frontal_face_detector()
 
@@ -75,10 +76,8 @@ class Face_Recognizer:
     def return_euclidean_distance(feature_1, feature_2):
         feature_1 = np.array(feature_1)
         feature_2 = np.array(feature_2)
-        dist = np.sqrt(np.sum(np.square(feature_1 - feature_2)))
+        dist = np.sqrt(np.sum((feature_1 - feature_2) ** 2))
         return dist
-
-    # TODO th
 
     # 更新 FPS
     def update_fps(self):
@@ -111,7 +110,7 @@ class Face_Recognizer:
         # TODO 数据库 ID
         # Default known name: person_1, person_2, person_3
         self.name_known_list[0] = '唐麒'.encode('utf-8').decode()
-        # self.name_known_list[1] ='李四'.encode('utf-8').decode()
+        self.name_known_list[1] = '段海燕'.encode('utf-8').decode()
         # self.name_known_list[2] ='xx'.encode('utf-8').decode()
         # self.name_known_list[3] ='xx'.encode('utf-8').decode()
         # self.name_known_list[4] ='xx'.encode('utf-8').decode()
@@ -122,6 +121,7 @@ class Face_Recognizer:
         if self.get_face_database():
             while stream.isOpened():
                 flag, img_rd = stream.read()
+                img_with_name = img_rd
                 kk = cv2.waitKey(1)
                 # 按下 q 键退出
                 if kk == ord('q'):
@@ -164,7 +164,8 @@ class Face_Recognizer:
                             # greater than the minimum confidence
                             if confidence < 0.5:
                                 continue
-                            print("##### camera person", k + 1, "#####")
+                            self.faces_cnt+=1
+                            # print("##### camera person", k + 1, "#####")
                             # 让人名跟随在矩形框的上方
                             # 确定人名的位置坐标
                             # 先默认所有人不认识，是 unknown
@@ -175,30 +176,31 @@ class Face_Recognizer:
                             box = faces[0, 0, k, 3:7] * np.array([w, h, w, h])
                             (startX, startY, endX, endY) = box.astype("int")
                             self.pos_camera_list.append(tuple(
-                                [int(startX+5), int(startY - 30)]))
+                                [int(startX + 5), int(startY - 30)]))
 
                             # 5. 对于某张人脸，遍历所有存储的人脸特征
                             e_distance_list = []
                             for i in range(len(self.features_known_list)):
                                 # 如果 person_X 数据不为空
                                 if str(self.features_known_list[i][0]) != '0.0':
-                                    print("with person", str(i + 1), "the e distance: ", end='')
+                                    # print("with person", str(i + 1), "the e distance: ", end='')
                                     e_distance_tmp = self.return_euclidean_distance(self.features_camera_list[k],
                                                                                     self.features_known_list[i])
-                                    print(e_distance_tmp)
+                                    # print(e_distance_tmp)
                                     e_distance_list.append(e_distance_tmp)
                                 else:
                                     # 空数据 person_X
                                     e_distance_list.append(999999999)
                             # 6. 寻找出最小的欧式距离匹配
                             similar_person_num = e_distance_list.index(min(e_distance_list))
-                            print("Minimum e distance with person", self.name_known_list[similar_person_num])
+                            # print("Minimum e distance with person", self.name_known_list[similar_person_num])
 
-                            if min(e_distance_list) < 0.4:
+                            if min(e_distance_list) < 1:
                                 self.name_camera_list[k] = self.name_known_list[similar_person_num]
-                                print("May be person " + str(self.name_known_list[similar_person_num]))
+                                # print("May be person " + str(self.name_known_list[similar_person_num]))
                             else:
-                                print("Unknown person")
+                                pass
+                                # print("Unknown person")
 
                             # 矩形框
                             for kk, d in enumerate(faces):
@@ -207,23 +209,24 @@ class Face_Recognizer:
                                               (0, 255, 0), 2)
                                 cv2.rectangle(img_rd, tuple([startX, startY - 35]), tuple([endX, startY]),
                                               (0, 255, 0), cv2.FILLED)
-                            print('\n')
-
-                        self.faces_cnt = len(faces)
-                        # 7. 在这里更改显示的人名
-                        self.modify_name_camera_list()
-                        # 8. 写名字
-                        # self.draw_name(img_rd)
-                        img_with_name = self.draw_name(img_rd)
+                            # print('\n')
+                            # self.faces_cnt = faces.shape[2]
+                            # if len(self.name_camera_list) > 0:
+                            # 7. 在这里更改显示的人名
+                            self.modify_name_camera_list()
+                            # 8. 写名字
+                            # self.draw_name(img_rd)
+                            img_with_name = self.draw_name(img_rd)
                     else:
                         img_with_name = img_rd
 
-                print("Faces in camera now:", self.name_camera_list, "\n")
+                # print("Faces in camera now:", self.name_camera_list, "\n")
 
-                cv2.imshow("camera", img_with_name)
+                if len(img_with_name):
+                    cv2.imshow("camera", img_with_name)
 
                 # 9. 更新 FPS / Update stream FPS
-                self.update_fps()
+                # self.update_fps()
 
     # OpenCV 调用摄像头并进行 process
     def run(self):
