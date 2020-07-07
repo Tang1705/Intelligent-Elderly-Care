@@ -8,6 +8,7 @@ import os
 import shutil  # 读写文件
 import time
 
+import win32com.client
 from PIL import ImageDraw, ImageFont
 from PIL import Image
 
@@ -27,6 +28,7 @@ detector = cv2.dnn.readNetFromCaffe("data/data_opencv/deploy.prototxt.txt",
 
 class Face_Register:
     def __init__(self):
+        self.init = False
         self.path_photos_from_camera = "data/data_faces_from_camera/"
         self.font = cv2.FONT_ITALIC
 
@@ -44,6 +46,14 @@ class Face_Register:
         self.frame_time = 0
         self.frame_start_time = 0
         self.fps = 0
+
+    def speak(self, text, rate=2):
+
+        speak = win32com.client.Dispatch('Sapi.SpVoice')
+        # speak.Voice =  speak.GetVoices('Microsoft Zira')
+        speak.Volume = 100
+        speak.Rate = rate
+        speak.Speak(text)
 
     # 新建保存人脸图像文件
     def pre_work_mkdir(self):
@@ -193,7 +203,8 @@ class Face_Register:
                             # 检查有没有先按'n'新建文件夹
                             if self.press_n_flag:
                                 self.ss_cnt += 1
-                                if self.index<=7:
+
+                                if self.index <= 7:
                                     for ii in range(height * 2):
                                         for jj in range(width * 2):
                                             img_blank[ii][jj] = img_rd[startY - hh + ii][startX - ww + jj]
@@ -201,6 +212,7 @@ class Face_Register:
                                     print("写入本地 / Save into：",
                                           str(current_face_dir) + "/img_face_" + str(self.ss_cnt) + ".jpg")
                                 self.index += 1
+                                self.speak(action_map[action_list[self.index]], 2)
                             else:
                                 print("请先按 'N' 来建文件夹, 按 'S' / Please press 'N' and press 'S'")
                 # self.faces_cnt = len(faces)
@@ -213,8 +225,13 @@ class Face_Register:
                 break
 
             self.update_fps()
+
             cv2.namedWindow("camera", 1)
             cv2.imshow("camera", img_rd)
+
+            if not self.init:
+                self.speak(self.speak(action_map[action_list[self.index]], 2))
+                self.init = True
 
     def run(self):
         cap = cv2.VideoCapture(0)
