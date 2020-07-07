@@ -1,7 +1,12 @@
+import math
 import time
 
 import cv2
 import numpy as np
+
+from GFmatrix import GF
+
+np.seterr(invalid='ignore')
 
 
 class Calibration:
@@ -47,10 +52,10 @@ class Calibration:
     def get_candidate_points(self, frame):
         candidate = np.zeros((frame.shape[0], frame.shape[1]))  # 初始化图像点位置矩阵为0
         b, g, r = cv2.split(frame)
-        i = 0
-        while i < frame.shape[0] - 7:
+        i = int(frame.shape[0] / 2)
+        while i < int(7 * frame.shape[0] / 8):
             j = 0
-            while j < frame.shape[1] - 7:
+            while j < int(frame.shape[1] / 2):
                 sum = [0, 0, 0]  # 存储r,g,b三个通道的差值结果
                 tempxy = [0, 0, 0, 0, 0, 0]  # 存储三个通道纵向和横向的临时求和结果
                 k = -6
@@ -67,17 +72,24 @@ class Calibration:
                 sum[2] = sum[2] + abs(tempxy[4] - tempxy[5])  # b通道差值
                 d = max(sum[0], sum[1], sum[2])  # 选择差值最大的通道
                 # print(d)
-                if d > 350:  # tq和zyy人工学习调参选阈值，阈值增大，候选点集中于球体中央
+                if d > 1300:  # tq和zyy人工学习调参选阈值，阈值增大，候选点集中于球体中央
                     candidate[i][j] = -1  # -1标记为候选点
+                    # point_size = 1
+                    # point_color = (0, 0, 255)
+                    # thickness = 0  # 可以为 0 、4、8
+                    #
+                    # cv2.circle(frame, (j,i), point_size, point_color, thickness)
                 else:
                     candidate[i][j] = -3  # -3标记为非候选点
                 j = j + 1
             i = i + 1
+        # cv2.imshow('1', frame)
+        # cv2.waitKey(0)  # 按0退出
         return candidate
 
     """
     get_grid_points:
-    将RGB图像根据公式Gray = 0.2989 * R + 0.5907 * G + 0.1140 * B 转为灰度图像
+    将RGB图像转为灰度图像
     根据真正的角点具有严格的中心对称性，将相关系数大于选定阈值的点选做特征点
     并根据P1和P2类型点的特征（左右或上下为模式元素）将特征点分类为两类特征点
     白色背景的灰度值高于颜色元素的灰度值
@@ -87,26 +99,32 @@ class Calibration:
     """
 
     def get_grid_points(self, frame, candidate):
-        GrayImage = np.zeros((1024, 1280))
-        b, g, r = cv2.split(frame)
+        GrayImage = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        i = 0
-        while i < frame.shape[0]:
-            j = 0
-            while j < frame.shape[1]:
-                # 转灰度图像，提高绿色通道的比例，使得白色背景与绿色元素易于区分
-                GrayImage[i][j] = 0.2989 * r[i][j] + 0.5907 * g[i][j] + 0.1140 * b[i][j]
-                j = j + 1
-            i = i + 1
+        gridpoints = np.zeros((frame.shape[0], frame.shape[1]))
+        size = 7
+        counter = 0
+        circle_neighborhood = np.zeros((size, size))
+        for i in range(0, size):
+            for j in range(0, size):
+                if i < (size - 1) / 2:
+                    if j >= (size - 1) / 2 - i - (size - 3) / 4 and j <= (size - 1) / 2 + i + + (size - 3) / 4:
+                        counter += 1
+                        circle_neighborhood[i][j] = 1
+                elif i >= (size + 5) / 4 and i <= (3 * size - 5) / 4:
+                    counter += 1
+                    circle_neighborhood[i][j] = 1
+                else:
+                    if j >= (size - 1) / 2 - (size - 1 - i) - (size - 3) / 4 and j <= (size - 1) / 2 + (
+                            size - 1 - i) + (
+                            size - 3) / 4:
+                        counter += 1
+                        circle_neighborhood[i][j] = 1
 
-        gridpoints = np.zeros((1024, 1280))
-        circle_neighborhood = [[0, 0, 1, 1, 1, 0, 0], [0, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1],
-                               [1, 1, 1, 1, 1, 1, 1],
-                               [1, 1, 1, 1, 1, 1, 1], [0, 1, 1, 1, 1, 1, 0], [0, 0, 1, 1, 1, 0, 0]]
-        i = 0
-        while i < frame.shape[0]:
+        i = int(frame.shape[0] / 2)
+        while i < int(7 * frame.shape[0] / 8):
             j = 0
-            while j < frame.shape[1]:
+            while j < int(frame.shape[1] / 2):
                 """
                 element元素说明
                 便于计算圆形邻域的相关系数，引入变量element
@@ -140,16 +158,23 @@ class Calibration:
                             q = q + 1
                         p = p + 1
 
-                    pc = (37 * element[0] - element[1] * element[2]) / (
-                            np.sqrt(37 * element[3] - element[1] ** 2) * np.sqrt(37 * element[4] - element[2] ** 2))
-                    if pc > 0.1:  # 相关系数足够大的点被判断为特征点(对称系数为0的为特征点——A Twofold...)
+                    pc = (counter * element[0] - element[1] * element[2]) / (
+                            np.sqrt(counter * element[3] - element[1] ** 2) * np.sqrt(
+                        counter * element[4] - element[2] ** 2))
+                    if pc > 0.5:  # 相关系数足够大的点被判断为特征点(对称系数为0的为特征点——A Twofold...)
                         gridpoints[i][j] = 1
+                        # point_size = 1
+                        # point_color = (0, 0, 255)
+                        # thickness = 0  # 可以为 0 、4、8
+                        #
+                        # cv2.circle(frame, (j, i), point_size, point_color, thickness)
 
                 else:
                     gridpoints[i][j] = 0
                 j = j + 1
             i = i + 1
-
+        # cv2.imshow('2', frame)
+        # cv2.waitKey(0)  # 按0退出
         return gridpoints
 
     """
@@ -197,10 +222,10 @@ class Calibration:
 
     def get_feature_point(self, frame, gps):
         q = []
-        i = 0
-        while i < frame.shape[0]:
+        i = int(frame.shape[0] / 2)
+        while i < int(7 * frame.shape[0] / 8):
             j = 0
-            while j < frame.shape[1]:
+            while j < int(frame.shape[1] / 2):
                 if self.flag[i][j] == 1 or gps[i][j] == 0:
                     j = j + 1
                     continue
@@ -209,6 +234,89 @@ class Calibration:
                 j = j + 1
             i = i + 1
         return q
+
+    """
+    decode:
+    根据颜色解码
+    确定特征点在矩阵的位置
+    """
+
+    def decode(self, frame, feature_point):
+        points = []
+        position = []
+
+        color_map = np.zeros((frame.shape[0], frame.shape[1]))
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
+        l, a, b = cv2.split(frame)
+        for i in range(0, frame.shape[0]):
+            for j in range(0, frame.shape[1]):
+                if l[i][j] < 50:
+                    color_map[i][j] = 3
+                    frame[i][j] = np.array([0, 0, 0])
+                elif l[i][j] > 140:
+                    frame[i][j] = np.array([255, 255, 255])
+                    color_map[i][j] = 255
+                else:
+                    if b[i][j] < 125:
+                        color_map[i][j] = 0
+                        frame[i][j] = np.array([255, 0, 0])
+                    else:
+                        if a[i][j] > 125:
+                            color_map[i][j] = 1
+                            frame[i][j] = np.array([0, 0, 255])
+                        else:
+                            color_map[i][j] = 2
+                            frame[i][j] = np.array([0, 255, 0])
+
+        # cv2.imshow('lab', frame)
+        # cv2.waitKey(0)  # 按0退出
+        data = GF(1, 1, 1, 1, 1, 1)
+        # map = np.zeros((4, 4, 4, 4, 4, 4, 2))
+
+        map = np.zeros((4096, 2))
+
+        i = 0
+        while i < 64:
+            j = 1
+            while j < 62:
+                index = data[i][j - 1] * 4 ** 5 + data[i][j] * 4 ** 4 + data[i][j + 1] * 4 ** 3 + data[i + 1][
+                    j - 1] * 4 ** 2 + data[i + 1][j] * 4 + data[i + 1][j + 1]
+                map[index] = [i, j]
+                j = j + 1
+            i = i + 1
+
+        for point in feature_point:
+            if color_map[int(point[0])][int(point[1]) + 9] != 255 and color_map[int(point[0])][
+                int(point[1]) - 9] != 255:
+                pass
+            else:
+                i = int(point[0])
+                j = int(point[1])
+                index = int(color_map[i - 9][j - 18]) * 4 ** 5 + int(color_map[i - 9][j]) * 4 ** 4 + int(
+                    color_map[i - 9][j + 18]) * 4 ** 3 + int(color_map[i + 9][j - 18]) * 4 ** 2 + int(
+                    color_map[i + 9][j]) * 4 + int(color_map[i + 9][j + 18])
+                # point_size = 1
+                # point_color = (255, 255, 255)
+                # thickness = 0  # 可以为 0 、4、8
+                # print(color_map[i - 9][j - 18], color_map[i - 9][j], color_map[i - 9][j + 18], color_map[i + 9][j - 18],
+                #       color_map[i + 9][j], color_map[i + 9][j + 18])
+                # print(index)
+                #
+                # cv2.circle(frame, (int(j - 18), int(i - 9)), point_size, point_color, thickness)
+                # cv2.circle(frame, (int(j), int(i - 9)), point_size, point_color, thickness)
+                # cv2.circle(frame, (int(j + 18), int(i - 9)), point_size, point_color, thickness)
+                # cv2.circle(frame, (int(j - 18), int(i + 9)), point_size, point_color, thickness)
+                # cv2.circle(frame, (int(j), int(i + 9)), point_size, point_color, thickness)
+                # cv2.circle(frame, (int(j + 18), int(i + 9)), point_size, point_color, thickness)
+                try:
+                    if map[index][0] < 10 and map[index][1] < 8:
+                        points.append(list(map[int(index)]))
+                        position.append([i, j])
+                except:
+                    pass
+        cv2.imshow('lab', frame)
+        cv2.waitKey(0)  # 按0退出
+        return points, position
 
     def process(self, stream):
         while stream.isOpened():
@@ -224,8 +332,9 @@ class Calibration:
                     stream.release()
                     cv2.destroyAllWindows()
 
-                    cv2.imwrite('testt.png',img_rd)
+                    cv2.imwrite('testt.png', img_rd)
 
+                    # img_rd = cv2.resize(img_rd, (img_rd.shape[0]//2, img_rd.shape[1]//2))
                     # 1024*1280 -1候选点，-3非候选点
                     candidate = self.get_candidate_points(frame=img_rd)
                     # 1024*1280 1角点，0非角点
@@ -234,20 +343,52 @@ class Calibration:
                     featurepoints_position = self.get_feature_point(frame=img_rd, gps=gridpoints)
                     # print(featurepoints_position)
 
+                    # featurepoints_position = np.array(featurepoints_position)
+                    # featurepoints_position = featurepoints_position[np.lexsort(featurepoints_position[:, :-1].T)]
+                    feature_points, position = self.decode(frame=img_rd, feature_point=featurepoints_position)
+
+                    # feature_points = np.array(feature_points)
+                    # feature_points = feature_points[np.lexsort(feature_points[:, :-1].T)]
+                    # print(feature_points)
+
+                    # print(featurepoints_position)
+
+                    # distance = []
+                    # for i in range(0, len(featurepoints_position) - 1):
+                    #     distance.append(
+                    #         math.sqrt((featurepoints_position[i + 1][0] - featurepoints_position[i][0]) ** 2 +
+                    #                   (featurepoints_position[i + 1][1] - featurepoints_position[i][1]) ** 2))
+                    # print(distance)
+                    # distance = sorted(distance)
+
+                    index = len(feature_points) // 2
+                    pixel_distance = math.sqrt((position[index + 1][0] - position[index][0]) ** 2 +
+                                               (position[index + 1][1] - position[index][1]) ** 2)
+                    world_distance = math.sqrt((feature_points[index + 1][0] * 2 - feature_points[index][0] * 2) ** 2 +
+                                               (feature_points[index + 1][1] * 2 - feature_points[index][1] * 2) ** 2)
+
+                    scale = world_distance / pixel_distance
+
+                    # print(distance)
+                    # for i in range(index - 1, index + 2):
+                    #     print(distance[i])
                     # 绘制特征点
-                    point_size = 1
-                    point_color = (0, 0, 255)
-                    thickness = 0  # 可以为 0 、4、8
+                    # point_size = 1
+                    # point_color = (0, 0, 255)
+                    # thickness = 0  # 可以为 0 、4、8
 
-                    for point in featurepoints_position:
-                        cv2.circle(img_rd, (int(point[1]), int(point[0])), point_size, point_color, thickness)
-                    cv2.namedWindow("image")
-                    cv2.imshow('image', img_rd)
-                    cv2.waitKey(0)  # 按0退出
-
+                    # for i in range(0, len(featurepoints_position)):
+                    #     cv2.circle(img_rd, (int(featurepoints_position[i][1]), int(featurepoints_position[i][0])),
+                    #                point_size, point_color, thickness)
+                    # for point in featurepoints_position:
+                    #     cv2.circle(img_rd, (int(point[1]), int(point[0])), point_size, point_color, thickness)
+                    # cv2.namedWindow("image")
+                    # cv2.imshow('image', img_rd)
+                    # cv2.waitKey(0)  # 按0退出
+                    return scale
                 self.draw_note(img_rd)
                 self.update_fps()
-            cv2.imshow("camera", img_rd)
+            cv2.imshow("image", img_rd)
 
     def run(self):
         cap = cv2.VideoCapture(0)
