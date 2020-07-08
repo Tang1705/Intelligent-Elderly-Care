@@ -195,7 +195,8 @@ class Face_Register:
                                   color_rectangle, 2)
 
                     # 7. 根据人脸大小生成空的图像
-                    img_blank = np.zeros((int(height * 2), width * 2, 3), np.uint8)
+                    # img_blank = np.zeros((int(height * 2), width * 2, 3), np.uint8)
+                    img_blank = np.zeros((height, width, 3), np.uint8)
 
                     if save_flag:
                         # 8. 按下 's' 保存摄像头中的人脸到本地
@@ -205,9 +206,9 @@ class Face_Register:
                                 self.ss_cnt += 1
 
                                 if self.index <= 7:
-                                    for ii in range(height * 2):
-                                        for jj in range(width * 2):
-                                            img_blank[ii][jj] = img_rd[startY - hh + ii][startX - ww + jj]
+                                    for ii in range(height):
+                                        for jj in range(width):
+                                            img_blank[ii][jj] = img_rd[startY + ii][startX  + jj]
                                     cv2.imwrite(current_face_dir + "/img_face_" + str(self.ss_cnt) + ".jpg", img_blank)
                                     print("写入本地 / Save into：",
                                           str(current_face_dir) + "/img_face_" + str(self.ss_cnt) + ".jpg")

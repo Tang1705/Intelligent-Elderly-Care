@@ -4,9 +4,13 @@ import time
 import cv2
 import numpy as np
 
+from auto_whiteBalance import aug
+
 from GFmatrix import GF
 
 np.seterr(invalid='ignore')
+
+# config = {'morning': [80, 220, 125, 125]}
 
 
 class Calibration:
@@ -26,8 +30,9 @@ class Calibration:
     def update_fps(self):
         now = time.time()
         self.frame_time = now - self.frame_start_time
-        self.fps = 1.0 / self.frame_time
-        self.frame_start_time = now
+        if self.frame_time != 0:
+            self.fps = 1.0 / self.frame_time
+            self.frame_start_time = now
 
     # 生成的 cv2 window 上面添加说明文字
     def draw_note(self, img_rd):
@@ -244,20 +249,20 @@ class Calibration:
     def decode(self, frame, feature_point):
         points = []
         position = []
-
+        frame=aug(frame)
         color_map = np.zeros((frame.shape[0], frame.shape[1]))
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
         l, a, b = cv2.split(frame)
         for i in range(0, frame.shape[0]):
             for j in range(0, frame.shape[1]):
-                if l[i][j] < 50:
+                if l[i][j] < 100:
                     color_map[i][j] = 3
                     frame[i][j] = np.array([0, 0, 0])
-                elif l[i][j] > 140:
+                elif l[i][j] > 220:
                     frame[i][j] = np.array([255, 255, 255])
                     color_map[i][j] = 255
                 else:
-                    if b[i][j] < 125:
+                    if b[i][j] < 120:
                         color_map[i][j] = 0
                         frame[i][j] = np.array([255, 0, 0])
                     else:
@@ -368,23 +373,25 @@ class Calibration:
                                                (feature_points[index + 1][1] * 2 - feature_points[index][1] * 2) ** 2)
 
                     scale = world_distance / pixel_distance
-
+                    print(pixel_distance)
+                    print(feature_points[index + 1][0] - feature_points[index][0],
+                          feature_points[index + 1][1] - feature_points[index][1])
                     # print(distance)
                     # for i in range(index - 1, index + 2):
                     #     print(distance[i])
                     # 绘制特征点
-                    # point_size = 1
-                    # point_color = (0, 0, 255)
-                    # thickness = 0  # 可以为 0 、4、8
+                    point_size = 1
+                    point_color = (0, 0, 255)
+                    thickness = 0  # 可以为 0 、4、8
 
                     # for i in range(0, len(featurepoints_position)):
                     #     cv2.circle(img_rd, (int(featurepoints_position[i][1]), int(featurepoints_position[i][0])),
                     #                point_size, point_color, thickness)
-                    # for point in featurepoints_position:
-                    #     cv2.circle(img_rd, (int(point[1]), int(point[0])), point_size, point_color, thickness)
-                    # cv2.namedWindow("image")
-                    # cv2.imshow('image', img_rd)
-                    # cv2.waitKey(0)  # 按0退出
+                    for point in featurepoints_position:
+                        cv2.circle(img_rd, (int(point[1]), int(point[0])), point_size, point_color, thickness)
+                    cv2.namedWindow("image")
+                    cv2.imshow('image', img_rd)
+                    cv2.waitKey(0)  # 按0退出
                     return scale
                 self.draw_note(img_rd)
                 self.update_fps()

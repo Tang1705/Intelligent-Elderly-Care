@@ -6,7 +6,10 @@ import cv2
 import pandas as pd
 import os
 import time
+import facenet
 from PIL import Image, ImageDraw, ImageFont
+
+from model import create_model
 
 start_time = 0
 # 1. Dlib 正向人脸检测器
@@ -22,6 +25,9 @@ predictor = dlib.shape_predictor('data/data_dlib/shape_predictor_68_face_landmar
 # 3. Dlib Resnet 人脸识别模型，提取 128D 的特征矢量
 face_reco_model = dlib.face_recognition_model_v1("data/data_dlib/dlib_face_recognition_resnet_model_v1.dat")
 
+nn4_small2_pretrained = create_model()
+nn4_small2_pretrained.load_weights('weights/nn4.small2.v1.h5')
+
 
 class Face_Recognizer:
     def __init__(self):
@@ -31,6 +37,9 @@ class Face_Recognizer:
         # 存储录入人脸名字
         self.name_known_cnt = 0
         self.name_known_list = []
+
+        self.metadata = []
+        self.embedded = []
 
         # 存储当前摄像头中捕获到的所有人脸的坐标名字
         self.pos_camera_list = []
@@ -46,38 +55,39 @@ class Face_Recognizer:
 
     # 从 "features_all.csv" 读取录入人脸特征
     def get_face_database(self):
-        if os.path.exists("data/features_all.csv"):
-            path_features_known_csv = "data/features_all.csv"
-            csv_rd = pd.read_csv(path_features_known_csv, header=None)
-            # 2. 读取已知人脸数据
-            for i in range(csv_rd.shape[0]):
-                features_someone_arr = []
-                for j in range(0, 128):
-                    if csv_rd.iloc[i][j] == '':
-                        features_someone_arr.append('0')
-                    else:
-                        features_someone_arr.append(csv_rd.iloc[i][j])
-                self.features_known_list.append(features_someone_arr)
-                self.name_known_list.append("Person_" + str(i + 1))
-            self.name_known_cnt = len(self.name_known_list)
-            print("Faces in Database：", len(self.features_known_list))
+        if os.path.exists("data/data_faces_from_camera/"):
+            self.metadata = facenet.load_metadata("data/data_faces_from_camera/")
+            self.name_known_cnt = self.metadata.shape[0]
+            self.embedded = np.zeros((self.metadata.shape[0], 128))
+
+            for i, m in enumerate(self.metadata):
+                for j, n in enumerate(m):
+                    img = facenet.load_image(n.image_path())
+                    # img = align_image(img)
+                    img = cv2.resize(img, (96, 96))
+                    # scale RGB values to interval [0,1]
+                    img = (img / 255.).astype(np.float32)
+                    # obtain embedding vector for image
+                    self.embedded[i] = nn4_small2_pretrained.predict(np.expand_dims(img, axis=0))[0]
+                # self.embedded[i] = self.embedded[i] / len(m)
+                self.name_known_list.append('')
             return 1
         else:
             print('##### Warning #####', '\n')
             print("'features_all.csv' not found!")
             print(
-                "Please run 'get_faces_from_camera.py' and 'features_extraction_to_csv.py' before 'face_reco_from_camera.py'",
+                "Please run 'get_faces_from_camera.py' before 'face_reco_from_camera.py'",
                 '\n')
             print('##### End Warning #####')
             return 0
 
     # 计算两个128D向量间的欧式距离
-    @staticmethod
-    def return_euclidean_distance(feature_1, feature_2):
-        feature_1 = np.array(feature_1)
-        feature_2 = np.array(feature_2)
-        dist = np.sqrt(np.sum((feature_1 - feature_2) ** 2))
-        return dist
+    # @staticmethod
+    # def return_euclidean_distance(feature_1, feature_2):
+    #     feature_1 = np.array(feature_1)
+    #     feature_2 = np.array(feature_2)
+    #     dist = np.sqrt(np.sum((feature_1 - feature_2) ** 2))
+    #     return dist
 
     # 更新 FPS
     def update_fps(self):
@@ -111,8 +121,8 @@ class Face_Recognizer:
         # Default known name: person_1, person_2, person_3
         self.name_known_list[0] = '唐麒'.encode('utf-8').decode()
         self.name_known_list[1] = '段海燕'.encode('utf-8').decode()
-        # self.name_known_list[2] ='xx'.encode('utf-8').decode()
-        # self.name_known_list[3] ='xx'.encode('utf-8').decode()
+        # self.name_known_list[2] = '唐保生'.encode('utf-8').decode()
+        # self.name_known_list[3] = '唐麒'.encode('utf-8').decode()
         # self.name_known_list[4] ='xx'.encode('utf-8').decode()
 
     # 处理获取的视频流，进行人脸识别
@@ -142,18 +152,18 @@ class Face_Recognizer:
                     # 2. 检测到人脸
                     if faces.shape[2] != 0:
                         # 3. 获取当前捕获到的图像的所有人脸的特征，存储到 self.features_camera_list
-                        for i in range(0, faces.shape[2]):
-                            confidence = faces[0, 0, i, 2]
-
-                            # filter out weak detections by ensuring the `confidence` is
-                            # greater than the minimum confidence
-                            if confidence < 0.5:
-                                continue
-                            box = faces[0, 0, i, 3:7] * np.array([w, h, w, h])
-                            (startX, startY, endX, endY) = box.astype("int")
-                            rect = dlib.rectangle(startX, startY, endX, endY)
-                            shape = predictor(img_rd, rect)
-                            self.features_camera_list.append(face_reco_model.compute_face_descriptor(img_rd, shape))
+                        # for i in range(0, faces.shape[2]):
+                        #     confidence = faces[0, 0, i, 2]
+                        #
+                        #     # filter out weak detections by ensuring the `confidence` is
+                        #     # greater than the minimum confidence
+                        #     if confidence < 0.5:
+                        #         continue
+                        #     box = faces[0, 0, i, 3:7] * np.array([w, h, w, h])
+                        #     (startX, startY, endX, endY) = box.astype("int")
+                        #     rect = dlib.rectangle(startX, startY, endX, endY)
+                        #     shape = predictor(img_rd, rect)
+                        #     self.features_camera_list.append(face_reco_model.compute_face_descriptor(img_rd, shape))
 
                         # 4. 遍历捕获到的图像中所有的人脸
                         for k in range(0, faces.shape[2]):
@@ -164,13 +174,13 @@ class Face_Recognizer:
                             # greater than the minimum confidence
                             if confidence < 0.5:
                                 continue
-                            self.faces_cnt+=1
+                            self.faces_cnt += 1
                             # print("##### camera person", k + 1, "#####")
                             # 让人名跟随在矩形框的上方
                             # 确定人名的位置坐标
                             # 先默认所有人不认识，是 unknown
                             # Set the default names of faces with "unknown"
-                            self.name_camera_list.append("unknown")
+                            self.name_camera_list.append("陌生人")
 
                             # 每个捕获人脸的名字坐标
                             box = faces[0, 0, k, 3:7] * np.array([w, h, w, h])
@@ -178,25 +188,39 @@ class Face_Recognizer:
                             self.pos_camera_list.append(tuple(
                                 [int(startX + 5), int(startY - 30)]))
 
+                            height = (endY - startY)
+                            width = (endX - startX)
+
+                            img_blank = np.zeros((height, width, 3), np.uint8)
+                            for ii in range(height):
+                                for jj in range(width):
+                                    img_blank[ii][jj] = img_rd[startY + ii][startX + jj]
+
+                            img = cv2.resize(img_blank, (96, 96))
+                            img = (img / 255.).astype(np.float32)
+                            img = nn4_small2_pretrained.predict(np.expand_dims(img, axis=0))[0]
+
                             # 5. 对于某张人脸，遍历所有存储的人脸特征
                             e_distance_list = []
-                            for i in range(len(self.features_known_list)):
-                                # 如果 person_X 数据不为空
-                                if str(self.features_known_list[i][0]) != '0.0':
-                                    # print("with person", str(i + 1), "the e distance: ", end='')
-                                    e_distance_tmp = self.return_euclidean_distance(self.features_camera_list[k],
-                                                                                    self.features_known_list[i])
-                                    # print(e_distance_tmp)
-                                    e_distance_list.append(e_distance_tmp)
-                                else:
-                                    # 空数据 person_X
-                                    e_distance_list.append(999999999)
-                            # 6. 寻找出最小的欧式距离匹配
+                            for i in range(0, len(self.embedded)):
+                                e_distance_list.append(facenet.distance(self.embedded[i], img))
+                            # for i in range(len(self.features_known_list)):
+                            #     # 如果 person_X 数据不为空
+                            #     if str(self.features_known_list[i][0]) != '0.0':
+                            #         # print("with person", str(i + 1), "the e distance: ", end='')
+                            #         e_distance_tmp = self.return_euclidean_distance(self.features_camera_list[k],
+                            #                                                         self.features_known_list[i])
+                            #         # print(e_distance_tmp)
+                            #         e_distance_list.append(e_distance_tmp)
+                            #     else:
+                            #         # 空数据 person_X
+                            #         e_distance_list.append(999999999)
+                            # # 6. 寻找出最小的欧式距离匹配
                             similar_person_num = e_distance_list.index(min(e_distance_list))
                             # print("Minimum e distance with person", self.name_known_list[similar_person_num])
-
-                            if min(e_distance_list) < 1:
-                                self.name_camera_list[k] = self.name_known_list[similar_person_num]
+                            # print(min(e_distance_list))
+                            if min(e_distance_list) < 0.58:
+                                self.name_camera_list[k] = self.name_known_list[similar_person_num % 8]
                                 # print("May be person " + str(self.name_known_list[similar_person_num]))
                             else:
                                 pass
@@ -205,10 +229,16 @@ class Face_Recognizer:
                             # 矩形框
                             for kk, d in enumerate(faces):
                                 # 绘制矩形框
-                                cv2.rectangle(img_rd, tuple([startX, startY]), tuple([endX, endY]),
-                                              (0, 255, 0), 2)
-                                cv2.rectangle(img_rd, tuple([startX, startY - 35]), tuple([endX, startY]),
-                                              (0, 255, 0), cv2.FILLED)
+                                if self.name_camera_list[k] != '陌生人':
+                                    cv2.rectangle(img_rd, tuple([startX, startY]), tuple([endX, endY]),
+                                                  (0, 255, 0), 2)
+                                    cv2.rectangle(img_rd, tuple([startX, startY - 35]), tuple([endX, startY]),
+                                                  (0, 255, 0), cv2.FILLED)
+                                else:
+                                    cv2.rectangle(img_rd, tuple([startX, startY]), tuple([endX, endY]),
+                                                  (0, 0, 255), 2)
+                                    cv2.rectangle(img_rd, tuple([startX, startY - 35]), tuple([endX, startY]),
+                                                  (0, 0, 255), cv2.FILLED)
                             # print('\n')
                             # self.faces_cnt = faces.shape[2]
                             # if len(self.name_camera_list) > 0:
@@ -226,7 +256,7 @@ class Face_Recognizer:
                     cv2.imshow("camera", img_with_name)
 
                 # 9. 更新 FPS / Update stream FPS
-                # self.update_fps()
+                self.update_fps()
 
     # OpenCV 调用摄像头并进行 process
     def run(self):
