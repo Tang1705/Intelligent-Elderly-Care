@@ -2,12 +2,15 @@
 # # It requires OpenCV installed for Python
 import math
 import sys
+import threading
 import time
 import cv2
 import os
 from sys import platform
 import argparse
 import numpy as np
+
+from Post import post
 
 from PIL import ImageDraw, ImageFont
 from PIL import Image
@@ -45,13 +48,14 @@ try:
     cap = cv2.VideoCapture("test4.mp4")
 
     _, frame = cap.read()
-    cv2.imwrite('fall_detection.jpg', frame)
+    # frame = cv2.resize(frame, (640, 480))
+    # cv2.imwrite('fall_detection.jpg', frame)
 
     # Flags
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image_path",
-                        default="fall_detection.jpg",
-                        help="Process an image. Read all standard formats (jpg, png, bmp, etc.).")
+    # parser.add_argument("--image_path",
+    #                     default="fall_detection.jpg",
+    #                     help="Process an image. Read all standard formats (jpg, png, bmp, etc.).")
     args = parser.parse_known_args()
 
     # Custom Params (refer to include/openpose/flags.hpp for more parameters)
@@ -106,15 +110,16 @@ try:
         if kk == ord('q'):
             break
         else:
-            cv2.imwrite('fall_detection.jpg', frame)
+            # cv2.imwrite('fall_detection.jpg', frame)
             height = []
             width = []
             center = []
 
             # Process Image
             datum = op.Datum()
-            imageToProcess = cv2.imread(args[0].image_path)
-            datum.cvInputData = imageToProcess
+            # imageToProcess = cv2.imread(args[0].image_path)
+            datum.cvInputData = frame
+            # datum.cvInputData = imageToProcess
             opWrapper.emplaceAndPop([datum])
             img_rd = datum.cvOutputData
 
@@ -148,10 +153,11 @@ try:
                     # print(v, abs(a))
                     if (abs(a) > 0.2) and \
                             (np.subtract(np.array(width), np.array(height)) > np.subtract(np.array(width0),
-                                                                                          np.array(height0))):
+                             np.array(height0)) and np.subtract(np.array(width), np.array(height)) > 0):
                         couter += 1
+                        # print(np.subtract(np.array(width), np.array(height)))
                         # print("alarm by v and a")
-                    elif (width > height and (x[8] != 0 or x[9] != 0 or x[12] != 0) and v < 0.41):
+                    elif (width > height and (x[8] != 0 or x[9] != 0 or x[12] != 0) and v < 1):
                         couter += 1
                         # print("alarm by w and h")
                     else:
@@ -168,7 +174,10 @@ try:
                         draw.text((10, 10), text="Fall Detected", font=font,
                                   fill=(255, 0, 0))
                         img_rd = cv2.cvtColor(np.array(img_rd), cv2.COLOR_RGB2BGR)
-
+                        cv2.imwrite('fall_detection.jpg', frame)
+                        # t = threading.Thread(target=post(event=3, imagePath='fall_detection.jpg'))
+                        # t.start()
+                        # status = post(event=3, imagePath='fall_detection.jpg')
                         # print("fall")
 
                     # update variables
@@ -179,7 +188,7 @@ try:
                 # if width > height:
                 #     print("alarm")
                 firstFrame = None
-            except:
+            except Exception as e:
 
                 text = ""
 
@@ -200,9 +209,11 @@ try:
                 # cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
                 #             (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 255, 255), 1)
                 # cv2.imshow("Frame Delta", frameDelta)
-                cv2.imshow("OpenPose 1.6.0 - Tutorial Python API", frame)
+                img_rd = cv2.resize(frame, (640, 480))
+                cv2.imshow("OpenPose 1.6.0 - Tutorial Python API", img_rd)
                 continue
-
+            img_rd = cv2.resize(img_rd, (640, 480))
+            # cv2.resizeWindow("OpenPose 1.6.0 - Tutorial Python API", 640, 480)
             cv2.imshow("OpenPose 1.6.0 - Tutorial Python API", img_rd)
     cap.release()
     cv2.destroyAllWindows()

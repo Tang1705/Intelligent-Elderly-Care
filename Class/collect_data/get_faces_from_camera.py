@@ -17,6 +17,7 @@ action_map = {'look_ahead': '请看前方', 'blink': '请眨眼', 'open_mouth': 
               'smile': '请笑一笑', 'rise_head': '请抬头',
               'bow_head': '请低头', 'look_left': '请看左边',
               'look_right': '请看右边', 'over': '录入完成'}
+people_type_dict = {'0': 'elder', '1': 'worker', '2': 'volunteer'}
 
 # Dlib 正向人脸检测器
 # detector = dlib.get_frontal_face_detector()
@@ -27,7 +28,7 @@ detector = cv2.dnn.readNetFromCaffe("data/data_opencv/deploy.prototxt.txt",
 
 
 class Face_Register:
-    def __init__(self):
+    def __init__(self, people_type, id):
         self.init = False
         self.path_photos_from_camera = "data/data_faces_from_camera/"
         self.font = cv2.FONT_ITALIC
@@ -47,18 +48,24 @@ class Face_Register:
         self.frame_start_time = 0
         self.fps = 0
 
-    def speak(self, text, rate=2):
+        self.people_type = people_type_dict[str(people_type)]
+        self.id = id
 
+    def speak(self):
+        text = action_map[action_list[self.index]]
         speak = win32com.client.Dispatch('Sapi.SpVoice')
         # speak.Voice =  speak.GetVoices('Microsoft Zira')
         speak.Volume = 100
-        speak.Rate = rate
+        speak.Rate = 2
         speak.Speak(text)
 
     # 新建保存人脸图像文件
     def pre_work_mkdir(self):
         if os.path.isdir(self.path_photos_from_camera):
-            pass
+            if os.path.isdir(self.path_photos_from_camera + '/' + self.people_type):
+                pass
+            else:
+                os.mkdir(self.path_photos_from_camera + '/' + self.people_type)
         else:
             os.mkdir(self.path_photos_from_camera)
 
@@ -71,7 +78,8 @@ class Face_Register:
         if os.path.isfile("data/features_all.csv"):
             os.remove("data/features_all.csv")
 
-    # 如果有之前录入的人脸, 在之前 person_x 的序号按照 person_x+1 开始录入
+    # 如果有之前录入的人脸, 在之前 person_x 的序号按照 person_x+1 开始录入 (v1)
+    # 根据传入的人员类型和 id 录入 (v2)
     def check_existing_faces_cnt(self):
         if os.listdir("data/data_faces_from_camera/"):
             # 获取已录入的最后一个人脸序号
@@ -81,8 +89,8 @@ class Face_Register:
                 person_num_list.append(int(person.split('_')[-1]))
             self.existing_faces_cnt = max(person_num_list)
 
-        # 如果第一次存储或者没有之前录入的人脸, 按照 person_1 开始录入
-        # Start from person_1
+        # 如果第一次存储或者没有之前录入的人脸, 按照 1 开始录入
+        # Start from 1
         else:
             self.existing_faces_cnt = 0
 
@@ -127,7 +135,7 @@ class Face_Register:
         # self.pre_work_del_old_face_folders()
 
         # 3. 检查 "/data/data_faces_from_camera" 中已有人脸文件
-        self.check_existing_faces_cnt()
+        # self.check_existing_faces_cnt()
 
         while stream.isOpened():
             self.faces_cnt = 0
@@ -143,8 +151,9 @@ class Face_Register:
 
             # 4. 按下 'n' 新建存储人脸的文件夹
             if kk == ord('n'):
-                self.existing_faces_cnt += 1
-                current_face_dir = self.path_photos_from_camera + "person_" + str(self.existing_faces_cnt)
+                # self.existing_faces_cnt += 1
+                current_face_dir = self.path_photos_from_camera + '/' + self.people_type + '/' + self.id
+                # current_face_dir = self.path_photos_from_camera + "person_" + str(self.existing_faces_cnt)
                 os.makedirs(current_face_dir)
                 print('\n')
                 print("新建的人脸文件夹 / Create folders: ", current_face_dir)
@@ -174,12 +183,13 @@ class Face_Register:
 
                     height = (endY - startY)
                     width = (endX - startX)
-                    hh = int(height / 2)
-                    ww = int(width / 2)
+                    # hh = int(height / 2)
+                    # ww = int(width / 2)
 
                     # 6. 判断人脸矩形框是否超出 480x640
-                    if (endX + ww) > 640 or (endY + hh > 480) or (startX - ww < 0) or (
-                            startY - hh < 0):
+                    if endX > 640 or endY > 480or startX < 0 or startY < 0:
+                    # if (endX + ww) > 640 or (endY + hh > 480) or (startX - ww < 0) or (
+                    #         startY - hh < 0):
                         cv2.putText(img_rd, "OUT OF RANGE", (20, 300), self.font, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
                         color_rectangle = (0, 0, 255)
                         save_flag = 0
@@ -190,8 +200,8 @@ class Face_Register:
                         save_flag = 1
 
                     cv2.rectangle(img_rd,
-                                  tuple([startX - ww, startY - hh]),
-                                  tuple([endX + ww, endY + hh]),
+                                  tuple([startX , startY]),
+                                  tuple([endX , endY ]),
                                   color_rectangle, 2)
 
                     # 7. 根据人脸大小生成空的图像
@@ -208,12 +218,13 @@ class Face_Register:
                                 if self.index <= 7:
                                     for ii in range(height):
                                         for jj in range(width):
-                                            img_blank[ii][jj] = img_rd[startY + ii][startX  + jj]
+                                            img_blank[ii][jj] = img_rd[startY + ii][startX + jj]
                                     cv2.imwrite(current_face_dir + "/img_face_" + str(self.ss_cnt) + ".jpg", img_blank)
                                     print("写入本地 / Save into：",
                                           str(current_face_dir) + "/img_face_" + str(self.ss_cnt) + ".jpg")
-                                self.index += 1
-                                self.speak(action_map[action_list[self.index]], 2)
+                                if self.index < len(action_list) - 1:
+                                    self.index += 1
+                                self.speak()
                             else:
                                 print("请先按 'N' 来建文件夹, 按 'S' / Please press 'N' and press 'S'")
                 # self.faces_cnt = len(faces)
@@ -231,7 +242,7 @@ class Face_Register:
             cv2.imshow("camera", img_rd)
 
             if not self.init:
-                self.speak(self.speak(action_map[action_list[self.index]], 2))
+                self.speak()
                 self.init = True
 
     def run(self):
@@ -243,7 +254,7 @@ class Face_Register:
 
 
 def main():
-    Face_Register_con = Face_Register()
+    Face_Register_con = Face_Register(people_type=1, id='3')
     Face_Register_con.run()
 
 

@@ -3,7 +3,7 @@ import cv2
 
 
 def compute(img, min_percentile, max_percentile):
-    """计算分位点，目的是去掉图1的直方图两头的异常情况"""
+    """计算分位点，目的是去掉图的直方图两头的异常情况"""
     max_percentile_pixel = np.percentile(img, max_percentile)
     min_percentile_pixel = np.percentile(img, min_percentile)
 
@@ -15,8 +15,6 @@ def aug(src):
     if get_lightness(src) > 130:
         print("图片亮度足够，不做增强")
     # 先计算分位点，去掉像素值中少数异常值，这个分位点可以自己配置。
-    # 比如1中直方图的红色在0到255上都有值，但是实际上像素值主要在0到20内。
-
 
     max_percentile_pixel, min_percentile_pixel = compute(src, 1, 99)
 

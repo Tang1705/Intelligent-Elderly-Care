@@ -1,80 +1,50 @@
-# -*- coding: utf-8 -*-
-import json
-import urllib.request
-import urllib.error
-import time
+from statistics import mode
 
 import cv2
+from keras.models import load_model
+import numpy as np
 
-http_url = 'https://api-cn.faceplusplus.com/facepp/v3/detect'
-key = "cW2DWAvBTk7lsoo8iCgR4TzWrYpVP_qP"
-secret = "NYXhr6g0rTDtKNloY6xyGK1fUpyL_t5W"
-filepath = r"C:\Users\tq\Desktop\1.jpg"
-cap = cv2.VideoCapture(0)
-cap.set(3, 480)
-while cap.isOpened():
-    flag, img_rd = cap.read()
-    kk = cv2.waitKey(1)
-    # 按下 q 键退出
-    if kk == ord('q'):
-        break
-    else:
-        cv2.imwrite(r"C:\Users\tq\Desktop\1.jpg", img_rd)
-        boundary = '----------%s' % hex(int(time.time() * 1000))
-        data = []
-        data.append('--%s' % boundary)
-        data.append('Content-Disposition: form-data; name="%s"\r\n' % 'api_key')
-        data.append(key)
-        data.append('--%s' % boundary)
-        data.append('Content-Disposition: form-data; name="%s"\r\n' % 'api_secret')
-        data.append(secret)
-        data.append('--%s' % boundary)
-        fr = open(filepath, 'rb')
-        data.append('Content-Disposition: form-data; name="%s"; filename=" "' % 'image_file')
-        data.append('Content-Type: %s\r\n' % 'application/octet-stream')
-        data.append(fr.read())
-        fr.close()
-        data.append('--%s' % boundary)
-        data.append('Content-Disposition: form-data; name="%s"\r\n' % 'return_landmark')
-        data.append('1')
-        data.append('--%s' % boundary)
-        data.append('Content-Disposition: form-data; name="%s"\r\n' % 'return_attributes')
-        data.append(
-            "gender,age,smiling,headpose,facequality,blur,eyestatus,emotion,ethnicity,beauty,mouthstatus,eyegaze,skinstatus")
-        data.append('--%s--\r\n' % boundary)
+from utils.datasets import get_labels
+from utils.inference import detect_faces
+from utils.inference import draw_text
+from utils.inference import draw_bounding_box
+from utils.inference import load_detection_model
+from utils.preprocessor import preprocess_input
 
-        for i, d in enumerate(data):
-            if isinstance(d, str):
-                data[i] = d.encode('utf-8')
+# parameters for loading data and images
+detection_model_path = './data/data_opencv/res10_300x300_ssd_iter_140000.caffemodel'
+emotion_model_path = 'data/trained_models/emotion_models/fer2013_mini_XCEPTION.102-0.66.hdf5'
+emotion_labels = get_labels('fer2013')
 
-        http_body = b'\r\n'.join(data)
+# hyper-parameters for bounding boxes shape
+frame_window = 10
+emotion_offsets = (20, 40)
 
-        # build http request
-        req = urllib.request.Request(url=http_url, data=http_body)
+# loading models
+face_detection = load_detection_model(detection_model_path)
+emotion_classifier = load_model(emotion_model_path, compile=False)
 
-        # header
-        req.add_header('Content-Type', 'multipart/form-data; boundary=%s' % boundary)
+# getting input model shapes for inference
+emotion_target_size = emotion_classifier.input_shape[1:3]
 
-        try:
-            # post data to server
-            resp = urllib.request.urlopen(req, timeout=5)
-            # get response
-            qrcont = resp.read()
-            # if you want to load as json, you should decode first,
-            # for example: json.loads(qrount.decode('utf-8'))
-            try:
-                print(json.loads(qrcont.decode('utf-8'))['faces'][0]['attributes']['smile'])
-                print(json.loads(qrcont.decode('utf-8'))['faces'][0]['attributes']['emotion'])
-            except:
-                pass
-            faces = json.loads(qrcont.decode('utf-8'))['faces']
-            for face in faces:
-                rec = face['face_rectangle']
-                cv2.rectangle(img_rd, tuple([rec['left'], rec['top']]),
-                              tuple([rec['left'] + rec['width'], rec['top'] + rec['height']]),
-                              (0, 255, 0), 2)
-                cv2.imshow("camera", img_rd)
-        except urllib.error.HTTPError as e:
-            pass
-cap.release()
-cv2.destroyAllWindows()
+# starting lists for calculating modes
+emotion_window = []
+
+
+def smile_detect(bgr_image):
+    gray_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2GRAY)
+    x1 = y1 = 0
+    (x2, y2, channel) = bgr_image.shape
+
+    gray_face = gray_image[y1:y2, x1:x2]
+
+    gray_face = cv2.resize(gray_face, (emotion_target_size))
+
+    gray_face = preprocess_input(gray_face, True)
+    gray_face = np.expand_dims(gray_face, 0)
+    gray_face = np.expand_dims(gray_face, -1)
+    emotion_prediction = emotion_classifier.predict(gray_face)
+    emotion_label_arg = np.argmax(emotion_prediction)
+    emotion_text = emotion_labels[emotion_label_arg]
+
+    return emotion_text

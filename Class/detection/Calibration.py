@@ -10,6 +10,7 @@ from GFmatrix import GF
 
 np.seterr(invalid='ignore')
 
+
 # config = {'morning': [80, 220, 125, 125]}
 
 
@@ -25,6 +26,8 @@ class Calibration:
         self.frame_time = 0
         self.frame_start_time = 0
         self.fps = 0
+
+        self.scale = 1
 
     # 获取处理之后 stream 的帧数
     def update_fps(self):
@@ -249,7 +252,7 @@ class Calibration:
     def decode(self, frame, feature_point):
         points = []
         position = []
-        frame=aug(frame)
+        frame = aug(frame)
         color_map = np.zeros((frame.shape[0], frame.shape[1]))
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
         l, a, b = cv2.split(frame)
@@ -319,8 +322,8 @@ class Calibration:
                         position.append([i, j])
                 except:
                     pass
-        cv2.imshow('lab', frame)
-        cv2.waitKey(0)  # 按0退出
+        # cv2.imshow('lab', frame)
+        # cv2.waitKey(0)  # 按0退出
         return points, position
 
     def process(self, stream):
@@ -372,10 +375,10 @@ class Calibration:
                     world_distance = math.sqrt((feature_points[index + 1][0] * 2 - feature_points[index][0] * 2) ** 2 +
                                                (feature_points[index + 1][1] * 2 - feature_points[index][1] * 2) ** 2)
 
-                    scale = world_distance / pixel_distance
-                    print(pixel_distance)
-                    print(feature_points[index + 1][0] - feature_points[index][0],
-                          feature_points[index + 1][1] - feature_points[index][1])
+                    self.scale = world_distance / pixel_distance
+                    # print(pixel_distance)
+                    # print(feature_points[index + 1][0] - feature_points[index][0],
+                    #       feature_points[index + 1][1] - feature_points[index][1])
                     # print(distance)
                     # for i in range(index - 1, index + 2):
                     #     print(distance[i])
@@ -389,10 +392,10 @@ class Calibration:
                     #                point_size, point_color, thickness)
                     for point in featurepoints_position:
                         cv2.circle(img_rd, (int(point[1]), int(point[0])), point_size, point_color, thickness)
-                    cv2.namedWindow("image")
-                    cv2.imshow('image', img_rd)
-                    cv2.waitKey(0)  # 按0退出
-                    return scale
+                    # cv2.namedWindow("image")
+                    # cv2.imshow('image', img_rd)
+                    # cv2.waitKey(0)  # 按0退出
+
                 self.draw_note(img_rd)
                 self.update_fps()
             cv2.imshow("image", img_rd)
@@ -404,10 +407,13 @@ class Calibration:
         cap.release()
         cv2.destroyAllWindows()
 
+        return self.scale
+
 
 def main():
     Calibration_on = Calibration()
-    Calibration_on.run()
+    scale = Calibration_on.run()
+    print(scale)
 
 
 if __name__ == "__main__":
