@@ -1,0 +1,11 @@
+- [x] OpenCV 人脸检测器识别人脸，拍照录入人脸信息
+- [x] win32com.client 语音提示
+- [x] FaceNet 单样本人脸识别
+- [x] Mini-Xception 基于 fer2013 数据集的表情识别
+- [x] 综合 Face Detector+FaceNet+Mini-Xception 的老人微笑检测+陌生人检测（Happy-Elder-Care-Net）
+- [x] 提供基于 Python 3.7.4 + vs2017 +cmake 3.18.0 + OpenPose 1.6 + CUDA 10.0 +cudnn -10.0-windows10-x64-v7.6.5.32 的编译结果
+- [x] 基于 OpenPose + Background Subtraction 计算人体高度、宽度、角度、速度等指标的摔倒检测
+- [x] 基于 GF(4) 标定的交互检测
+- [x] 基于质心跟踪的入侵检测和追踪
+- [x] 基于 Nginx-RTMP 的直播推流
+
