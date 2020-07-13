@@ -180,7 +180,7 @@ class Calibration:
                     gridpoints[i][j] = 0
                 j = j + 1
             i = i + 1
-        # cv2.imshow('2', frame)
+        # cv2.imshow('14', frame)
         # cv2.waitKey(0)  # 按0退出
         return gridpoints
 
@@ -260,7 +260,7 @@ class Calibration:
                 if l[i][j] < 100:
                     color_map[i][j] = 3
                     frame[i][j] = np.array([0, 0, 0])
-                elif l[i][j] > 220:
+                elif l[i][j] > 200:
                     frame[i][j] = np.array([255, 255, 255])
                     color_map[i][j] = 255
                 else:
@@ -278,7 +278,7 @@ class Calibration:
         # cv2.imshow('lab', frame)
         # cv2.waitKey(0)  # 按0退出
         data = GF(1, 1, 1, 1, 1, 1)
-        # map = np.zeros((4, 4, 4, 4, 4, 4, 2))
+        # map = np.zeros((4, 4, 4, 4, 4, 4, 14))
 
         map = np.zeros((4096, 2))
 
@@ -321,6 +321,7 @@ class Calibration:
                         position.append([i, j])
                 except:
                     pass
+        cv2.imwrite('testt3.png',frame)
         # cv2.imshow('lab', frame)
         # cv2.waitKey(0)  # 按0退出
         return points, position
@@ -351,6 +352,7 @@ class Calibration:
 
         for point in featurepoints_position:
             cv2.circle(img_rd, (int(point[1]), int(point[0])), point_size, point_color, thickness)
+        cv2.imwrite('testt2.png', img_rd)
 
         self.draw_note(img_rd)
         self.update_fps()

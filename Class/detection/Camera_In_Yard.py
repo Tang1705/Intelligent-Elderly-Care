@@ -1,7 +1,11 @@
+import threading
+from datetime import datetime
+
 from oldcare.track.centroidtracker import CentroidTracker
 from oldcare.track.trackableobject import TrackableObject
 from imutils.video import FPS
 import numpy as np
+from Post import post
 import imutils
 import argparse
 import time
@@ -14,11 +18,7 @@ import cv2
 # # We’ll be using a MobileNet Single Shot Detector (SSD),
 # # “Single Shot Detectors for object detection”.
 # model_file_path = 'data/data_opencv/MobileNetSSD_deploy.caffemodel'
-skip_frames = 30  # of skip frames between detections
 
-# 超参数
-# minimum probability to filter weak detections
-minimum_confidence = 0.80
 
 # 物体识别模型能识别的物体（21种）
 CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
@@ -26,6 +26,7 @@ CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
            "cow", "diningtable", "dog", "horse", "motorbike",
            "person", "pottedplant", "sheep", "sofa", "train",
            "tvmonitor"]
+
 
 # 加载物体识别模型
 # net = cv2.dnn.readNetFromCaffe(prototxt_file_path, model_file_path)
@@ -38,8 +39,7 @@ class Intrusion_Detection():
         # the first frame from the video)
         self.W = None
         self.H = None
-
-
+        self.pre = datetime.now()
         # instantiate our centroid tracker, then initialize a list to store
         # each of our dlib correlation trackers, followed by a dictionary to
         # map each unique object ID to a TrackableObject
@@ -56,9 +56,8 @@ class Intrusion_Detection():
         # start the frames per second throughput estimator
         self.fps = FPS().start()
 
-
     # loop over frames from the video stream
-    def process(self,frame):
+    def process(self, frame):
         # grab the next frame and handle if we are reading from either
         # VideoCapture or VideoStream
 
@@ -70,23 +69,22 @@ class Intrusion_Detection():
 
         # initialize the current status along with our list of bounding
         # box rectangles returned by either (1) our object detector or
-        # (2) the correlation trackers
+        # (14) the correlation trackers
         status = "Waiting"
         rects = []
 
         # check to see if we should run a more computationally expensive
         # object detection method to aid our tracker
-        if self.totalFrames % skip_frames == 0:
+        if self.totalFrames % 20 == 0:
             # set the status and initialize our new set of object trackers
             status = "Detecting"
-            trackers = []
+            self.trackers = []
 
             # convert the frame to a blob and pass the blob through the
             # network and obtain the detections
             blob = cv2.dnn.blobFromImage(frame, 0.007843, (self.W, self.H), 127.5)
             self.net.setInput(blob)
             detections = self.net.forward()
-
             # loop over the detections
             for i in np.arange(0, detections.shape[2]):
                 # extract the confidence (i.e., probability) associated
@@ -95,7 +93,8 @@ class Intrusion_Detection():
 
                 # filter out weak detections by requiring a minimum
                 # confidence
-                if confidence > minimum_confidence:
+                if confidence > 0.5:
+
                     # extract the index of the class label from the
                     # detections list
                     idx = int(detections[0, 0, i, 1])
@@ -118,8 +117,7 @@ class Intrusion_Detection():
 
                     # add the tracker to our list of trackers so we can
                     # utilize it during skip frames
-                    trackers.append(tracker)
-
+                    self.trackers.append(tracker)
         # otherwise, we should utilize our object *trackers* rather than
         # object *detectors* to obtain a higher frame processing throughput
         else:
@@ -149,10 +147,10 @@ class Intrusion_Detection():
         # draw a horizontal line in the center of the frame -- once an
         # object crosses this line we will determine whether they were
         # moving 'up' or 'down'
-        # cv2.line(frame, (0, H // 2), (W, H // 2), (0, 255, 255), 2)
+        # cv2.line(frame, (0, H // 14), (W, H // 14), (0, 255, 255), 14)
 
         # use the centroid tracker to associate the (1) old object
-        # centroids with (2) the newly computed object centroids
+        # centroids with (14) the newly computed object centroids
         objects = self.ct.update(rects)
 
         # loop over the tracked objects
@@ -199,6 +197,11 @@ class Intrusion_Detection():
                         print('[EVENT] %s, 院子, 有人闯入禁止区域!!!'
                               % (current_time))
                         cv2.imwrite('intrusion.jpg', frame)
+                        if (datetime.now() - self.pre).total_seconds() > 5:
+                            t = threading.Thread(target=post(event=4, imagePath='intrusion.jpg'))
+                            t.setDaemon(False)
+                            t.start()
+                            self.pre = datetime.now()
 
                         # todo insert into database
                         # command = '%s inserting.py --event_desc %s--event_type4 - -event_location % s' % \
@@ -236,3 +239,4 @@ class Intrusion_Detection():
         # increment the total number of frames processed thus far and
         # then update the FPS counter
         self.totalFrames += 1
+        return frame

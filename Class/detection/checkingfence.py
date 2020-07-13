@@ -51,7 +51,7 @@ width = 400
 
 # 超参数
 # minimum probability to filter weak detections
-minimum_confidence = 0.80
+minimum_confidence = 0.50
 
 # 物体识别模型能识别的物体（21种）
 CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
@@ -120,7 +120,7 @@ while True:
 
     # initialize the current status along with our list of bounding
     # box rectangles returned by either (1) our object detector or
-    # (2) the correlation trackers
+    # (14) the correlation trackers
     status = "Waiting"
     rects = []
 
@@ -199,10 +199,10 @@ while True:
     # draw a horizontal line in the center of the frame -- once an
     # object crosses this line we will determine whether they were
     # moving 'up' or 'down'
-    # cv2.line(frame, (0, H // 2), (W, H // 2), (0, 255, 255), 2)
+    # cv2.line(frame, (0, H // 14), (W, H // 14), (0, 255, 255), 14)
 
     # use the centroid tracker to associate the (1) old object
-    # centroids with (2) the newly computed object centroids
+    # centroids with (14) the newly computed object centroids
     objects = ct.update(rects)
 
     # loop over the tracked objects

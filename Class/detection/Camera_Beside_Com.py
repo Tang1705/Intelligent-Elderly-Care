@@ -1,8 +1,5 @@
 # 进行人脸录入 / face register
 # 录入多张人脸 / support multi-faces
-import datetime
-
-import dlib
 import numpy as np
 import cv2
 import os
@@ -18,7 +15,7 @@ action_map = {'look_ahead': '请看前方', 'blink': '请眨眼', 'open_mouth': 
               'smile': '请笑一笑', 'rise_head': '请抬头',
               'bow_head': '请低头', 'look_left': '请看左边',
               'look_right': '请看右边', 'over': '录入完成'}
-people_type_dict = {'0': 'elder', '1': 'worker', '2': 'volunteer'}
+people_type_dict = {'0': 'elder', '1': 'employee', '2': 'volunteer'}
 
 # Dlib 正向人脸检测器
 # detector = dlib.get_frontal_face_detector()
@@ -50,7 +47,7 @@ class Face_Register:
         self.fps = 0
 
         self.people_type = people_type_dict[str(people_type)]
-        self.id = id
+        self.id = str(id)
 
     def speak(self):
         text = action_map[action_list[self.index]]
@@ -111,9 +108,9 @@ class Face_Register:
         cv2.putText(img_rd, "FPS:   " + str(self.fps.__round__(2)), (20, 100), self.font, 0.8, (0, 255, 0), 1,
                     cv2.LINE_AA)
         cv2.putText(img_rd, "Faces: " + str(self.faces_cnt), (20, 140), self.font, 0.8, (0, 255, 0), 1, cv2.LINE_AA)
-        cv2.putText(img_rd, "N: Create face folder", (20, 350), self.font, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
-        cv2.putText(img_rd, "S: Save current face", (20, 400), self.font, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
-        cv2.putText(img_rd, "Q: Quit", (20, 450), self.font, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
+        # cv2.putText(img_rd, "N: Create face folder", (20, 350), self.font, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
+        # cv2.putText(img_rd, "S: Save current face", (20, 400), self.font, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
+        # cv2.putText(img_rd, "Q: Quit", (20, 450), self.font, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
 
         font = ImageFont.truetype("simsun.ttc", 30, index=1)
         img_rd = Image.fromarray(cv2.cvtColor(img_rd, cv2.COLOR_BGR2RGB))
@@ -137,18 +134,68 @@ class Face_Register:
         detector.setInput(blob)
         faces = detector.forward()
 
-        # # 新建存储人脸的文件夹
-        # if self.index == 0:
-        #     # self.existing_faces_cnt += 1
-        #     current_face_dir = self.path_photos_from_camera + '/' + self.people_type + '/' + self.id
-        #     # current_face_dir = self.path_photos_from_camera + "person_" + str(self.existing_faces_cnt)
-        #     os.makedirs(current_face_dir)
-        #     # print('\n')
-        #     # print("新建的人脸文件夹 / Create folders: ", current_face_dir)
-        #
-        #     self.ss_cnt = 0  # 将人脸计数器清零
-        #     self.index = 0
-        #     self.press_n_flag = 1  # 已经按下 'n'
+        # 检测到人脸
+        if faces.shape[2] != 0:
+            # 矩形框
+            for i in range(0, faces.shape[2]):
+                # 计算矩形框大小
+                confidence = faces[0, 0, i, 2]
+
+                # filter out weak detections by ensuring the `confidence` is
+                # greater than the minimum confidence
+                if confidence < 0.5:
+                    continue
+
+                self.faces_cnt += 1
+
+                # compute the (x, y)-coordinates of the bounding box for the
+                # object
+                box = faces[0, 0, i, 3:7] * np.array([w, h, w, h])
+                (startX, startY, endX, endY) = box.astype("int")
+
+                # 判断人脸矩形框是否超出 480x640
+                if endX > 640 or endY > 480 or startX < 0 or startY < 0:
+                    # if (endX + ww) > 640 or (endY + hh > 480) or (startX - ww < 0) or (
+                    #         startY - hh < 0):
+                    cv2.putText(img_rd, "OUT OF RANGE", (20, 300), self.font, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
+                    color_rectangle = (0, 0, 255)
+                    save_flag = 0
+                    print("请调整位置 / Please adjust your position")
+                else:
+                    color_rectangle = (0, 255, 0)
+                    save_flag = 1
+
+                cv2.rectangle(img_rd, tuple([startX, startY]), tuple([endX, endY]), color_rectangle, 2)
+
+        # 生成的窗口添加说明文字
+        img_rd = self.draw_note(img_rd)
+
+        self.update_fps()
+
+        if not self.init:
+            self.speak()
+            self.init = True
+
+        return img_rd
+
+    def take_photo(self, img_rd):
+        (h, w) = img_rd.shape[:2]
+        blob = cv2.dnn.blobFromImage(cv2.resize(img_rd, (300, 300)), 1.0,
+                                     (300, 300), (104.0, 177.0, 123.0))
+        detector.setInput(blob)
+        faces = detector.forward()
+        current_face_dir = self.path_photos_from_camera + self.people_type + '/' + self.id
+        # 新建存储人脸的文件夹
+        if not os.path.exists(current_face_dir):
+            # self.existing_faces_cnt += 1
+            # current_face_dir = self.path_photos_from_camera + "person_" + str(self.existing_faces_cnt)
+            os.makedirs(current_face_dir)
+            # print('\n')
+            # print("新建的人脸文件夹 / Create folders: ", current_face_dir)
+            #
+            self.ss_cnt = 0  # 将人脸计数器清零
+            # self.index = 0
+            self.press_n_flag = 1  # 已经按下 'n'
 
         # 检测到人脸
         if faces.shape[2] != 0:
@@ -169,10 +216,10 @@ class Face_Register:
                 box = faces[0, 0, i, 3:7] * np.array([w, h, w, h])
                 (startX, startY, endX, endY) = box.astype("int")
 
-                height = (endY - startY)
-                width = (endX - startX)
-                # hh = int(height / 2)
-                # ww = int(width / 2)
+                # height = (endY - startY)
+                # width = (endX - startX)
+                # # hh = int(height / 14)
+                # # ww = int(width / 14)
 
                 # 判断人脸矩形框是否超出 480x640
                 if endX > 640 or endY > 480 or startX < 0 or startY < 0:
@@ -188,29 +235,26 @@ class Face_Register:
 
                 cv2.rectangle(img_rd, tuple([startX, startY]), tuple([endX, endY]), color_rectangle, 2)
 
-                # 根据人脸大小生成空的图像
-                # img_blank = np.zeros((int(height * 2), width * 2, 3), np.uint8)
-                img_blank = np.zeros((height, width, 3), np.uint8)
+                if save_flag:
+                    # 保存摄像头中的人脸到本地
+                    # 检查有没有先按'n'新建文件夹
+                    if self.press_n_flag:
+                        self.ss_cnt += 1
 
-            #     if save_flag:
-            #         # 保存摄像头中的人脸到本地
-            #         # 检查有没有先按'n'新建文件夹
-            #         if self.press_n_flag:
-            #             self.ss_cnt += 1
-            #
-            #             if self.index <= 7:
-            #                 for ii in range(height):
-            #                     for jj in range(width):
-            #                         img_blank[ii][jj] = img_rd[startY + ii][startX + jj]
-            #                 cv2.imwrite(current_face_dir + "/img_face_" + str(self.ss_cnt) + ".jpg", img_blank)
-            #                 print("写入本地 / Save into：",
-            #                       str(current_face_dir) + "/img_face_" + str(self.ss_cnt) + ".jpg")
-            #             if self.index < len(action_list) - 1:
-            #                 self.index += 1
-            #             self.speak()
-            #         else:
-            #             print("请先按 'N' 来建文件夹, 按 'S' / Please press 'N' and press 'S'")
-            # # self.faces_cnt = len(faces)
+                        if self.index <= 7:
+                            img_blank = img_rd[startY:endY, startX:endX]
+                            cv2.imwrite(current_face_dir + "/img_face_" + str(self.ss_cnt) + ".jpg", img_blank)
+                            print("写入本地 / Save into：",
+                                  str(current_face_dir) + "/img_face_" + str(self.ss_cnt) + ".jpg")
+                        if self.index < len(action_list) - 1:
+                            self.index += 1
+                        else:
+                            self.init = False
+
+                        self.speak()
+                    else:
+                        print("请先按 'N' 来建文件夹, 按 'S' / Please press 'N' and press 'S'")
+            # self.faces_cnt = len(faces)
 
         # 生成的窗口添加说明文字
         img_rd = self.draw_note(img_rd)
@@ -218,13 +262,11 @@ class Face_Register:
         self.update_fps()
 
         if not self.init:
+            self.index = 0
             self.speak()
             self.init = True
 
         return img_rd
-
-    def take_photo(self, frame):
-        pass
 
     def run(self, frame):
         return self.process(frame)

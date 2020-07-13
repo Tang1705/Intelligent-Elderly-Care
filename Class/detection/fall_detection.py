@@ -22,6 +22,7 @@ import queue
 import frame_process
 import algorithm_fall
 
+pre = datetime.datetime.now()
 try:
     # Import Openpose (Windows/Ubuntu/OSX)
     # dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -153,7 +154,9 @@ try:
                     # print(v, abs(a))
                     if (abs(a) > 0.2) and \
                             (np.subtract(np.array(width), np.array(height)) > np.subtract(np.array(width0),
-                             np.array(height0)) and np.subtract(np.array(width), np.array(height)) > 0):
+                                                                                          np.array(
+                                                                                              height0)) and np.subtract(
+                                np.array(width), np.array(height)) > 0):
                         couter += 1
                         # print(np.subtract(np.array(width), np.array(height)))
                         # print("alarm by v and a")
@@ -175,10 +178,13 @@ try:
                                   fill=(255, 0, 0))
                         img_rd = cv2.cvtColor(np.array(img_rd), cv2.COLOR_RGB2BGR)
                         cv2.imwrite('fall_detection.jpg', frame)
-                        # t = threading.Thread(target=post(event=3, imagePath='fall_detection.jpg'))
-                        # t.start()
-                        # status = post(event=3, imagePath='fall_detection.jpg')
-                        # print("fall")
+                        if (datetime.datetime.now() - pre).total_seconds() > 5:
+                            t = threading.Thread(target=post(event=3, imagePath='fall_detection.jpg'))
+                            t.start()
+                            status = post(event=3, imagePath='fall_detection.jpg')
+                            # print("fall")
+                            pre = datetime.datetime.now()
+                            # print(pre)
 
                     # update variables
                     frame_start_time = now
@@ -203,8 +209,9 @@ try:
                 cnts = frame_process.get_contours(firstFrame, gray)
 
                 defined_min_area = 3000
-                frame, alert = algorithm_fall.fall_detect(cnts, defined_min_area, frame, prevX, prevY, xList, yList,
-                                                          centerV, alert)
+                frame, alert, pre = algorithm_fall.fall_detect(cnts, defined_min_area, frame, prevX, prevY, xList,
+                                                               yList,
+                                                               centerV, alert, pre)
 
                 # cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
                 #             (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 255, 255), 1)

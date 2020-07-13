@@ -55,8 +55,8 @@ def conv2d_bn(
   tensor = ZeroPadding2D(padding=padding)(tensor)
   if cv2_out == None:
     return tensor
-  tensor = Conv2D(cv2_out, cv2_filter, strides=cv2_strides, name=layer+'_conv'+'2')(tensor)
-  tensor = BatchNormalization(axis=3, epsilon=0.00001, name=layer+'_bn'+'2')(tensor)
+  tensor = Conv2D(cv2_out, cv2_filter, strides=cv2_strides, name=layer+'_conv'+'14')(tensor)
+  tensor = BatchNormalization(axis=3, epsilon=0.00001, name=layer+'_bn'+'14')(tensor)
   tensor = Activation('relu')(tensor)
   return tensor
 

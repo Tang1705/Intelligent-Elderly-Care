@@ -57,7 +57,7 @@ def load_metadata(path):
 
 
 def load_image(path):
-    img = cv2.imread(path, 1)
+    img = cv2.imread(path)
     # OpenCV loads images with color channels
     # in BGR order. So we need to reverse them
     return img[..., ::-1]

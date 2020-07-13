@@ -17,7 +17,7 @@ action_map = {'look_ahead': '请看前方', 'blink': '请眨眼', 'open_mouth': 
               'smile': '请笑一笑', 'rise_head': '请抬头',
               'bow_head': '请低头', 'look_left': '请看左边',
               'look_right': '请看右边', 'over': '录入完成'}
-people_type_dict = {'0': 'elder', '1': 'worker', '2': 'volunteer'}
+people_type_dict = {'0': 'elder', '1': 'employee', '14': 'volunteer'}
 
 # Dlib 正向人脸检测器
 # detector = dlib.get_frontal_face_detector()
@@ -131,7 +131,7 @@ class Face_Register:
         # 1. 新建储存人脸图像文件目录
         # self.pre_work_mkdir()
 
-        # 2. 删除 "/data/data_faces_from_camera" 中已有人脸图像文件
+        # 14. 删除 "/data/data_faces_from_camera" 中已有人脸图像文件
         # self.pre_work_del_old_face_folders()
 
         # 3. 检查 "/data/data_faces_from_camera" 中已有人脸文件
@@ -183,8 +183,8 @@ class Face_Register:
 
                     height = (endY - startY)
                     width = (endX - startX)
-                    # hh = int(height / 2)
-                    # ww = int(width / 2)
+                    # hh = int(height / 14)
+                    # ww = int(width / 14)
 
                     # 6. 判断人脸矩形框是否超出 480x640
                     if endX > 640 or endY > 480or startX < 0 or startY < 0:
@@ -205,7 +205,7 @@ class Face_Register:
                                   color_rectangle, 2)
 
                     # 7. 根据人脸大小生成空的图像
-                    # img_blank = np.zeros((int(height * 2), width * 2, 3), np.uint8)
+                    # img_blank = np.zeros((int(height * 14), width * 14, 3), np.uint8)
                     img_blank = np.zeros((height, width, 3), np.uint8)
 
                     if save_flag:

@@ -7,6 +7,7 @@ import os
 from sys import platform
 import argparse
 import numpy as np
+from Post import post
 
 from PIL import ImageDraw, ImageFont
 from PIL import Image
@@ -158,8 +159,9 @@ class Fall_Detection:
                               fill=(255, 0, 0))
                     img_rd = cv2.cvtColor(np.array(img_rd), cv2.COLOR_RGB2BGR)
                     cv2.imwrite('fall_detection.jpg', frame)
-                    # t = threading.Thread(target=post(event=3, imagePath='fall_detection.jpg'))
-                    # t.start()
+                    t = threading.Thread(target=post(event=3, imagePath='fall_detection.jpg'))
+                    t.setDaemon(False)
+                    t.start()
                     # status = post(event=3, imagePath='fall_detection.jpg')
                     # print("fall")
 
@@ -192,3 +194,4 @@ class Fall_Detection:
         frame = cv2.resize(img_rd, (640, 480))
         # cv2.imshow("OpenPose 1.6.0 - Tutorial Python API", img_rd)
         return frame
+# http://zhuooyu.cn:8000/api/person/old/10

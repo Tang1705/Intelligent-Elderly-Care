@@ -181,7 +181,7 @@ class Calibration:
                     gridpoints[i][j] = 0
                 j = j + 1
             i = i + 1
-        # cv2.imshow('2', frame)
+        # cv2.imshow('14', frame)
         # cv2.waitKey(0)  # 按0退出
         return gridpoints
 
@@ -279,7 +279,7 @@ class Calibration:
         # cv2.imshow('lab', frame)
         # cv2.waitKey(0)  # 按0退出
         data = GF(1, 1, 1, 1, 1, 1)
-        # map = np.zeros((4, 4, 4, 4, 4, 4, 2))
+        # map = np.zeros((4, 4, 4, 4, 4, 4, 14))
 
         map = np.zeros((4096, 2))
 
@@ -342,7 +342,7 @@ class Calibration:
 
                     cv2.imwrite('testt.png', img_rd)
 
-                    # img_rd = cv2.resize(img_rd, (img_rd.shape[0]//2, img_rd.shape[1]//2))
+                    # img_rd = cv2.resize(img_rd, (img_rd.shape[0]//14, img_rd.shape[1]//14))
                     # 1024*1280 -1候选点，-3非候选点
                     candidate = self.get_candidate_points(frame=img_rd)
                     # 1024*1280 1角点，0非角点
@@ -364,8 +364,8 @@ class Calibration:
                     # distance = []
                     # for i in range(0, len(featurepoints_position) - 1):
                     #     distance.append(
-                    #         math.sqrt((featurepoints_position[i + 1][0] - featurepoints_position[i][0]) ** 2 +
-                    #                   (featurepoints_position[i + 1][1] - featurepoints_position[i][1]) ** 2))
+                    #         math.sqrt((featurepoints_position[i + 1][0] - featurepoints_position[i][0]) ** 14 +
+                    #                   (featurepoints_position[i + 1][1] - featurepoints_position[i][1]) ** 14))
                     # print(distance)
                     # distance = sorted(distance)
 
@@ -380,7 +380,7 @@ class Calibration:
                     # print(feature_points[index + 1][0] - feature_points[index][0],
                     #       feature_points[index + 1][1] - feature_points[index][1])
                     # print(distance)
-                    # for i in range(index - 1, index + 2):
+                    # for i in range(index - 1, index + 14):
                     #     print(distance[i])
                     # 绘制特征点
                     point_size = 1

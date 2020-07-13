@@ -1,14 +1,17 @@
 # 摄像头实时人脸识别
 import threading
 
+import requests
 import dlib
 import numpy as np
 import cv2
 import pandas as pd
 import os
 import time
+
 import facenet
 from PIL import Image, ImageDraw, ImageFont
+from sklearn.neighbors import KNeighborsClassifier
 
 from Post import post
 from model import create_model
@@ -23,7 +26,7 @@ start_time = 0
 detector = cv2.dnn.readNetFromCaffe("data/data_opencv/deploy.prototxt.txt",
                                     "data/data_opencv/res10_300x300_ssd_iter_140000.caffemodel")
 
-# 2. Dlib 人脸 landmark 特征点检测器
+# 14. Dlib 人脸 landmark 特征点检测器
 # predictor = dlib.shape_predictor('data/data_dlib/shape_predictor_68_face_landmarks.dat')
 
 # 3. Dlib Resnet 人脸识别模型，提取 128D 的特征矢量
@@ -42,6 +45,7 @@ class Face_Recognizer:
         self.loaded = False
         self.name_known_cnt = 0
         self.name_known_list = []
+        self.type_known_list = []
 
         self.metadata = []
         self.embedded = []
@@ -66,24 +70,38 @@ class Face_Recognizer:
         else:
             if os.path.exists("data/data_faces_from_camera/"):
                 self.metadata = facenet.load_metadata("data/data_faces_from_camera/")
-                self.name_known_cnt = self.metadata.shape[0]
-                self.embedded = np.zeros((self.metadata.shape[0], 128))
+                self.name_known_cnt = 0
+                for i in range(0, len(self.metadata)):
+                    for j in range(0, len(self.metadata[i])):
+                        self.name_known_cnt += 1
+                self.embedded = np.zeros((self.name_known_cnt * 8, 128))
 
                 for i, m in enumerate(self.metadata):
                     for j, n in enumerate(m):
                         for k, p in enumerate(n):
-                            img = facenet.load_image(p.image_path())
+                            img = facenet.load_image(p.image_path().replace("\\", "/"))
                             # img = align_image(img)
                             img = cv2.resize(img, (96, 96))
                             # scale RGB values to interval [0,1]
                             img = (img / 255.).astype(np.float32)
                             # obtain embedding vector for image
                             self.embedded[i] = nn4_small2_pretrained.predict(np.expand_dims(img, axis=0))[0]
-                        # self.embedded[i] = self.embedded[i] / len(m)
-                        path = p.image_path().replace("\\", "/")
+                            # self.embedded[i] = self.embedded[i] / len(m)
+                            path = p.image_path().replace("\\", "/")
                         self.name_known_list.append(path.split('/')[-2])
-                        self.type_camera_list.append(path.split('/')[-3])
-                        self.loaded = True
+                        self.type_known_list.append(path.split('/')[-3])
+                # print(self.embedded.shape)
+                for i in range(len(self.name_known_list)):
+                    if self.type_known_list[i] == 'elder':
+                        type = 'old'
+                    elif self.type_known_list[i] == 'volunteer':
+                        type = 'employee'
+                    self.name_known_list[i] = requests.get("http://zhuooyu.cn:8000/api/person/" + str(type) + "/" + str(
+                        self.name_known_list[i]) + "/").text
+
+                self.loaded = True
+                # print(self.name_known_list)
+
                 return 1
             else:
                 print('##### Warning #####', '\n')
@@ -99,7 +117,7 @@ class Face_Recognizer:
     # def return_euclidean_distance(feature_1, feature_2):
     #     feature_1 = np.array(feature_1)
     #     feature_2 = np.array(feature_2)
-    #     dist = np.sqrt(np.sum((feature_1 - feature_2) ** 2))
+    #     dist = np.sqrt(np.sum((feature_1 - feature_2) ** 14))
     #     return dist
 
     # 更新 FPS
@@ -133,10 +151,10 @@ class Face_Recognizer:
     # 修改显示人名
     def modify_name_camera_list(self):
         # TODO 数据库 ID
-        # Default known name: 1, 2, person_3
+        # Default known name: 1, 14, person_3
         self.name_known_list[0] = '1'.encode('utf-8').decode()
         self.name_known_list[1] = 'Tony Blair'.encode('utf-8').decode()
-        # self.name_known_list[2] = '唐保生'.encode('utf-8').decode()
+        # self.name_known_list[14] = '唐保生'.encode('utf-8').decode()
         # self.name_known_list[3] = '1'.encode('utf-8').decode()
         # self.name_known_list[4] ='xx'.encode('utf-8').decode()
 
@@ -157,6 +175,7 @@ class Face_Recognizer:
                     self.faces_cnt = 0
                     self.pos_camera_list = []
                     self.name_camera_list = []
+                    self.type_camera_list = []
 
                     (h, w) = img_rd.shape[:2]
                     blob = cv2.dnn.blobFromImage(cv2.resize(img_rd, (300, 300)), 1.0,
@@ -164,11 +183,11 @@ class Face_Recognizer:
                     detector.setInput(blob)
                     faces = detector.forward()
 
-                    # 2. 检测到人脸
+                    # 14. 检测到人脸
                     if faces.shape[2] != 0:
                         # 3. 获取当前捕获到的图像的所有人脸的特征，存储到 self.features_camera_list
-                        # for i in range(0, faces.shape[2]):
-                        #     confidence = faces[0, 0, i, 2]
+                        # for i in range(0, faces.shape[14]):
+                        #     confidence = faces[0, 0, i, 14]
                         #
                         #     # filter out weak detections by ensuring the `confidence` is
                         #     # greater than the minimum confidence
@@ -196,6 +215,7 @@ class Face_Recognizer:
                             # 先默认所有人不认识，是 unknown
                             # Set the default names of faces with "unknown"
                             self.name_camera_list.append("unknown")
+                            self.type_camera_list.append('unknown')
 
                             # 每个捕获人脸的名字坐标
                             box = faces[0, 0, k, 3:7] * np.array([w, h, w, h])
@@ -208,6 +228,7 @@ class Face_Recognizer:
 
                             # img_blank = np.zeros((height, width, 3), np.uint8)
                             img_blank = img_rd[startY:endY, startX:endX]
+                            img_blank = img_blank[..., ::-1]
                             try:
                                 # for ii in range(height):
                                 #     for jj in range(width):
@@ -233,57 +254,57 @@ class Face_Recognizer:
                                 #         # 空数据 person_X
                                 #         e_distance_list.append(999999999)
                                 # # 6. 寻找出最小的欧式距离匹配
+                                # print(self.neigh.predict([img]))
                                 similar_person_num = e_distance_list.index(min(e_distance_list))
                                 # print("Minimum e distance with person", self.name_known_list[similar_person_num])
-                                # print(min(e_distance_list))
+                                print(min(e_distance_list))
                                 if min(e_distance_list) < 0.58:
                                     self.name_camera_list[k] = self.name_known_list[similar_person_num % 8]
-                                    if self.type_camera_list[similar_person_num % 8] == 'elder':
+                                    self.type_camera_list[k] = self.type_known_list[similar_person_num % 8]
+                                    cv2.rectangle(img_rd, tuple([startX, startY]), tuple([endX, endY]),
+                                                  (0, 255, 0), 2)
+                                    cv2.rectangle(img_rd, tuple([startX, startY - 35]), tuple([endX, startY]),
+                                                  (0, 255, 0), cv2.FILLED)
+                                    img_with_name = self.draw_name(img_rd)
+                                    if self.type_camera_list[k] == 'elder':
                                         mode = smile_detection.smile_detect(img_blank)
                                         if mode == 'happy':
-                                            cv2.imwrite('smile_detection.jpg', img_rd)
-                                            cv2.rectangle(img_rd, tuple([startX, startY - 70]),
+                                            cv2.rectangle(img_with_name, tuple([startX, startY - 70]),
                                                           tuple([endX, startY - 35]),
                                                           (0, 215, 255), cv2.FILLED)
-                                            cv2.putText(img_rd, 'happy', (startX + 5, startY - 45), cv2.FONT_ITALIC, 1,
+                                            cv2.putText(img_with_name, 'happy', (startX + 5, startY - 45),
+                                                        cv2.FONT_ITALIC, 1,
                                                         (255, 255, 255), 1, cv2.LINE_AA)
+                                            cv2.imwrite('smile_detection.jpg', img_with_name)
                                             # t = threading.Thread(target=post(elder_id=self.name_camera_list[k], event=0,
                                             #                                  imagePath='smile_detection.jpg'))
                                             # t.start()
                                     # print("May be person " + str(self.name_known_list[similar_person_num]))
                                 elif min(e_distance_list) > 0.75:
                                     self.name_camera_list[k] = '陌生人'
-                                    cv2.imwrite('stranger_detection.jpg', img_rd)
-                                    # t = threading.Thread(target=post(event=2, imagePath='stranger_detection.jpg'))
+                                    cv2.rectangle(img_rd, tuple([startX, startY]), tuple([endX, endY]),
+                                                  (0, 0, 255), 2)
+                                    cv2.rectangle(img_rd, tuple([startX, startY - 35]), tuple([endX, startY]),
+                                                  (0, 0, 255), cv2.FILLED)
+                                    img_with_name = self.draw_name(img_rd)
+                                    cv2.imwrite('stranger_detection.jpg', img_with_name)
+                                    # t = threading.Thread(target=post(event=14, imagePath='stranger_detection.jpg'))
                                     # t.start()
                                 else:
                                     pass
                                     # print("Unknown person")
 
-                                # 矩形框
-                                for kk, d in enumerate(faces):
-                                    # 绘制矩形框
-                                    if self.name_camera_list[k] == '陌生人':
-                                        cv2.rectangle(img_rd, tuple([startX, startY]), tuple([endX, endY]),
-                                                      (0, 0, 255), 2)
-                                        cv2.rectangle(img_rd, tuple([startX, startY - 35]), tuple([endX, startY]),
-                                                      (0, 0, 255), cv2.FILLED)
-                                    elif self.name_camera_list[k] != 'unknown':
-                                        cv2.rectangle(img_rd, tuple([startX, startY]), tuple([endX, endY]),
-                                                      (0, 255, 0), 2)
-                                        cv2.rectangle(img_rd, tuple([startX, startY - 35]), tuple([endX, startY]),
-                                                      (0, 255, 0), cv2.FILLED)
 
                             except:
                                 continue
                             # print('\n')
-                            # self.faces_cnt = faces.shape[2]
+                            # self.faces_cnt = faces.shape[14]
                             # if len(self.name_camera_list) > 0:
                             # 7. 在这里更改显示的人名
                             # self.modify_name_camera_list()
                             # 8. 写名字
                             # self.draw_name(img_rd)
-                            img_with_name = self.draw_name(img_rd)
+
                     else:
                         img_with_name = img_rd
 

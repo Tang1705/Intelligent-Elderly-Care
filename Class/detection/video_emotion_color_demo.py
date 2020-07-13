@@ -32,7 +32,8 @@ emotion_window = []
 
 # starting video streaming
 cv2.namedWindow('window_frame')
-video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture("testdemo.mp4")
+counter = 0
 while True:
     bgr_image = video_capture.read()[1]
     gray_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2GRAY)
@@ -54,7 +55,7 @@ while True:
         y1 = startY - y_off
         y2 = endY + y_off
 
-        face_coordinates=np.array([startX, startY, endX-startX, endY-startY])
+        face_coordinates = np.array([startX, startY, endX - startX, endY - startY])
 
         # x1, x2, y1, y2 = apply_offsets(face_coordinates, emotion_offsets)
         gray_face = gray_image[y1:y2, x1:x2]
@@ -80,13 +81,13 @@ while True:
             continue
 
         if emotion_text == 'angry':
-            color = emotion_probability * np.asarray((255, 0, 0))
+            color = emotion_probability * np.asarray((0, 255, 0))
         elif emotion_text == 'sad':
-            color = emotion_probability * np.asarray((0, 0, 255))
+            color = emotion_probability * np.asarray((0, 255, 0))
         elif emotion_text == 'happy':
-            color = emotion_probability * np.asarray((255, 255, 0))
+            color = emotion_probability * np.asarray((0, 255, 0))
         elif emotion_text == 'surprise':
-            color = emotion_probability * np.asarray((0, 255, 255))
+            color = emotion_probability * np.asarray((0, 255, 0))
         else:
             color = emotion_probability * np.asarray((0, 255, 0))
 
@@ -96,9 +97,12 @@ while True:
         draw_bounding_box(face_coordinates, rgb_image, color)
         draw_text(face_coordinates, rgb_image, emotion_mode,
                   color, 0, -45, 1, 1)
+        print(emotion_text)
 
     bgr_image = cv2.cvtColor(rgb_image, cv2.COLOR_RGB2BGR)
     cv2.imshow('window_frame', bgr_image)
+    cv2.imwrite('smile/mine/' + str(counter) + '.png', bgr_image)
+    counter += 1
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 video_capture.release()

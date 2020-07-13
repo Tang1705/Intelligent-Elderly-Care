@@ -1,16 +1,15 @@
-from imutils.video import VideoStream
-import imutils
-import time
+import datetime
+import threading
 import cv2
 import numpy as np
 import statistics
-import queue
 import math
+from Post import post
 from PIL import ImageDraw, ImageFont
 from PIL import Image
 
 
-def fall_detect(cnts, defined_min_area, frame, prevX, prevY, xList, yList, centerV, alert):
+def fall_detect(cnts, defined_min_area, frame, prevX, prevY, xList, yList, centerV, alert, pre):
     for c in cnts:
         # exclusion
         if cv2.contourArea(c) < defined_min_area:
@@ -85,16 +84,16 @@ def fall_detect(cnts, defined_min_area, frame, prevX, prevY, xList, yList, cente
         # print("P_FALL2: ", P_FALL)
 
         # status display
-        # cv2.putText(frame, "Status : ", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
+        # cv2.putText(frame, "Status : ", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 14)
         # cv2.putText(frame, "Fall Confidence: {0:.2f} ".format(P_FALL), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
-        #             (0, 128, 255), 2)
-        # cv2.putText(frame, "Angle: {0:.2f}".format(angle), (10, 220),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
-        # cv2.putText(frame, "AR: {0:.2f}".format(AR), (10, 237),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
-        # cv2.putText(frame, "Center Speed: {0:.2f}".format(centerV), (10, 256),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
+        #             (0, 128, 255), 14)
+        # cv2.putText(frame, "Angle: {0:.2f}".format(angle), (10, 220),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 14)
+        # cv2.putText(frame, "AR: {0:.2f}".format(AR), (10, 237),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 14)
+        # cv2.putText(frame, "Center Speed: {0:.2f}".format(centerV), (10, 256),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 14)
 
         # fall
         if P_FALL > 0.88:
-            if alert >3:
+            if alert > 3:
                 # print("fall")
                 font = ImageFont.truetype("simsun.ttc", 30, index=1)
                 img_rd = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
@@ -102,10 +101,16 @@ def fall_detect(cnts, defined_min_area, frame, prevX, prevY, xList, yList, cente
                 draw.text((10, 10), text="Fall Detected", font=font,
                           fill=(255, 0, 0))
                 frame = cv2.cvtColor(np.array(img_rd), cv2.COLOR_RGB2BGR)
+                cv2.imwrite('fall_detection.jpg', frame)
+                if (datetime.datetime.now() - pre).total_seconds() > 5:
+                    t = threading.Thread(target=post(event=3, imagePath='fall_detection.jpg'))
+                    t.setDaemon(False)
+                    t.start()
+                    pre = datetime.datetime.now()
                 # cv2.imwrite("report.jpg", frame)
                 # send_alert.SendMail("report.jpg")
                 alert = alert + 1
             else:
                 alert = alert + 1
 
-    return frame,alert
+    return frame, alert, pre

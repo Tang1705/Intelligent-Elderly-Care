@@ -3,6 +3,8 @@ import datetime
 
 url = "http://192.144.229.49:8000/api/event/list"
 
+api = "http://zhuooyu.cn:8000/api/websocket/total"
+
 data_type_one = {
     "oldperson_id": 1,
     "event_type": 3,  # 0代表情感检测，1代表义工交互检测，2代表陌生人检测，3代表摔倒检测，4代表禁止区域入侵检测
@@ -17,6 +19,13 @@ data_type_two = {
     "event_date": "",  # 事件日期
     "event_location": "",  # 事件地点(选)
     "event_desc": ""  # 必填,事件描述
+}
+
+data_type_three = {
+    'old': 0,
+    'employee': 0,
+    'volunteer': 0,
+    'stranger': 0
 }
 
 
@@ -61,4 +70,7 @@ def post(elder_id='None', event=-1, imagePath='None', volunteer='None'):
         status = requests.post(url, files=imageFile, data=data_type_one)
     else:
         status = requests.post(url, files=imageFile, data=data_type_two)
-    print(status)
+
+
+def post_person(data_type_three):
+    status = requests.post(api, data=data_type_three)

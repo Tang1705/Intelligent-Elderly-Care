@@ -1,6 +1,8 @@
 import os
 import queue
 import threading
+import time
+from numba import cuda
 import cv2
 import sys
 import platform
@@ -15,27 +17,6 @@ from Calibration_On_Desk import Calibration
 from Camera_In_Hall import Fall_Detection
 from Camera_On_Desk import Interaction_Detection
 from Camera_In_Yard import Intrusion_Detection
-
-# Import Openpose (Windows/Ubuntu/OSX)
-# dir_path = os.path.dirname(os.path.realpath(__file__))
-dir_path = 'D:\\BJTU\\Python\\openpose-master\\build-2017'
-try:
-    # Windows Import
-    if platform == "win32":
-        # Change these variables to point to the correct folder (Release/x64 etc.)
-        sys.path.append(dir_path + '\\python\\openpose\\Release')
-        os.environ['PATH'] = os.environ['PATH'] + ';' + dir_path + '\\x64\\Release;' + dir_path + '\\bin;'
-        import pyopenpose as op
-    else:
-        # Change these variables to point to the correct folder (Release/x64 etc.)
-        sys.path.append(dir_path + '\\python\\openpose\\Release')
-        # If you run `make install` (default path is `/usr/local/python` for Ubuntu), you can also access the OpenPose/python module from there. This will install OpenPose and the python library at your desired installation path. Ensure that this is in your python path in order to use it.
-        # sys.path.append('/usr/local/python')
-        from openpose import pyopenpose as op
-except ImportError as e:
-    print(
-        'Error: OpenPose library could not be found. Did you enable `BUILD_PYTHON` in CMake and have this Python script in the right folder?')
-    raise e
 
 
 class Live(object):
@@ -71,7 +52,8 @@ class Live(object):
 
         # 摔倒检测
         self.transfer_flag = False
-        self.Fall_Detection_on = Fall_Detection()
+        self.trigger = False
+        self.Fall_Detection_on = None
 
         # 入侵检测
         self.net = cv2.dnn.readNetFromCaffe('data/data_opencv/MobileNetSSD_deploy.prototxt',
@@ -83,7 +65,9 @@ class Live(object):
         self.out = cv2.VideoWriter('output.avi', self.fourcc, 20, (640, 480))
 
         # Get video information
-        self.fps = 20  # 设置帧速率
+        self.fps = 15  # 设置帧速率
+        width = 640  # 宽
+        height = 480  # 高
 
         # ffmpeg command
         self.command = ['ffmpeg',
@@ -91,7 +75,7 @@ class Live(object):
                         '-f', 'rawvideo',
                         '-vcodec', 'rawvideo',
                         '-pix_fmt', 'bgr24',
-                        '-s', "{}x{}".format(480, 640),
+                        '-s', "{}x{}".format(width, height),
                         '-r', str(self.fps),
                         '-i', '-',
                         '-c:v', 'libx264',
@@ -99,19 +83,24 @@ class Live(object):
                         '-preset', 'slow',
                         '-f', 'flv',
                         self.rtmpUrl]
-        self.recieve = None
-        self.pretodo = ''
+        self.recieve = {"todo": "reboot"}
+        # self.recieve = {"todo": "change", 'data': {'fuc': '1'}}
 
         self.transfer_flag = False
+        self.take = False
+
+        # if trigger:
+        #     cuda.select_device(0)  # 选择GPU设备
+        #     cuda.close()  # 释放GPU资源
 
     def read_frame(self):
         # 根据不同的操作系统，设定读取哪个摄像头
-        if platform.system() == 'Linux':  # 如果是Linux系统
+        if platform == 'Linux':  # 如果是Linux系统
             cap = cv2.VideoCapture(10)  # 绑定编号为10的摄像头
             cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
             cap.set(3, 640)  # 设置摄像头画面的宽
             cap.set(4, 480)  # 设置摄像头画面的高
-        elif platform.system() == 'Darwin':  # 如果是苹果的OS X系统
+        elif platform == 'Darwin':  # 如果是苹果的OS X系统
             cap = cv2.VideoCapture(0)  # 绑定编号为0的摄像头
             cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
             cap.set(3, 640)
@@ -119,8 +108,8 @@ class Live(object):
         else:  # windows系统
             cap = cv2.VideoCapture(0)  # 绑定编号为0的摄像头
             cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
-            cap.set(3, 640)
-            cap.set(4, 480)
+            # cap.set(3, 640)
+            # cap.set(4, 480)
 
         # read webcamera
         counter = 0
@@ -134,13 +123,60 @@ class Live(object):
                 self.cap = cv2.VideoCapture(0)
                 ret, frame = self.cap.read()
                 self.transfer_flag = False
-            recieve = self.ws.recv()
-            self.recieve = eval(recieve)
             # put frame into queue
             now = datetime.now()
-            if (now - pre).total_seconds() > 0.15:
-                self.frame_queue.put(frame)
-                pre = now
+            self.frame_queue.put(frame)
+            # if self.recieve["todo"] == "change":
+            #     if self.recieve["data"]["fuc"] == "1":
+            #         # Get video information
+            #         self.fps = 5  # 设置帧速率
+            #         width = 640  # 宽
+            #         height = 480  # 高
+            #
+            #         # ffmpeg command
+            #         self.command = ['ffmpeg',
+            #                         '-y',
+            #                         '-f', 'rawvideo',
+            #                         '-vcodec', 'rawvideo',
+            #                         '-pix_fmt', 'bgr24',
+            #                         '-s', "{}x{}".format(width, height),
+            #                         '-r', str(self.fps),
+            #                         '-i', '-',
+            #                         '-c:v', 'libx264',
+            #                         '-pix_fmt', 'yuv420p',
+            #                         '-preset', 'slow',
+            #                         '-f', 'flv',
+            #                         self.rtmpUrl]
+            #
+            #         if (now - pre).total_seconds() > 0.14:
+            #             self.frame_queue.put(frame)
+            #             pre = now
+            #     else:
+            #         # Get video information
+            #         self.fps = 20  # 设置帧速率
+            #         width = 640  # 宽
+            #         height = 480  # 高
+            #
+            #         # ffmpeg command
+            #         self.command = ['ffmpeg',
+            #                         '-y',
+            #                         '-f', 'rawvideo',
+            #                         '-vcodec', 'rawvideo',
+            #                         '-pix_fmt', 'bgr24',
+            #                         '-s', "{}x{}".format(width, height),
+            #                         '-r', str(self.fps),
+            #                         '-i', '-',
+            #                         '-c:v', 'libx264',
+            #                         '-pix_fmt', 'yuv420p',
+            #                         '-preset', 'slow',
+            #                         '-f', 'flv',
+            #                         self.rtmpUrl]
+            #
+            #         self.frame_queue.put(frame)
+            #         pre = now
+            # else:
+            #     self.frame_queue.put(frame)
+            #     pre = now
 
     def push_frame(self):
         # 防止多线程时 command 未被设置
@@ -152,47 +188,71 @@ class Live(object):
 
         while True:
             if not self.frame_queue.empty():
+                if self.frame_queue.qsize() > 100:
+                    self.frame_queue.queue.clear()
+                    continue
                 frame = self.frame_queue.get()
-                if self.recieve.todo == 'reboot':
+                if self.recieve["todo"] == 'reboot':
                     pass
-                elif self.recieve.todo == 'entering':
-                    data = self.recieve.data
-                    people_type = data.type  # 0代表老人,1代表员工,2代表义工
-                    id = data.id
+                elif self.recieve["todo"] == 'entering':
+                    people_type = self.recieve["data"]["type"]  # 0代表老人,1代表员工,2代表义工
+                    id = self.recieve["data"]["id"]
                     self.pretodo = 'entering'
-                    self.Face_Register_on = Face_Register(people_type, id)
-                elif self.recieve.todo == 'takePhoto':
-                    if self.pretodo == 'entering':
-                        frame = self.Face_Register_on.take_photo(frame)
-                    elif self.pretodo == '2':
-                        self.scale = self.Calibration_on.run(frame)
-                elif self.recieve.todo == 'change':
-                    fuc = self.recieve.data.fuc  # 更改的功能 0:无 1微笑检测 2交互检测 3摔倒检测 4禁区入侵
-                    if fuc == 0:
-                        self.out.write(frame)
-                    elif fuc == 1:
-                        frame = self.Face_Recognizer_on.run(frame)
-                    elif fuc == 2:
-                        self.pretodo = '2'
-                        if self.scale == -1:
-                            frame = self.Calibration_on.run(frame)
+                    if not self.take:
+                        self.Face_Register_on = Face_Register(people_type, id)
+                        self.take = True
+                    frame = self.Face_Register_on.process(frame)
+                elif self.recieve["todo"] == 'takePhoto':
+                    if self.recieve["data"]["fuc"] == 'shutter':
+                        if self.take:
+                            frame = self.Face_Register_on.take_photo(frame)
+                            self.take = False
                         else:
-                            self.Interaction_on.process(frame)
-                    elif fuc == 3:
+                            frame = self.Face_Register_on.process(frame)
+                    elif self.recieve["data"]["fuc"] == 'standard':
+                        self.scale = self.Calibration_on.run(frame)
+                        self.recieve = {"todo": "change", 'data': {'fuc': '14'}}
+                elif self.recieve["todo"] == 'change':
+                    fuc = self.recieve["data"]["fuc"]  # 更改的功能 0:无 1微笑检测 2交互检测 3摔倒检测 4禁区入侵
+                    if fuc == '0':
+                        self.out.write(frame)
+                    elif fuc == '1':
+                        frame = self.Face_Recognizer_on.process(frame)
+                    elif fuc == '14':
+                        if self.scale == -1:
+                            pass
+                        else:
+                            frame = self.Interaction_on.process(frame, self.scale)
+                    elif fuc == '3' and self.trigger:
                         if not self.transfer_flag:
                             self.cap = cv2.VideoCapture("test4.mp4")
+                            ret, frame = self.cap.read()
                             self.transfer_flag = True
-                        self.Fall_Detection_on.re_init()
+                            self.Fall_Detection_on = Fall_Detection()
+                            # self.Fall_Detection_on.re_init()
                         frame = self.Fall_Detection_on.run(frame)
-                    elif fuc == 4:
+                    elif fuc == '4':
                         frame = self.Intrusion_Detection_on.process(frame)
-                # frame = Fall_Detection_on.run(frame=frame)
                 p.stdin.write(frame.tobytes())
+
+    def get_result(self):
+        self.ws.send("Hello, World")
+        while True:
+            recieve = self.ws.recv()
+            print(eval(recieve))
+            self.recieve = eval(recieve)
+            if self.recieve['todo'] == 'takePhoto' and self.recieve['data']['fuc'] == 'shutter':
+                self.take = True
+
+    def release_gpu(self):
+        cuda.select_device(0)  # 选择GPU设备
+        cuda.close()  # 释放GPU资源
 
     def run(self):
         threads = [
             threading.Thread(target=Live.read_frame, args=(self,)),
-            threading.Thread(target=Live.push_frame, args=(self,))
+            threading.Thread(target=Live.push_frame, args=(self,)),
+            threading.Thread(target=Live.get_result, args=(self,))
         ]
         [thread.setDaemon(False) for thread in threads]
         [thread.start() for thread in threads]
