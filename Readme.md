@@ -1,14 +1,3 @@
-- [x] OpenCV 人脸检测器识别人脸，拍照录入人脸信息
-- [x] win32com.client 语音提示
-- [x] FaceNet 单样本人脸识别
-- [x] Mini-Xception 基于 fer2013 数据集的表情识别
-- [x] 综合 Face Detector+FaceNet+Mini-Xception 的老人微笑检测+陌生人检测（Happy-Elder-Care-Net）
-- [x] 提供基于 Python 3.7.4 + vs2017 +cmake 3.18.0 + OpenPose 1.6 + CUDA 10.0 +cudnn -10.0-windows10-x64-v7.6.5.32 的编译结果
-- [x] 基于 Windows 10 + OpenPose + Background Subtraction 计算人体高度、宽度、角度、速度等指标的摔倒检测
-- [x] 基于 GF(4) 标定的交互检测
-- [x] 基于质心跟踪的入侵检测和追踪
-- [x] 基于 Nginx-RTMP 的直播推流
-
 基于情感分析的智慧养老系统是一个计算机视觉项目，通过（模拟）多组摄像头实时拍摄到的画面，用计算机视觉技术实时分析老人的情感、是否有人摔倒、是否有人闯入禁止区域、老人是否有和义工互动、是否有陌生人出现并追踪陌生人。一旦上述事件发生，该事件会立即插入到数据库中。这些事件数据被实时地更新在报表中，管理人员因此可以迅速做出反应，从而可以提高管理人员的服务水平和管理能力。
 
 <div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/26.png" alt="01" width="60%" height="60%"/></div>
@@ -116,7 +105,7 @@ Triplet 是一个三元组，这个三元组是这样构成的：从训练数据
 
 不同人脸检测器的效果如下图所示
 
-<div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/08.gif" alt="01" width="70%" height="70%"/></div>
+https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/08.gif
 
 此外，从用户角度出发，在建立人脸数据库时，通过 OpenCV 和 win32com 从文字和语音方面进行操作提示。
 
@@ -176,7 +165,7 @@ http://tang5618.com/data/video/03.mp4
 
 在互动检测上，我们假定老人与义工的距离小于50cm即发生互动。因此需要建立像素坐标系与世界坐标系的映射关系。伪随机序列具有良好的窗口特性，即通过一个较小的窗口在编码图案上面移动时，每个窗口内的编码组合是唯一的，根据窗口的这个特性可以唯一地辨识编码图案上的特征点。
 
-以 h(x)=2x^6+2x^5+x^4+3x^3+2x^2+2x+1 作为本原多项式生成伪随机序列，通过伽罗华域下的四则运算，生成 $65 \times 63$ 的伪随机矩阵，窗口大小为 $2 \times 3$。 <a href="https://ieeexplore.ieee.org/document/5342428" target="_blank" class="far fa-file-pdf" aria-hidden="true" style="text-indent: -0.1em;" rel="noopener noreferrer"></a>
+以 $h(x)=2x^6+2x^5+x^4+3x^3+2x^2+2x+1$ 作为本原多项式生成伪随机序列，通过伽罗华域下的四则运算，生成 $65 \times 63$ 的伪随机矩阵，窗口大小为 $2 \times 3$。 <a href="https://ieeexplore.ieee.org/document/5342428" target="_blank" class="far fa-file-pdf" aria-hidden="true" style="text-indent: -0.1em;" rel="noopener noreferrer"></a>
 
 <div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/18.png" alt="01" width="30%" height="30%"  hspace="10" />                <img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/19.png" alt="02" width="30%" height="30%"  hspace="10" />                <img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/20.png" alt="02" width="30%" height="30%"  hspace="10" /></div>
 
@@ -203,3 +192,15 @@ http://tang5618.com/data/video/03.mp4
 在禁止区域入侵监测方面，包括物体监测和物体追踪两部分。在本项目中，物体检测的目的是识别出人这个物体，而物体追踪则是追踪画面中检测到的人。在对比了不同物体检测方法（如 R-CNN、YOLO等）后，出于实时性和准确性的考虑，选择了质心跟踪算法。其算法步骤如图所示。
 
 <div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/25.png" alt="01" width="80%" height="80%"/></div>
+
+---
+- [x] OpenCV 人脸检测器识别人脸，拍照录入人脸信息
+- [x] win32com.client 语音提示
+- [x] FaceNet 单样本人脸识别
+- [x] Mini-Xception 基于 fer2013 数据集的表情识别
+- [x] 综合 Face Detector+FaceNet+Mini-Xception 的老人微笑检测+陌生人检测（Happy-Elder-Care-Net）
+- [x] 提供基于 Python 3.7.4 + vs2017 +cmake 3.18.0 + OpenPose 1.6 + CUDA 10.0 +cudnn -10.0-windows10-x64-v7.6.5.32 的编译结果
+- [x] 基于 Windows 10 + OpenPose + Background Subtraction 计算人体高度、宽度、角度、速度等指标的摔倒检测
+- [x] 基于 GF(4) 标定的交互检测
+- [x] 基于质心跟踪的入侵检测和追踪
+- [x] 基于 Nginx-RTMP 的直播推流
