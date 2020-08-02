@@ -101,9 +101,11 @@ def fall_detect(cnts, defined_min_area, frame, prevX, prevY, xList, yList, cente
                 draw.text((10, 10), text="Fall Detected", font=font,
                           fill=(255, 0, 0))
                 frame = cv2.cvtColor(np.array(img_rd), cv2.COLOR_RGB2BGR)
-                cv2.imwrite('fall_detection.jpg', frame)
+                time_snap = datetime.datetime.now()
+                cv2.imwrite('fall_detection' + str(time_snap).replace(':', '') + '.jpg', frame)
                 if (datetime.datetime.now() - pre).total_seconds() > 5:
-                    t = threading.Thread(target=post(event=3, imagePath='fall_detection.jpg'))
+                    t = threading.Thread(
+                        target=post(event=3, imagePath='fall_detection' + str(time_snap).replace(':', '') + '.jpg'))
                     t.setDaemon(False)
                     t.start()
                     pre = datetime.datetime.now()

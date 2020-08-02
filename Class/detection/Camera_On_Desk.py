@@ -34,6 +34,7 @@ class Interaction_Detection:
         self.name_known_cnt = 0
         self.name_known_list = []
         self.type_known_list = []
+        self.id_known_list = []
 
         self.metadata = []
         self.embedded = []
@@ -42,6 +43,7 @@ class Interaction_Detection:
         self.pos_camera_list = []
         self.name_camera_list = []
         self.type_camera_list = []
+        self.id_camera_list = []
         # 存储当前摄像头中捕获到的人脸数
         self.faces_cnt = 0
         # 存储当前摄像头中捕获到的人脸特征
@@ -61,7 +63,9 @@ class Interaction_Detection:
                 self.name_known_cnt = 0
                 for i in range(0, len(self.metadata)):
                     for j in range(0, len(self.metadata[i])):
-                        self.name_known_cnt += 1
+                        for k in range(0,len(self.metadata[i][j])):
+                            self.name_known_cnt += 1
+                print(self.name_known_cnt)
                 self.embedded = np.zeros((self.name_known_cnt * 8, 128))
 
                 for i, m in enumerate(self.metadata):
@@ -83,8 +87,8 @@ class Interaction_Detection:
                         type = 'old'
                     elif self.type_known_list[i] == 'volunteer':
                         type = 'employee'
-                    self.name_known_list[i] = requests.get("http://zhuooyu.cn:8000/api/person/" + str(type) + "/" + str(
-                        self.name_known_list[i]) + "/").text
+                    self.id_known_list.append(requests.get("http://zhuooyu.cn:8000/api/person/" + str(type) + "/" + str(
+                        self.name_known_list[i]) + "/").text)
                 self.loaded = True
                 return 1
             else:
@@ -216,18 +220,19 @@ class Interaction_Detection:
 
                     except:
                         continue
-
+                    print(self.type_camera_list)
                     img_with_name = self.draw_name(img_rd)
-                    if 'volunteer' in self.type_camera_list and len(self.type_camera_list) > 1:
-                        index = self.type_camera_list.index('volunteer')
+                    if 'unknown' in self.type_camera_list and len(self.type_camera_list) > 1:
+                        index = self.type_camera_list.index('unknown')
                         pos_vol = np.array(self.pos_camera_list[index])
                         for i in range(0, len(self.type_camera_list)):
                             if self.type_camera_list[i] == "elder":
                                 d = scale * np.sqrt(facenet.distance(pos_vol, np.array(self.pos_camera_list[i])))
                                 if d < 50:
                                     if (datetime.now() - self.pre).total_seconds() > 5:
-                                        cv2.imwrite("interaction.jpg", img_with_name)
-                                        t = threading.Thread(target=post(event=1, imagePath='interaction.jpg'))
+                                        time_snap = datetime.now()
+                                        cv2.imwrite("interaction"+str(time_snap).replace(':','')+".jpg", img_with_name)
+                                        t = threading.Thread(target=post(event=1, imagePath='interaction'+str(time_snap).replace(':','')+'.jpg'))
                                         t.setDaemon(False)
                                         t.start()
                                         self.pre = datetime.now()

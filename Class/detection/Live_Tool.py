@@ -65,7 +65,7 @@ class Live(object):
         self.out = cv2.VideoWriter('output.avi', self.fourcc, 20, (640, 480))
 
         # Get video information
-        self.fps = 15  # 设置帧速率
+        self.fps = 30  # 设置帧速率
         width = 640  # 宽
         height = 480  # 高
 
@@ -211,7 +211,7 @@ class Live(object):
                             frame = self.Face_Register_on.process(frame)
                     elif self.recieve["data"]["fuc"] == 'standard':
                         self.scale = self.Calibration_on.run(frame)
-                        self.recieve = {"todo": "change", 'data': {'fuc': '14'}}
+                        self.recieve = {"todo": "change", 'data': {'fuc': '2'}}
                 elif self.recieve["todo"] == 'change':
                     fuc = self.recieve["data"]["fuc"]  # 更改的功能 0:无 1微笑检测 2交互检测 3摔倒检测 4禁区入侵
                     if fuc == '0':

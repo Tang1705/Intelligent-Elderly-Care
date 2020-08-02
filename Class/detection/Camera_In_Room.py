@@ -35,6 +35,7 @@ class Face_Recognizer:
         self.name_known_cnt = 0
         self.name_known_list = []
         self.type_known_list = []
+        self.id_known_list = []
 
         self.metadata = []
         self.embedded = []
@@ -43,6 +44,7 @@ class Face_Recognizer:
         self.pos_camera_list = []
         self.name_camera_list = []
         self.type_camera_list = []
+        self.id_camera_list = []
         # 存储当前摄像头中捕获到的人脸数
         self.faces_cnt = 0
         # 存储当前摄像头中捕获到的人脸特征
@@ -84,8 +86,9 @@ class Face_Recognizer:
                         type = 'old'
                     elif self.type_known_list[i] == 'volunteer':
                         type = 'employee'
-                    self.name_known_list[i] = requests.get("http://zhuooyu.cn:8000/api/person/" + str(type) + "/" + str(
-                        self.name_known_list[i]) + "/").text
+                    self.id_known_list.append(
+                        requests.get("http://zhuooyu.cn:8000/api/person/" + str(type) + "/" + str(
+                            self.name_known_list[i]) + "/").text)
                 self.loaded = True
                 return 1
             else:
@@ -156,6 +159,7 @@ class Face_Recognizer:
             self.pos_camera_list = []
             self.name_camera_list = []
             self.type_camera_list = []
+            self.id_camera_list = []
 
             (h, w) = img_rd.shape[:2]
             blob = cv2.dnn.blobFromImage(cv2.resize(img_rd, (300, 300)), 1.0,
@@ -181,6 +185,7 @@ class Face_Recognizer:
                     # 先默认所有人不认识，是 unknown
                     self.name_camera_list.append("unknown")
                     self.type_camera_list.append('unknown')
+                    self.id_camera_list.append('unknown')
 
                     # 每个捕获人脸的名字坐标
                     box = faces[0, 0, k, 3:7] * np.array([w, h, w, h])
@@ -210,8 +215,10 @@ class Face_Recognizer:
                         similar_person_num = e_distance_list.index(min(e_distance_list))
                         # print(min(e_distance_list))
                         if min(e_distance_list) < 0.58:
-                            self.name_camera_list[k] = self.name_known_list[similar_person_num % 8]
+                            self.name_camera_list[k] = self.id_known_list[similar_person_num % 8]
                             self.type_camera_list[k] = self.type_known_list[similar_person_num % 8]
+                            self.id_camera_list[k] = self.name_known_list[similar_person_num % 8]
+
                             data_type_three[api_transfer[self.type_camera_list[k]]] += 1
                             cv2.rectangle(img_rd, tuple([startX, startY]), tuple([endX, endY]),
                                           (0, 255, 0), 2)
@@ -221,15 +228,18 @@ class Face_Recognizer:
                             if self.type_camera_list[k] == 'elder':
                                 mode = smile_detection.smile_detect(img_blank)
                                 if mode == 'happy':
+                                    # print("happy")
                                     cv2.rectangle(img_with_name, tuple([startX, startY - 70]),
                                                   tuple([endX, startY - 35]),
                                                   (0, 215, 255), cv2.FILLED)
                                     cv2.putText(img_with_name, 'happy', (startX + 5, startY - 45), cv2.FONT_ITALIC, 1,
                                                 (255, 255, 255), 1, cv2.LINE_AA)
-                                    cv2.imwrite('smile_detection.jpg', img_with_name)
+                                    time_snap = datetime.now()
+                                    cv2.imwrite('smile_detection' + str(time_snap).replace(':','') + '.jpg', img_with_name)
                                     if (datetime.now() - self.pre).total_seconds() > 5:
-                                        t = threading.Thread(target=post(elder_id=self.name_camera_list[k], event=0,
-                                                                         imagePath='smile_detection.jpg'))
+                                        t = threading.Thread(target=post(elder_id=self.id_camera_list[k], event=0,
+                                                                         imagePath='smile_detection' + str(
+                                                                             time_snap).replace(':','') + '.jpg'))
                                         t.setDaemon(False)
                                         t.start()
                                         self.pre = datetime.now()
@@ -242,9 +252,11 @@ class Face_Recognizer:
                             cv2.rectangle(img_rd, tuple([startX, startY - 35]), tuple([endX, startY]),
                                           (0, 0, 255), cv2.FILLED)
                             img_with_name = self.draw_name(img_rd)
-                            cv2.imwrite('stranger_detection.jpg', img_with_name)
+                            time_snap = datetime.now()
+                            cv2.imwrite('stranger_detection' + str(time_snap).replace(':','') + '.jpg', img_with_name)
                             if (datetime.now() - self.pre).total_seconds() > 5:
-                                t = threading.Thread(target=post(event=2, imagePath='stranger_detection.jpg'))
+                                t = threading.Thread(
+                                    target=post(event=2, imagePath='stranger_detection' + str(time_snap).replace(':','') + '.jpg'))
                                 t.setDaemon(False)
                                 t.start()
                                 self.pre = datetime.now()

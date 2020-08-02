@@ -321,7 +321,7 @@ class Calibration:
                         position.append([i, j])
                 except:
                     pass
-        cv2.imwrite('testt3.png',frame)
+        cv2.imwrite('testt3.png', frame)
         # cv2.imshow('lab', frame)
         # cv2.waitKey(0)  # 按0退出
         return points, position
@@ -338,21 +338,24 @@ class Calibration:
         feature_points, position = self.decode(frame=img_rd, feature_point=featurepoints_position)
 
         index = len(feature_points) // 2
-        pixel_distance = math.sqrt((position[index + 1][0] - position[index][0]) ** 2 +
-                                   (position[index + 1][1] - position[index][1]) ** 2)
-        world_distance = math.sqrt((feature_points[index + 1][0] * 2 - feature_points[index][0] * 2) ** 2 +
-                                   (feature_points[index + 1][1] * 2 - feature_points[index][1] * 2) ** 2)
+        try:
+            pixel_distance = math.sqrt((position[index + 1][0] - position[index][0]) ** 2 +
+                                       (position[index + 1][1] - position[index][1]) ** 2)
+            world_distance = math.sqrt((feature_points[index + 1][0] * 2 - feature_points[index][0] * 2) ** 2 +
+                                       (feature_points[index + 1][1] * 2 - feature_points[index][1] * 2) ** 2)
+            self.scale = world_distance / pixel_distance
 
-        self.scale = world_distance / pixel_distance
+        except:
+            self.scale = 0.11
 
         # 绘制特征点
-        point_size = 1
-        point_color = (0, 0, 255)
-        thickness = 0  # 可以为 0 、4、8
-
-        for point in featurepoints_position:
-            cv2.circle(img_rd, (int(point[1]), int(point[0])), point_size, point_color, thickness)
-        cv2.imwrite('testt2.png', img_rd)
+        # point_size = 1
+        # point_color = (0, 0, 255)
+        # thickness = 0  # 可以为 0 、4、8
+        #
+        # for point in featurepoints_position:
+        #     cv2.circle(img_rd, (int(point[1]), int(point[0])), point_size, point_color, thickness)
+        # cv2.imwrite('testt2.png', img_rd)
 
         self.draw_note(img_rd)
         self.update_fps()

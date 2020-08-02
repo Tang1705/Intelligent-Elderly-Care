@@ -196,9 +196,11 @@ class Intrusion_Detection():
                         event_location = '院子'
                         print('[EVENT] %s, 院子, 有人闯入禁止区域!!!'
                               % (current_time))
-                        cv2.imwrite('intrusion.jpg', frame)
+                        time_snap = datetime.now()
+                        cv2.imwrite('intrusion' + str(time_snap).replace(':', '') + '.jpg', frame)
                         if (datetime.now() - self.pre).total_seconds() > 5:
-                            t = threading.Thread(target=post(event=4, imagePath='intrusion.jpg'))
+                            t = threading.Thread(
+                                target=post(event=4, imagePath='intrusion' + str(time_snap).replace(':', '') + '.jpg'))
                             t.setDaemon(False)
                             t.start()
                             self.pre = datetime.now()
