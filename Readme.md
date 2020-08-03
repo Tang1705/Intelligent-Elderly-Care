@@ -149,7 +149,7 @@ Triplet 是一个三元组，这个三元组是这样构成的：从训练数据
 
 该摔倒检测算法的效果如下
 
-<p><a href="https://youtu.be/H7GJdEIA9iM" rel="nofollow"><img src="https://camo.githubusercontent.com/c8b2ce3d6c9875121c7bedcd15efc5283cfb33e2/687474703a2f2f7374617469632e7a7962756c756f2e636f6d2f54616e6757696c6c2f693236736e697830786163386c756838626e7971617061782f254536253839254239254536254233254138253230323032302d30382d30332532303039313531362e6a7067" alt="ScreenShot" data-canonical-src="http://static.zybuluo.com/TangWill/i26snix0xac8luh8bnyqapax/%E6%89%B9%E6%B3%A8%202020-08-03%20091516.jpg" width="60%" height="60%"/></a></p>
+<p><a href="https://youtu.be/H7GJdEIA9iM" rel="nofollow"><div class="imgs" align="center" ><img src="https://camo.githubusercontent.com/c8b2ce3d6c9875121c7bedcd15efc5283cfb33e2/687474703a2f2f7374617469632e7a7962756c756f2e636f6d2f54616e6757696c6c2f693236736e697830786163386c756838626e7971617061782f254536253839254239254536254233254138253230323032302d30382d30332532303039313531362e6a7067" alt="ScreenShot" data-canonical-src="http://static.zybuluo.com/TangWill/i26snix0xac8luh8bnyqapax/%E6%89%B9%E6%B3%A8%202020-08-03%20091516.jpg" width="60%" height="60%"/></div></a></p>
 
 <div class="wp-block-qubely-advancedlist aligncenter qubely-block-a3df80"><div class="qubely-block-advanced-list  qubely-alignment-left"><ul class="qubely-list qubely-list-type-unordered qubely-list-bullet-check"><li>系统标定与互动检测
 </li></ul></div></div>
