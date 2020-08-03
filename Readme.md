@@ -104,8 +104,7 @@ Triplet 是一个三元组，这个三元组是这样构成的：从训练数据
 </table>
 
 不同人脸检测器的效果如下图所示
-
-https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/08.gif
+<div class="imgs" align="center" ><img src="https://github.com/Tang1705/image_set/raw/master/CVofSSE/08.gif" alt="01" width="70%" height="70%"/></div>
 
 此外，从用户角度出发，在建立人脸数据库时，通过 OpenCV 和 win32com 从文字和语音方面进行操作提示。
 
@@ -158,14 +157,15 @@ https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/08.gif
 <div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/17.png" alt="01" width="30%" height="30%"/></div>
 
 该摔倒检测算法的效果如下
-http://tang5618.com/data/video/03.mp4
+
+[![ScreenShot](http://static.zybuluo.com/TangWill/i26snix0xac8luh8bnyqapax/%E6%89%B9%E6%B3%A8%202020-08-03%20091516.jpg)](https://youtu.be/H7GJdEIA9iM)
 
 <div class="wp-block-qubely-advancedlist aligncenter qubely-block-a3df80"><div class="qubely-block-advanced-list  qubely-alignment-left"><ul class="qubely-list qubely-list-type-unordered qubely-list-bullet-check"><li>系统标定与互动检测
 </li></ul></div></div>
 
 在互动检测上，我们假定老人与义工的距离小于50cm即发生互动。因此需要建立像素坐标系与世界坐标系的映射关系。伪随机序列具有良好的窗口特性，即通过一个较小的窗口在编码图案上面移动时，每个窗口内的编码组合是唯一的，根据窗口的这个特性可以唯一地辨识编码图案上的特征点。
 
-以 $h(x)=2x^6+2x^5+x^4+3x^3+2x^2+2x+1$ 作为本原多项式生成伪随机序列，通过伽罗华域下的四则运算，生成 $65 \times 63$ 的伪随机矩阵，窗口大小为 $2 \times 3$。 <a href="https://ieeexplore.ieee.org/document/5342428" target="_blank" class="far fa-file-pdf" aria-hidden="true" style="text-indent: -0.1em;" rel="noopener noreferrer"></a>
+以 <a href="https://www.codecogs.com/eqnedit.php?latex=h(x)=2x^6&plus;2x^5&plus;x^4&plus;3x^3&plus;2x^2&plus;2x&plus;1" target="_blank"><img src="https://latex.codecogs.com/gif.latex?h(x)=2x^6&plus;2x^5&plus;x^4&plus;3x^3&plus;2x^2&plus;2x&plus;1" title="h(x)=2x^6+2x^5+x^4+3x^3+2x^2+2x+1" /></a> 作为本原多项式生成伪随机序列，通过伽罗华域下的四则运算，生成 <a href="https://www.codecogs.com/eqnedit.php?latex=65&space;\times&space;63" target="_blank"><img src="https://latex.codecogs.com/gif.latex?65&space;\times&space;63" title="65 \times 63" /></a> 的伪随机矩阵，窗口大小为 <a href="https://www.codecogs.com/eqnedit.php?latex=2&space;\times&space;3" target="_blank"><img src="https://latex.codecogs.com/gif.latex?2&space;\times&space;3" title="2 \times 3" /></a>。 <a href="https://ieeexplore.ieee.org/document/5342428" target="_blank" class="far fa-file-pdf" aria-hidden="true" style="text-indent: -0.1em;" rel="noopener noreferrer"></a>
 
 <div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/18.png" alt="01" width="30%" height="30%"  hspace="10" />                <img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/19.png" alt="02" width="30%" height="30%"  hspace="10" />                <img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/20.png" alt="02" width="30%" height="30%"  hspace="10" /></div>
 
@@ -173,8 +173,8 @@ http://tang5618.com/data/video/03.mp4
 
 通过设计的解码算法，可以将角点位置精确到亚像素，在Lab演色空间下进行颜色分类，完成解码。
 
-- 确定候选特征点：$d=\mid \sum_{i=-\varepsilon}^{\varepsilon} I_{c}(x+i, y)-\sum_{j=-\varepsilon}^{\varepsilon} I_{c}(x, y+j)|$
-- 确定特征点：$\rho_c =\frac{n \sum_{i=1}^{n} M_{C_{1}} M_{C_{1}}^{\prime}-\sum_{i=1}^{n} M_{C_{1}} \sum_{i=1}^{n} M_{C_{i}}^{\prime}}{\sqrt{n \sum_{i=1}^{n} M_{C_{1}}^{2}-\left(\sum_{i=1}^{n} M_{C_{i}}\right)^{2}} \sqrt{n \sum_{i=1}^{n} M_{C_{i}}^{\prime} 2-\left(\sum_{i=1}^{n} M_{C_{i}}^{\prime}\right)^{2}}}$
+- 确定候选特征点：<a href="https://www.codecogs.com/eqnedit.php?latex=d=\mid&space;\sum_{i=-\varepsilon}^{\varepsilon}&space;I_{c}(x&plus;i,&space;y)-\sum_{j=-\varepsilon}^{\varepsilon}&space;I_{c}(x,&space;y&plus;j)|" target="_blank"><img src="https://latex.codecogs.com/gif.latex?d=\mid&space;\sum_{i=-\varepsilon}^{\varepsilon}&space;I_{c}(x&plus;i,&space;y)-\sum_{j=-\varepsilon}^{\varepsilon}&space;I_{c}(x,&space;y&plus;j)|" title="d=\mid \sum_{i=-\varepsilon}^{\varepsilon} I_{c}(x+i, y)-\sum_{j=-\varepsilon}^{\varepsilon} I_{c}(x, y+j)|" /></a>
+- 确定特征点：<a href="https://www.codecogs.com/eqnedit.php?latex=\rho_c&space;=\frac{n&space;\sum_{i=1}^{n}&space;M_{C_{1}}&space;M_{C_{1}}^{\prime}-\sum_{i=1}^{n}&space;M_{C_{1}}&space;\sum_{i=1}^{n}&space;M_{C_{i}}^{\prime}}{\sqrt{n&space;\sum_{i=1}^{n}&space;M_{C_{1}}^{2}-\left(\sum_{i=1}^{n}&space;M_{C_{i}}\right)^{2}}&space;\sqrt{n&space;\sum_{i=1}^{n}&space;M_{C_{i}}^{\prime}&space;2-\left(\sum_{i=1}^{n}&space;M_{C_{i}}^{\prime}\right)^{2}}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\rho_c&space;=\frac{n&space;\sum_{i=1}^{n}&space;M_{C_{1}}&space;M_{C_{1}}^{\prime}-\sum_{i=1}^{n}&space;M_{C_{1}}&space;\sum_{i=1}^{n}&space;M_{C_{i}}^{\prime}}{\sqrt{n&space;\sum_{i=1}^{n}&space;M_{C_{1}}^{2}-\left(\sum_{i=1}^{n}&space;M_{C_{i}}\right)^{2}}&space;\sqrt{n&space;\sum_{i=1}^{n}&space;M_{C_{i}}^{\prime}&space;2-\left(\sum_{i=1}^{n}&space;M_{C_{i}}^{\prime}\right)^{2}}}" title="\rho_c =\frac{n \sum_{i=1}^{n} M_{C_{1}} M_{C_{1}}^{\prime}-\sum_{i=1}^{n} M_{C_{1}} \sum_{i=1}^{n} M_{C_{i}}^{\prime}}{\sqrt{n \sum_{i=1}^{n} M_{C_{1}}^{2}-\left(\sum_{i=1}^{n} M_{C_{i}}\right)^{2}} \sqrt{n \sum_{i=1}^{n} M_{C_{i}}^{\prime} 2-\left(\sum_{i=1}^{n} M_{C_{i}}^{\prime}\right)^{2}}}" /></a>
 - 8邻域广度优先搜索将特征点位置精确到亚像素
 - 色彩校正、Lab 颜色空间对菱形颜色分类并解码
 
