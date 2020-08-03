@@ -57,15 +57,6 @@ Triplet 是一个三元组，这个三元组是这样构成的：从训练数据
 
 对比了不同的人脸检测器，发现OpenCV中提供的DNN运行速度快，对遮挡等情况适用。
 
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-9wq8{border-color:inherit;text-align:center;vertical-align:middle}
-.tg .tg-nrix{text-align:center;vertical-align:middle}
-</style>
 <table class="tg">
 <thead>
   <tr>
@@ -104,7 +95,7 @@ Triplet 是一个三元组，这个三元组是这样构成的：从训练数据
 </table>
 
 不同人脸检测器的效果如下图所示
-<div class="imgs" align="center" ><img src="https://github.com/Tang1705/image_set/raw/master/CVofSSE/08.gif" alt="01" width="70%" height="70%"/></div>
+<div class="imgs" align="center" ><img src="https://github.com/Tang1705/image_set/raw/master/CVofSSE/08.gif" alt="01" width="50%" height="50%"/></div>
 
 此外，从用户角度出发，在建立人脸数据库时，通过 OpenCV 和 win32com 从文字和语音方面进行操作提示。
 
@@ -158,7 +149,7 @@ Triplet 是一个三元组，这个三元组是这样构成的：从训练数据
 
 该摔倒检测算法的效果如下
 
-[![ScreenShot](http://static.zybuluo.com/TangWill/i26snix0xac8luh8bnyqapax/%E6%89%B9%E6%B3%A8%202020-08-03%20091516.jpg)](https://youtu.be/H7GJdEIA9iM)
+<p><a href="https://youtu.be/H7GJdEIA9iM" rel="nofollow"><img src="https://camo.githubusercontent.com/c8b2ce3d6c9875121c7bedcd15efc5283cfb33e2/687474703a2f2f7374617469632e7a7962756c756f2e636f6d2f54616e6757696c6c2f693236736e697830786163386c756838626e7971617061782f254536253839254239254536254233254138253230323032302d30382d30332532303039313531362e6a7067" alt="ScreenShot" data-canonical-src="http://static.zybuluo.com/TangWill/i26snix0xac8luh8bnyqapax/%E6%89%B9%E6%B3%A8%202020-08-03%20091516.jpg" width="60%" height="60%"/></a></p>
 
 <div class="wp-block-qubely-advancedlist aligncenter qubely-block-a3df80"><div class="qubely-block-advanced-list  qubely-alignment-left"><ul class="qubely-list qubely-list-type-unordered qubely-list-bullet-check"><li>系统标定与互动检测
 </li></ul></div></div>
@@ -194,6 +185,7 @@ Triplet 是一个三元组，这个三元组是这样构成的：从训练数据
 <div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/25.png" alt="01" width="80%" height="80%"/></div>
 
 ---
+## Announcement
 - [x] OpenCV 人脸检测器识别人脸，拍照录入人脸信息
 - [x] win32com.client 语音提示
 - [x] FaceNet 单样本人脸识别
