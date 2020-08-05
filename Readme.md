@@ -184,7 +184,6 @@ Triplet 是一个三元组，这个三元组是这样构成的：从训练数据
 
 <div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/25.png" alt="01" width="80%" height="80%"/></div>
 
----
 ## Announcement
 - [x] OpenCV 人脸检测器识别人脸，拍照录入人脸信息
 - [x] win32com.client 语音提示
