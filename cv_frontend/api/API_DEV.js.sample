@@ -1,0 +1,21 @@
+export default {
+    // configure
+    baseURL: 'http://dxxycy.bjtu.edu.cn:8080/',
+    method: 'post',
+
+    // page
+    homePage:          { url: '/page/home'                   },
+    trafficSearchPage: { url: '/page/traffic/search'         },
+    countryListPage:   { url: '/page/place/country/list'     },
+    countryDetailPage: { url: '/page/place/country/detail'   },
+    continentPage:     { url: '/page/place/continent/detail' },
+    cityDetailPage:    { url: '/page/place/city/detail'      },
+
+    // api
+    citySearchApi:        { url: '/api/place/city/search'        },
+    getRelateCitiesApi:   { url: '/api/place/city/relate-cities' },
+    trafficFlightLineApi: { url: '/api/traffic/flight/line'      },
+    trafficTrainLineApi:  { url: '/api/traffic/train/line'       },
+    trafficBusLineApi:    { url: '/api/traffic/bus/line'         },
+    trafficStrategyMore:  { url: '/api/traffic/search/more'      }
+}

@@ -196,7 +196,7 @@ Triplet 是一个三元组，这个三元组是这样构成的：从训练数据
 
 <div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/25.png" alt="01" width="80%" height="80%"/></div>
 
-## Announcement
+## Features
 - [x] OpenCV 人脸检测器识别人脸，拍照录入人脸信息
 - [x] win32com.client 语音提示
 - [x] FaceNet 单样本人脸识别
@@ -207,3 +207,8 @@ Triplet 是一个三元组，这个三元组是这样构成的：从训练数据
 - [x] 基于 GF(4) 标定的交互检测
 - [x] 基于质心跟踪的入侵检测和追踪
 - [x] 基于 Nginx-RTMP 的直播推流
+
+## Repositories
+
+前端仓库：https://github.com/Shzhuoyu/cv_frontend
+后端仓库：https://github.com/Shzhuoyu/cv_backend
