@@ -1,3 +1,15 @@
+<h1 align="center">
+  <a href="https://github.com/Tang1705/CVofSSE" title="CVofSSE Documentation">
+    <img alt="IconBattle" src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/28.png" width="200px" height="200px" />
+  </a>
+  <br />
+  基于计算机视觉的智慧养老系统
+</h1>
+
+<p align="center">
+  Intelligent elderly care system based on computer vision
+</p>
+
 基于计算机视觉的智慧养老系统通过（模拟）多组摄像头实时拍摄到的画面，用计算机视觉技术实时分析老人的情感、是否有人摔倒、是否有人闯入禁止区域、老人是否有和义工互动、是否有陌生人出现并追踪陌生人。一旦上述事件发生，该事件会立即插入到数据库中。这些事件数据被实时地更新在报表中，管理人员因此可以迅速做出反应，从而可以提高管理人员的服务水平和管理能力。
 
 <div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/27.png" alt="01" width="50%" height="50%"/></div>
