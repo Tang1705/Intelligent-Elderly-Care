@@ -151,7 +151,7 @@ Triplet 是一个三元组，这个三元组是这样构成的：从训练数据
 
 故在本项目中使用 OpenPose 提取人体关键点从而提取人体运动特征。OpenPose 是由 C++ 开发的开源库，可用于实时人体姿态估计等，为了在python 中使用，需要对其进行编译。（在 <a href="https://github.com/Tang1705/IconBattle" target="_blank" class="fab fa-github" aria-hidden="true" style="text-indent: -0.1em;" rel="noopener noreferrer"></a> 提供了基于 Windows 10 + Python 3.7.4 + vs2017 +cmake 3.18.0 + OpenPose 1.6 + CUDA 10.0 +cudnn -10.0-windows10-x64-v7.6.5.32 的编译结果，自行编译请参考 <a href="https://blog.techbridge.cc/2019/01/18/openpose-installation/" class="fas fa-link" aria-hidden="true" style="text-indent: -0.1em;" rel="noopener noreferrer"></a> ）
 
-<div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/15.png" alt="01" width="80%" height="80%"/></div>
+<div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/29.png" alt="01" width="80%" height="80%"/></div>
 
 但 OpenPose 在人体姿势极端的情况下，识别准确度下降，为识别摔倒的老人通过挥手臂等方式求救，我们实现了基于人体关键点和背景差分的摔打检测算法，利用人力关键点提取出速度、高度、宽度等描述特征，当发生异常通过背景差分提取出角度特征，当特征连续多次满足摔倒检测阈值时，则发出摔倒报警。算法结构如图所示。
 
