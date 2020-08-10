@@ -1,6 +1,6 @@
 基于计算机视觉的智慧养老系统通过（模拟）多组摄像头实时拍摄到的画面，用计算机视觉技术实时分析老人的情感、是否有人摔倒、是否有人闯入禁止区域、老人是否有和义工互动、是否有陌生人出现并追踪陌生人。一旦上述事件发生，该事件会立即插入到数据库中。这些事件数据被实时地更新在报表中，管理人员因此可以迅速做出反应，从而可以提高管理人员的服务水平和管理能力。
 
-<div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/26.png" alt="01" width="60%" height="60%"/></div>
+<div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/27.png" alt="01" width="50%" height="50%"/></div>
 
 本系统分为2部分，分别是 Web 用户界面 <a href="http://zhuooyu.cn/" class="fas fa-link" aria-hidden="true" style="text-indent: -0.1em;" rel="noopener noreferrer"></a> 和基于计算机视觉的摄像头（群组）。其中，系统 Web 用户界面仅供系统管理员使用。系统管理员使用该系统不仅可以管理老人、工作人员和义工的信息，包括录入、查看等，还可以查看实时监控以及得到实时的事件报警，如陌生人入侵、陌生人追踪等。Web 用户界面的功能结构图如下图所示：
 
