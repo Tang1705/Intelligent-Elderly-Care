@@ -20,7 +20,7 @@
 
 本文重点介绍该项目中摄像头（群组）负载的计算机视觉任务及其算法实现。根据项目需求，设计了如图所示的系统安装环境。办公室的摄像头用于收集人脸数据；房间的摄像头检测陌生人和老人微笑，走廊的摄像头检测是否有人摔倒，活动室的摄像头放在桌子上，当有义工访问才拿出来使用，同时在活动室安装标定板（用于获得世界坐标系与像素坐标系的映射关系），院子的摄像头监控是否有人闯入禁止区域。
 
-<div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/00.png" alt="01" width="80%" height="80%"/></div>
+<div class="imgs" align="center" ><img src="src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/00.png"" alt="01" width="80%" height="80%"/></div>
 
 <div class="wp-block-qubely-advancedlist aligncenter qubely-block-a3df80"><div class="qubely-block-advanced-list  qubely-alignment-left"><ul class="qubely-list qubely-list-type-unordered qubely-list-bullet-check"><li>Nginx-RTMP与直播推流</li></ul></div></div>
 
