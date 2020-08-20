@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://github.com/Tang1705/CVofSSE" title="CVofSSE Documentation">
-    <img alt="IconBattle" src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/28.png" width="200px" height="200px" />
+    <img alt="CV" src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/28.png" width="200px" height="200px" />
   </a>
   <br />
   基于计算机视觉的智慧养老系统
@@ -9,7 +9,26 @@
 <p align="center">
   Intelligent elderly care system based on computer vision
 </p>
-
+<div align="center">
+  <a href="http://rjxy.bjtu.edu.cn/cms/">
+    <img alt="Organization" src="https://img.shields.io/badge/Organization-BJTU-072063.svg?style=shield&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAaCAYAAABCfffNAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAQ4SURBVEhLfZZ3qI5RGMC/j+vae3Otskn2JmSma0SZJUkR4h+biBuyytZNyChKlJ0tIbtsMq+V7L1dv9/nfa/vWk/9Ot973nOe5zzrvF808h9JT0/PztAIWkBR+ArZ4BtkhadwEE5Eo9EvjH+VfxrBQG+G5nAGDkBFOIqyj4y+L8LgATTeFLbDNt6nM/5f2FwSZkMPyAdRyAqDIEewJgF6Qr3gOQcMhHmQ37l4yRKMMWFBJYbRsA5ywoe4k92F8j9/RpzLBW980DtYxU/3aUgvMyTDCC9KMwyBuXABSkIt5l3TGsxFF543MI6HNCjqe9Cz9jznAQ85h+fcjDHJyAmT0xg2caLzwbNG3sEY0EOV3oeXYEjKgp5dguVQHc6w/yV76/K7O78nM/70hMk2DB/AkyU5h3iANWCFTYKJcAzygcbnwzgoBItBY6/Yr87HoLHGjJFYUhmXgp44qZIdsAJ2g7HuAu1AhaXAAngPHs78DIVW0BdqQQfQaFsYqlVdOwePwHI8DWPhOmjoO6jA8DwDRS9rQzIh+cS4BB7ASCgIR2AfqKOiRuyFgyxW2RbwtMVgIXOfAyW+awIWh3IHzN1wI8EaG3Em1IcbcIg5c2fvdNSICt1kKRrLBHjB7zQUtIWWPNvpO8EwGV4rx1Cam+6sSWb0MG+hLHs9lHIbYp4kMOkCC8BnO/2sz8gUSAGbrjA0A2Ou9/3BMBta93SEk5CMnljVolcPoyr9/WrxFMZXGQbHwRPaYIkBVpz7vLd6wjKwrC1z5+N1ftFITAIvfPkaDIknMe56Y3Ma0lMBJ8CyPsAabwILwjDbsOYiXmKeJGLAhM6AMqCLlSGU4qCiBXAVroDGvQzD2JtX+6wCuD8JnfXDsGnkc/DChdVgL7QMFyANwJD1Asu2DthPPSAUbwLFdrAF7H5zZ8990shNyAu3wEaztnW5DobsfivH/hGrJaQ57y135SHYnOoz+R5Ew+UgzcnDYPKMs+EysbvAO8tkXwa/JTWhahyWthWn2IBW2FowIq5X7Pw98deKpTgK9MKrxITr4QTwQ2UI9MbfHu4iPAnmvAj1ZBZYkaZgNbh3RBaS56dUpQNgM3jj6q5GrKhU8N5S/MaIV7pJN5TewJb8VLBXbNj90A9Woj8juZawSg2TFbKLl68DL01wZ1CpXtj9htSSdW4PuK8b1Ah+e2k2RMc8xl9Ng0JP55U9lpePefbLZ4dbtnpriIy1YbOETaw3hUa7gt/5reD6wZCCnheMmTpTQybQL+Mi8F4yvrpvxajsHpgzPSqGksOBt67zD4eHsQCm8y68sTMbUQKP/IQ+h/VgjvRIcb3euMbSnw6GrAD0Ab1PxUCmrv/DiIIh5/0g2YBWkXG3F/TKq0MvzUkJ8MNUBTai/BDjH/JXI6EExrwFOoHfcxWH/168JWxgD3ANA+EV85tEIj8AtaCkdv/9vSUAAAAASUVORK5CYII=" />
+  </a>
+  <a href="https://tang5618.com/wordpress/?p=1053">
+    <img alt="Webpage" src="https://img.shields.io/badge/Link-Webpage-c00000.svg?style=shield&logo=wordpress" />
+  </a>
+ <!--<a href="https://github.com/Tang1705/Reconstruction">
+    <img alt="Github" src="https://img.shields.io/badge/Github-%20%20%20%20%20%20Repository-%2324292e.svg?style=shield&logo=Github" />
+  </a>-->
+  <a href="http://tang5618.com/data/pdf/wordpress/tq2020.pdf">
+    <img alt="Poster" src="https://img.shields.io/badge/Poster-PDF-B50052.svg?style=shield&logo=adobe-indesign&logoColor=ffffff" />
+  </a>
+    <a href="https://github.com/Shzhuoyu/cv_frontend">
+    <img alt="Github" src="https://img.shields.io/badge/Github-Front%20End-%2324292e.svg?style=shield&logo=Github">
+  </a>
+  <a href="https://github.com/Shzhuoyu/cv_backend">
+    <img alt="Github" src="https://img.shields.io/badge/Github-Back%20End-%2324292e.svg?style=shield&logo=Github">
+  </a>
+</div>
 基于计算机视觉的智慧养老系统通过（模拟）多组摄像头实时拍摄到的画面，用计算机视觉技术实时分析老人的情感、是否有人摔倒、是否有人闯入禁止区域、老人是否有和义工互动、是否有陌生人出现并追踪陌生人。一旦上述事件发生，该事件会立即插入到数据库中。这些事件数据被实时地更新在报表中，管理人员因此可以迅速做出反应，从而可以提高管理人员的服务水平和管理能力。
 
 <div class="imgs" align="center" ><img src="https://5618.oss-cn-beijing.aliyuncs.com/wordpress/image/05/27.png" alt="01" width="50%" height="50%"/></div>
@@ -207,8 +226,3 @@ Triplet 是一个三元组，这个三元组是这样构成的：从训练数据
 - [x] 基于 GF(4) 标定的交互检测
 - [x] 基于质心跟踪的入侵检测和追踪
 - [x] 基于 Nginx-RTMP 的直播推流
-
-## Repositories
-
-- 前端仓库：https://github.com/Shzhuoyu/cv_frontend
-- 后端仓库：https://github.com/Shzhuoyu/cv_backend
