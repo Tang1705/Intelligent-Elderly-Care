@@ -20,7 +20,7 @@
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.4",
     "moment": "^2.19.4",
-    "nuxt": "^1.0.0",
+    "nuxt": "^3.0.0",
     "popper.js": "^1.16.0",
     "save": "^2.4.0",
     "video.js": "^7.8.3",
@@ -39,6 +39,6 @@
     "jquery": "^3.4.1",
     "popper.js": "^1.16.0",
     "script-loader": "^0.7.2",
-    "vue-easytable": "^1.7.2"
+    "vue-easytable": "^2.21.9"
   }
 }
